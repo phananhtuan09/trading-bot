@@ -5,7 +5,8 @@ const { telegramClient } = require('./clients')
 function createSignalMessage(signal) {
   const futures = signal.futuresDetails || {}
   const strengthLabel = signal.strength
-  const message = `*${signal.symbol} - ${signal.strategy} Signal*
+  const message = `*Symbol:* ${signal.symbol}
+*Strategy:* ${signal.strategy}
 *Action:* ${signal.action}
 *Strength:* ${strengthLabel}
 *Price:* ${signal.price.toFixed(4)}
