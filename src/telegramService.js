@@ -9,11 +9,8 @@ function createSignalMessage(signal) {
 *Strategy:* ${signal.strategy}
 *Action:* ${signal.action}
 *Strength:* ${strengthLabel}
-*Price:* ${signal.price.toFixed(4)}
+*Price:* ${signal.price}
 *Direction:* ${futures.direction || 'N/A'}
-*Leverage:* ${futures.leverage ? futures.leverage + 'x' : 'N/A'}
-*TP:* ${futures.tp ? futures.tp.toFixed(4) : 'N/A'}
-*SL:* ${futures.sl ? futures.sl.toFixed(4) : 'N/A'}
 `
   return message
 }

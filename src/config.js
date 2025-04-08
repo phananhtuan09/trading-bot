@@ -31,18 +31,9 @@ const STRATEGY_CONFIG = {
   // Giới hạn số lượng song song khi xử lý nhiều symbol cùng lúc.
   concurrencyLimit: 20,
 
-  // Cấu hình risk management và đòn bẩy mặc định.
+  // Cấu hình risk management
   riskManagement: {
-    defaultLeverage: 10, // Đòn bẩy mặc định là 10x.
-    tpPercentage: 3, // Mức Take Profit: lợi nhuận đạt 3%.
-    slPercentage: 3, // Mức Stop Loss: cắt lỗ 3%.
     volumeMultiplier: 1.5, // Hệ số nhân cho volume để xác định tín hiệu breakout.
-  },
-
-  // Cấu hình đòn bẩy riêng cho từng chiến lược giao dịch.
-  leverageSettings: {
-    breakout: 15, // Đòn bẩy cho chiến lược breakout.
-    bollingerBand: 10, // Đòn bẩy cho chiến lược Bollinger Band.
   },
 
   // Tham số độ lệch chuẩn cho Bollinger Bands.

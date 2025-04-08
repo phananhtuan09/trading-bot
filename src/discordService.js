@@ -13,11 +13,8 @@ function createSignalEmbed(signal) {
     .setDescription(
       `**Action:** ${signal.action}\n` +
         `**Strength:** ${strengthLabel}\n` +
-        `**Price:** ${signal.price.toFixed(4)}\n` +
-        `**Direction:** ${futures.direction || 'N/A'}\n` +
-        `**Leverage:** ${futures.leverage ? futures.leverage + 'x' : 'N/A'}\n` +
-        `**TP:** ${futures.tp ? futures.tp.toFixed(4) : 'N/A'}\n` +
-        `**SL:** ${futures.sl ? futures.sl.toFixed(4) : 'N/A'}`,
+        `**Price:** ${signal.price}\n` +
+        `**Direction:** ${futures.direction || 'N/A'}\n`,
     )
     .setTimestamp()
     .setFooter({ text: 'Crypto Trading Bot' })
