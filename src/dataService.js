@@ -33,6 +33,7 @@ async function analyzeMarket(symbol) {
     const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: data.closes })
     const rsi = RSI.calculate({ values: data.closes, period: STRATEGY_CONFIG.rsiPeriod })
     const lastRSI = rsi.at(-1)
+
     const signals = {
       breakout: TradingStrategies.checkBreakout(
         data.highs,
@@ -43,7 +44,8 @@ async function analyzeMarket(symbol) {
         emaLong,
         lastRSI,
       ),
-      bollingerBand: TradingStrategies.checkBollingerBand(data.closes, emaShort, emaLong, lastRSI),
+      bollingerBand: TradingStrategies.checkBollingerBand(data.closes, emaShort, emaLong, rsi, data.volumes),
+      macd_rsi_volume: TradingStrategies.checkMACD_RSI_Volume(data.closes, data.volumes, rsi),
     }
 
     // Điều chỉnh đòn bẩy khi có nhiều tín hiệu

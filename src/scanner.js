@@ -83,7 +83,7 @@ async function performScan() {
 
 function startScanning() {
   performScan()
-  const interval = setInterval(performScan, 300000)
+  const interval = setInterval(performScan, 240000)
   process.on('SIGINT', () => {
     clearInterval(interval)
     console.log('🛑 Bot đã dừng')

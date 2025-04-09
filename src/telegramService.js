@@ -5,12 +5,11 @@ const { telegramClient } = require('./clients')
 function createSignalMessage(signal) {
   const futures = signal.futuresDetails || {}
   const strengthLabel = signal.strength
-  const message = `*Symbol:* ${signal.symbol}
-*Strategy:* ${signal.strategy}
-*Action:* ${signal.action}
-*Strength:* ${strengthLabel}
-*Price:* ${signal.price}
-*Direction:* ${futures.direction || 'N/A'}
+  const message = `*Tín hiệu:* ${signal.symbol}
+*Hành động:* ${futures.direction || 'N/A'}
+*Độ mạnh tín hiệu:* ${strengthLabel}
+*Giá hiện tại:* ${signal.price}
+*Chiến lược:* ${signal.strategy}
 `
   return message
 }

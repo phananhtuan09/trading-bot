@@ -47,11 +47,11 @@ const STRATEGY_CONFIG = {
     overbought: 65, // RSI trên 65 là vùng quá mua.
     oversold: 35, // RSI dưới 35 là vùng quá bán.
   },
+  bbSqueezeThreshold: 0.1, // Ngưỡng độ hẹp Bollinger Band
 }
 
 module.exports = {
-  DISCORD_TOKEN: process.env.DISCORD_TOKEN,
-  DISCORD_CHANNEL_ID: process.env.DISCORD_CHANNEL_ID,
+  DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
   BINANCE_API_KEY: process.env.BINANCE_API_KEY,
   BINANCE_API_SECRET: process.env.BINANCE_API_SECRET,
   IS_TELEGRAM_ENABLED: process.env.IS_TELEGRAM_ENABLED,

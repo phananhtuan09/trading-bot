@@ -1,4 +1,3 @@
-const { discordClient } = require('./clients')
 const { getSymbols } = require('./symbolManager')
 const { startScanning } = require('./scanner')
 const { checkDiscordConnection } = require('./discordService')

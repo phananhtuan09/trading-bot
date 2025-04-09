@@ -1,71 +1,79 @@
-const { EmbedBuilder } = require('discord.js')
-const { discordClient, DISCORD_CHANNEL_ID } = require('./clients')
-const { getStrengthLabel } = require('./utils')
-const { IS_DISCORD_ENABLED } = require('./config')
+const axios = require('axios')
+const { DISCORD_WEBHOOK_URL, IS_DISCORD_ENABLED } = require('./config')
+
+const username = 'Tuan Trading Bot'
 
 // Tạo Embed message cho tín hiệu giao dịch
 function createSignalEmbed(signal) {
   const futures = signal.futuresDetails || {}
-  const strengthLabel = signal.strength
-
-  return new EmbedBuilder()
-    .setTitle(`${signal.symbol} - ${signal.strategy} Signal`)
-    .setDescription(
-      `**Action:** ${signal.action}\n` +
-        `**Strength:** ${strengthLabel}\n` +
-        `**Price:** ${signal.price}\n` +
-        `**Direction:** ${futures.direction || 'N/A'}\n`,
-    )
-    .setTimestamp()
-    .setFooter({ text: 'Crypto Trading Bot' })
-    .setColor(futures.isStrong ? 0xff0000 : 0xffff00)
+  return {
+    title: `Tín hiệu: ${signal.symbol}`,
+    description:
+      `**Hành động:** ${futures.direction}\n` +
+      `**Độ mạnh tín hiệu:** ${signal.strength}\n` +
+      `**Giá hiện tại:** ${signal.price}\n` +
+      `**Chiến lược:** ${signal.strategy}\n`,
+    timestamp: new Date().toISOString(),
+    footer: {
+      text: 'Crypto Trading Bot',
+    },
+  }
 }
 
-// Gửi tín hiệu dưới dạng Embed message đến kênh Discord
+// Gửi tín hiệu dưới dạng Embed message qua Webhook
 async function sendDiscordSignalMessage(signal) {
-  if (IS_DISCORD_ENABLED === 'true') {
-    try {
-      const channel = discordClient?.channels?.cache?.get(DISCORD_CHANNEL_ID)
-      if (!channel) throw new Error('Channel không tồn tại')
+  if (IS_DISCORD_ENABLED !== 'true') return
 
-      const embed = createSignalEmbed(signal)
-      await channel.send({ embeds: [embed] })
-    } catch (error) {
-      console.error('Lỗi gửi Discord signal:', error.message)
+  try {
+    const embed = createSignalEmbed(signal)
+
+    const payload = {
+      username,
+      embeds: [embed],
     }
+
+    await axios.post(DISCORD_WEBHOOK_URL, payload)
+  } catch (error) {
+    console.error('🚨 Lỗi gửi tín hiệu Discord:', error.message)
   }
 }
 
-// Gửi tin nhắn text thông thường đến kênh Discord
+// Gửi tin nhắn text thông thường qua Webhook
 async function sendDiscordMessage(message) {
-  if (IS_DISCORD_ENABLED === 'true') {
-    try {
-      const channel = discordClient?.channels?.cache?.get(DISCORD_CHANNEL_ID)
-      if (!channel) throw new Error('Channel không tồn tại')
+  if (IS_DISCORD_ENABLED !== 'true') return
 
-      await channel.send(message)
-    } catch (error) {
-      console.error('Lỗi gửi Discord:', error.message)
+  try {
+    const payload = {
+      username,
+      content: message,
     }
+
+    await axios.post(DISCORD_WEBHOOK_URL, payload)
+  } catch (error) {
+    console.error('🚨 Lỗi gửi tin nhắn Discord:', error.message)
   }
 }
 
-// Kiểm tra kết nối tới Discord có thành công hay không
+// Webhook không cần "check connection" như bot client nên ta có thể đơn giản hóa
 async function checkDiscordConnection() {
   if (IS_DISCORD_ENABLED !== 'true') return false
+
   try {
-    // Kiểm tra xem client đã đăng nhập và sẵn sàng hay chưa
-    await discordClient.login(require('./config').DISCORD_TOKEN)
-    if (discordClient && discordClient.user) {
-      console.log(`✅ Đã kết nối Discord với bot: ${discordClient.user.tag}`)
-      return true
-    } else {
-      throw new Error('Discord client không sẵn sàng')
-    }
+    await axios.post(DISCORD_WEBHOOK_URL, {
+      username,
+      content: '🤖 Webhook Discord đã được kết nối thành công!',
+    })
+
+    console.log('✅ Đã kết nối Discord Webhook thành công!')
+    return true
   } catch (error) {
-    console.error('Lỗi kết nối Discord:', error.message)
+    console.error('🚨 Lỗi kết nối Discord Webhook:', error.message)
     return false
   }
 }
 
-module.exports = { sendDiscordSignalMessage, sendDiscordMessage, checkDiscordConnection }
+module.exports = {
+  sendDiscordSignalMessage,
+  sendDiscordMessage,
+  checkDiscordConnection,
+}

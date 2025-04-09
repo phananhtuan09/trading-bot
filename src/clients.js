@@ -9,13 +9,6 @@ const {
   TELEGRAM_BOT_TOKEN,
 } = require('./config')
 
-const discordClient =
-  IS_DISCORD_ENABLED !== 'true'
-    ? null
-    : new Client({
-        intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
-      })
-
 const binanceClient = Binance({
   apiKey: BINANCE_API_KEY,
   apiSecret: BINANCE_API_SECRET,
@@ -35,4 +28,4 @@ const telegramClient =
         },
       })
 
-module.exports = { discordClient, binanceClient, telegramClient }
+module.exports = { binanceClient, telegramClient }
