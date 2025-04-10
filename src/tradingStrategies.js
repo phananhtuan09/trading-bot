@@ -111,6 +111,7 @@ class TradingStrategies {
       return null
     }
   }
+
   static checkMACD_RSI_Volume(closes, volumes, rsi) {
     try {
       // Calculate MACD with standard parameters (12, 26, 9)

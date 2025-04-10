@@ -16,8 +16,8 @@ async function performScan() {
 
   try {
     const symbols = await getSymbols()
-    const scanLimiter = pLimit(STRATEGY_CONFIG.concurrencyLimit) 
-    const scanPromises = symbols.map((symbol) => scanLimiter(() => runBacktest(symbol, 1000)))
+    const scanLimiter = pLimit(STRATEGY_CONFIG.concurrencyLimit)
+    const scanPromises = symbols.map((symbol) => scanLimiter(() => analyzeMarket(symbol, 1000)))
     const results = await Promise.allSettled(scanPromises)
 
     let signalCount = 0
