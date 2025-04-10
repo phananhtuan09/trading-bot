@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const { getSymbols } = require('./symbolManager')
 const { analyzeMarket } = require('./dataService')
+const { runBacktest } = require('../backtest')
 const { sendDiscordSignalMessage, sendDiscordMessage } = require('./discordService')
 const { sendTelegramSignalMessage, sendTelegramMessage } = require('./telegramService')
 const { STRATEGY_CONFIG } = require('./config')
@@ -15,8 +16,8 @@ async function performScan() {
 
   try {
     const symbols = await getSymbols()
-    const scanLimiter = pLimit(STRATEGY_CONFIG.concurrencyLimit)
-    const scanPromises = symbols.map((symbol) => scanLimiter(() => analyzeMarket(symbol)))
+    const scanLimiter = pLimit(STRATEGY_CONFIG.concurrencyLimit) 
+    const scanPromises = symbols.map((symbol) => scanLimiter(() => runBacktest(symbol, 1000)))
     const results = await Promise.allSettled(scanPromises)
 
     let signalCount = 0
@@ -83,7 +84,7 @@ async function performScan() {
 
 function startScanning() {
   performScan()
-  const interval = setInterval(performScan, 240000)
+  const interval = setInterval(performScan, 1800000)
   process.on('SIGINT', () => {
     clearInterval(interval)
     console.log('🛑 Bot đã dừng')

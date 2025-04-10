@@ -1,11 +1,9 @@
-const { Client, GatewayIntentBits } = require('discord.js')
 const Binance = require('binance-api-node').default
 const TelegramBot = require('node-telegram-bot-api')
 const {
   BINANCE_API_KEY,
   BINANCE_API_SECRET,
   IS_TELEGRAM_ENABLED,
-  IS_DISCORD_ENABLED,
   TELEGRAM_BOT_TOKEN,
 } = require('./config')
 
