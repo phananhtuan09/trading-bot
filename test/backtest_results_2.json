@@ -1,0 +1,7490 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-03T07:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 59158.1,
+    "after1h": {
+      "price": 59199.9,
+      "profitPercent": "-0.07",
+      "roi": "-0.71"
+    },
+    "after4h": {
+      "price": 59269.3,
+      "profitPercent": "-0.19",
+      "roi": "-1.88"
+    },
+    "after8h": {
+      "price": 61662.1,
+      "profitPercent": "-4.06",
+      "roi": "-42.33"
+    },
+    "after12h": {
+      "price": 62031.9,
+      "profitPercent": "-4.63",
+      "roi": "-48.58"
+    },
+    "after24h": {
+      "price": 62931.3,
+      "profitPercent": "-6.00",
+      "roi": "-63.78"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-04T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 63704.9,
+    "after1h": {
+      "price": 63790.3,
+      "profitPercent": "-0.13",
+      "roi": "-1.34"
+    },
+    "after4h": {
+      "price": 63438.3,
+      "profitPercent": "0.42",
+      "roi": "4.18"
+    },
+    "after8h": {
+      "price": 63877.3,
+      "profitPercent": "-0.27",
+      "roi": "-2.71"
+    },
+    "after12h": {
+      "price": 63286,
+      "profitPercent": "0.66",
+      "roi": "6.58"
+    },
+    "after24h": {
+      "price": 64088.3,
+      "profitPercent": "-0.60",
+      "roi": "-6.02"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-08T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 62417.4,
+    "after1h": {
+      "price": 62530,
+      "profitPercent": "0.18",
+      "roi": "1.80"
+    },
+    "after4h": {
+      "price": 62574.7,
+      "profitPercent": "0.25",
+      "roi": "2.52"
+    },
+    "after8h": {
+      "price": 61464,
+      "profitPercent": "-1.53",
+      "roi": "-15.27"
+    },
+    "after12h": {
+      "price": 61528.9,
+      "profitPercent": "-1.42",
+      "roi": "-14.23"
+    },
+    "after24h": {
+      "price": 61165.4,
+      "profitPercent": "-2.01",
+      "roi": "-20.06"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-08T07:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 69612.5,
+    "after1h": {
+      "price": 69473.5,
+      "profitPercent": "-0.20",
+      "roi": "-2.00"
+    },
+    "after4h": {
+      "price": 69404.5,
+      "profitPercent": "-0.30",
+      "roi": "-2.99"
+    },
+    "after8h": {
+      "price": 69462.1,
+      "profitPercent": "-0.22",
+      "roi": "-2.16"
+    },
+    "after12h": {
+      "price": 69486.6,
+      "profitPercent": "-0.18",
+      "roi": "-1.81"
+    },
+    "after24h": {
+      "price": 69331.9,
+      "profitPercent": "-0.40",
+      "roi": "-4.03"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-07T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 57580.7,
+    "after1h": {
+      "price": 57631.5,
+      "profitPercent": "-0.09",
+      "roi": "-0.88"
+    },
+    "after4h": {
+      "price": 57624.8,
+      "profitPercent": "-0.08",
+      "roi": "-0.77"
+    },
+    "after8h": {
+      "price": 57322.6,
+      "profitPercent": "0.45",
+      "roi": "4.48"
+    },
+    "after12h": {
+      "price": 57090.1,
+      "profitPercent": "0.86",
+      "roi": "8.52"
+    },
+    "after24h": {
+      "price": 55476.9,
+      "profitPercent": "3.79",
+      "roi": "36.54"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-09T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 57040.3,
+    "after1h": {
+      "price": 57445.3,
+      "profitPercent": "-0.71",
+      "roi": "-7.10"
+    },
+    "after4h": {
+      "price": 57888,
+      "profitPercent": "-1.46",
+      "roi": "-14.86"
+    },
+    "after8h": {
+      "price": 57915.1,
+      "profitPercent": "-1.51",
+      "roi": "-15.34"
+    },
+    "after12h": {
+      "price": 57868.7,
+      "profitPercent": "-1.43",
+      "roi": "-14.52"
+    },
+    "after24h": {
+      "price": 57686,
+      "profitPercent": "-1.12",
+      "roi": "-11.32"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-10T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 57468,
+    "after1h": {
+      "price": 57775.4,
+      "profitPercent": "-0.53",
+      "roi": "-5.35"
+    },
+    "after4h": {
+      "price": 59323.9,
+      "profitPercent": "-3.13",
+      "roi": "-32.29"
+    },
+    "after8h": {
+      "price": 58735.2,
+      "profitPercent": "-2.16",
+      "roi": "-22.05"
+    },
+    "after12h": {
+      "price": 58127.8,
+      "profitPercent": "-1.14",
+      "roi": "-11.48"
+    },
+    "after24h": {
+      "price": 57608,
+      "profitPercent": "-0.24",
+      "roi": "-2.44"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-25T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 64805.1,
+    "after1h": {
+      "price": 64773.3,
+      "profitPercent": "-0.05",
+      "roi": "-0.49"
+    },
+    "after4h": {
+      "price": 64549.3,
+      "profitPercent": "-0.39",
+      "roi": "-3.95"
+    },
+    "after8h": {
+      "price": 65614.6,
+      "profitPercent": "1.25",
+      "roi": "12.49"
+    },
+    "after12h": {
+      "price": 66976.4,
+      "profitPercent": "3.35",
+      "roi": "33.51"
+    },
+    "after24h": {
+      "price": 67290.7,
+      "profitPercent": "3.84",
+      "roi": "38.36"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-28T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 67712.2,
+    "after1h": {
+      "price": 67624.3,
+      "profitPercent": "-0.13",
+      "roi": "-1.30"
+    },
+    "after4h": {
+      "price": 68206.7,
+      "profitPercent": "0.73",
+      "roi": "7.30"
+    },
+    "after8h": {
+      "price": 67977.1,
+      "profitPercent": "0.39",
+      "roi": "3.91"
+    },
+    "after12h": {
+      "price": 69527.2,
+      "profitPercent": "2.68",
+      "roi": "26.80"
+    },
+    "after24h": {
+      "price": 68200.1,
+      "profitPercent": "0.72",
+      "roi": "7.21"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-30T20:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 66155.3,
+    "after1h": {
+      "price": 66265,
+      "profitPercent": "0.17",
+      "roi": "1.66"
+    },
+    "after4h": {
+      "price": 66313.9,
+      "profitPercent": "0.24",
+      "roi": "2.40"
+    },
+    "after8h": {
+      "price": 65774.1,
+      "profitPercent": "-0.58",
+      "roi": "-5.76"
+    },
+    "after12h": {
+      "price": 66285.1,
+      "profitPercent": "0.20",
+      "roi": "1.96"
+    },
+    "after24h": {
+      "price": 64577.4,
+      "profitPercent": "-2.39",
+      "roi": "-23.85"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-07T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 56251.2,
+    "after1h": {
+      "price": 56935.2,
+      "profitPercent": "-1.20",
+      "roi": "-12.16"
+    },
+    "after4h": {
+      "price": 57018,
+      "profitPercent": "-1.34",
+      "roi": "-13.63"
+    },
+    "after8h": {
+      "price": 57320.5,
+      "profitPercent": "-1.87",
+      "roi": "-19.01"
+    },
+    "after12h": {
+      "price": 57261,
+      "profitPercent": "-1.76",
+      "roi": "-17.95"
+    },
+    "after24h": {
+      "price": 55270.6,
+      "profitPercent": "1.77",
+      "roi": "17.43"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-07T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 57261,
+    "after1h": {
+      "price": 56800.9,
+      "profitPercent": "0.81",
+      "roi": "8.04"
+    },
+    "after4h": {
+      "price": 56098.9,
+      "profitPercent": "2.07",
+      "roi": "20.29"
+    },
+    "after8h": {
+      "price": 55124,
+      "profitPercent": "3.88",
+      "roi": "37.32"
+    },
+    "after12h": {
+      "price": 55270.6,
+      "profitPercent": "3.60",
+      "roi": "34.76"
+    },
+    "after24h": {
+      "price": 57893.6,
+      "profitPercent": "-1.09",
+      "roi": "-11.05"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-17T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 59077,
+    "after1h": {
+      "price": 59106.5,
+      "profitPercent": "-0.05",
+      "roi": "-0.50"
+    },
+    "after4h": {
+      "price": 59499.9,
+      "profitPercent": "-0.71",
+      "roi": "-7.16"
+    },
+    "after8h": {
+      "price": 59387.2,
+      "profitPercent": "-0.52",
+      "roi": "-5.25"
+    },
+    "after12h": {
+      "price": 59286.7,
+      "profitPercent": "-0.35",
+      "roi": "-3.55"
+    },
+    "after24h": {
+      "price": 59832.2,
+      "profitPercent": "-1.26",
+      "roi": "-12.78"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-18T03:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 59308.5,
+    "after1h": {
+      "price": 59429.4,
+      "profitPercent": "-0.20",
+      "roi": "-2.04"
+    },
+    "after4h": {
+      "price": 59545.4,
+      "profitPercent": "-0.40",
+      "roi": "-3.99"
+    },
+    "after8h": {
+      "price": 59991.3,
+      "profitPercent": "-1.14",
+      "roi": "-11.51"
+    },
+    "after12h": {
+      "price": 59828.8,
+      "profitPercent": "-0.87",
+      "roi": "-8.77"
+    },
+    "after24h": {
+      "price": 58696.6,
+      "profitPercent": "1.04",
+      "roi": "10.32"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-10-22T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 67280.6,
+    "after1h": {
+      "price": 66965.1,
+      "profitPercent": "-0.47",
+      "roi": "-4.69"
+    },
+    "after4h": {
+      "price": 67266.8,
+      "profitPercent": "-0.02",
+      "roi": "-0.21"
+    },
+    "after8h": {
+      "price": 67466.8,
+      "profitPercent": "0.28",
+      "roi": "2.77"
+    },
+    "after12h": {
+      "price": 67406.4,
+      "profitPercent": "0.19",
+      "roi": "1.87"
+    },
+    "after24h": {
+      "price": 66406.1,
+      "profitPercent": "-1.30",
+      "roi": "-13.00"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-01T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 69999.9,
+    "after1h": {
+      "price": 70024.8,
+      "profitPercent": "0.04",
+      "roi": "0.36"
+    },
+    "after4h": {
+      "price": 71273.4,
+      "profitPercent": "1.82",
+      "roi": "18.19"
+    },
+    "after8h": {
+      "price": 69175.5,
+      "profitPercent": "-1.18",
+      "roi": "-11.78"
+    },
+    "after12h": {
+      "price": 69441.2,
+      "profitPercent": "-0.80",
+      "roi": "-7.98"
+    },
+    "after24h": {
+      "price": 69623.6,
+      "profitPercent": "-0.54",
+      "roi": "-5.38"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-26T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 94098.3,
+    "after1h": {
+      "price": 93636.6,
+      "profitPercent": "-0.49",
+      "roi": "-4.91"
+    },
+    "after4h": {
+      "price": 91124.2,
+      "profitPercent": "-3.16",
+      "roi": "-31.61"
+    },
+    "after8h": {
+      "price": 92012.2,
+      "profitPercent": "-2.22",
+      "roi": "-22.17"
+    },
+    "after12h": {
+      "price": 92639.9,
+      "profitPercent": "-1.55",
+      "roi": "-15.50"
+    },
+    "after24h": {
+      "price": 95725.2,
+      "profitPercent": "1.73",
+      "roi": "17.29"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-03T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 95175.3,
+    "after1h": {
+      "price": 95895.9,
+      "profitPercent": "0.76",
+      "roi": "7.57"
+    },
+    "after4h": {
+      "price": 95673.1,
+      "profitPercent": "0.52",
+      "roi": "5.23"
+    },
+    "after8h": {
+      "price": 95823.8,
+      "profitPercent": "0.68",
+      "roi": "6.81"
+    },
+    "after12h": {
+      "price": 96076.4,
+      "profitPercent": "0.95",
+      "roi": "9.47"
+    },
+    "after24h": {
+      "price": 94895.3,
+      "profitPercent": "-0.29",
+      "roi": "-2.94"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-06T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 98649.9,
+    "after1h": {
+      "price": 99524.9,
+      "profitPercent": "0.89",
+      "roi": "8.87"
+    },
+    "after4h": {
+      "price": 100915.2,
+      "profitPercent": "2.30",
+      "roi": "22.96"
+    },
+    "after8h": {
+      "price": 100463.1,
+      "profitPercent": "1.84",
+      "roi": "18.38"
+    },
+    "after12h": {
+      "price": 100119,
+      "profitPercent": "1.49",
+      "roi": "14.89"
+    },
+    "after24h": {
+      "price": 99409.6,
+      "profitPercent": "0.77",
+      "roi": "7.70"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-18T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 104395.1,
+    "after1h": {
+      "price": 104154.2,
+      "profitPercent": "-0.23",
+      "roi": "-2.31"
+    },
+    "after4h": {
+      "price": 102782.1,
+      "profitPercent": "-1.55",
+      "roi": "-15.45"
+    },
+    "after8h": {
+      "price": 100181.1,
+      "profitPercent": "-4.04",
+      "roi": "-40.37"
+    },
+    "after12h": {
+      "price": 101163.3,
+      "profitPercent": "-3.10",
+      "roi": "-30.96"
+    },
+    "after24h": {
+      "price": 100631.1,
+      "profitPercent": "-3.61",
+      "roi": "-36.06"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-08T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 95343.6,
+    "after1h": {
+      "price": 95256.9,
+      "profitPercent": "-0.09",
+      "roi": "-0.91"
+    },
+    "after4h": {
+      "price": 93974.8,
+      "profitPercent": "-1.44",
+      "roi": "-14.36"
+    },
+    "after8h": {
+      "price": 94422.8,
+      "profitPercent": "-0.97",
+      "roi": "-9.66"
+    },
+    "after12h": {
+      "price": 94953.4,
+      "profitPercent": "-0.41",
+      "roi": "-4.09"
+    },
+    "after24h": {
+      "price": 91926.8,
+      "profitPercent": "-3.58",
+      "roi": "-35.84"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-28T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 102211.8,
+    "after1h": {
+      "price": 102525.2,
+      "profitPercent": "-0.31",
+      "roi": "-3.07"
+    },
+    "after4h": {
+      "price": 101226.3,
+      "profitPercent": "0.97",
+      "roi": "9.64"
+    },
+    "after8h": {
+      "price": 101651.6,
+      "profitPercent": "0.55",
+      "roi": "5.48"
+    },
+    "after12h": {
+      "price": 101956.5,
+      "profitPercent": "0.25",
+      "roi": "2.50"
+    },
+    "after24h": {
+      "price": 102057.4,
+      "profitPercent": "0.15",
+      "roi": "1.51"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-20T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 96918,
+    "after1h": {
+      "price": 96870.5,
+      "profitPercent": "0.05",
+      "roi": "0.49"
+    },
+    "after4h": {
+      "price": 98238,
+      "profitPercent": "-1.34",
+      "roi": "-13.62"
+    },
+    "after8h": {
+      "price": 98076.7,
+      "profitPercent": "-1.18",
+      "roi": "-11.96"
+    },
+    "after12h": {
+      "price": 98065,
+      "profitPercent": "-1.17",
+      "roi": "-11.83"
+    },
+    "after24h": {
+      "price": 98740.1,
+      "profitPercent": "-1.85",
+      "roi": "-18.80"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-01T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 84593.6,
+    "after1h": {
+      "price": 84712.9,
+      "profitPercent": "-0.14",
+      "roi": "-1.41"
+    },
+    "after4h": {
+      "price": 84755.1,
+      "profitPercent": "-0.19",
+      "roi": "-1.91"
+    },
+    "after8h": {
+      "price": 85431.2,
+      "profitPercent": "-0.98",
+      "roi": "-9.90"
+    },
+    "after12h": {
+      "price": 86007.7,
+      "profitPercent": "-1.64",
+      "roi": "-16.72"
+    },
+    "after24h": {
+      "price": 86047,
+      "profitPercent": "-1.69",
+      "roi": "-17.18"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-13T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 83121.5,
+    "after1h": {
+      "price": 83250,
+      "profitPercent": "-0.15",
+      "roi": "-1.55"
+    },
+    "after4h": {
+      "price": 83399.4,
+      "profitPercent": "-0.33",
+      "roi": "-3.34"
+    },
+    "after8h": {
+      "price": 81730.6,
+      "profitPercent": "1.70",
+      "roi": "16.73"
+    },
+    "after12h": {
+      "price": 80034.6,
+      "profitPercent": "3.86",
+      "roi": "37.14"
+    },
+    "after24h": {
+      "price": 82112.7,
+      "profitPercent": "1.23",
+      "roi": "12.14"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-05-04T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3128.45,
+    "after1h": {
+      "price": 3129.27,
+      "profitPercent": "-0.03",
+      "roi": "-0.26"
+    },
+    "after4h": {
+      "price": 3120.62,
+      "profitPercent": "0.25",
+      "roi": "2.50"
+    },
+    "after8h": {
+      "price": 3120.62,
+      "profitPercent": "0.25",
+      "roi": "2.50"
+    },
+    "after12h": {
+      "price": 3089.21,
+      "profitPercent": "1.27",
+      "roi": "12.54"
+    },
+    "after24h": {
+      "price": 3146.11,
+      "profitPercent": "-0.56",
+      "roi": "-5.64"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-05-20T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3077.7,
+    "after1h": {
+      "price": 3090.66,
+      "profitPercent": "0.42",
+      "roi": "4.21"
+    },
+    "after4h": {
+      "price": 3123.46,
+      "profitPercent": "1.49",
+      "roi": "14.87"
+    },
+    "after8h": {
+      "price": 3096.01,
+      "profitPercent": "0.59",
+      "roi": "5.95"
+    },
+    "after12h": {
+      "price": 3093.16,
+      "profitPercent": "0.50",
+      "roi": "5.02"
+    },
+    "after24h": {
+      "price": 3688.2,
+      "profitPercent": "19.84",
+      "roi": "198.36"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-05-24T18:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3734.78,
+    "after1h": {
+      "price": 3745.28,
+      "profitPercent": "0.28",
+      "roi": "2.81"
+    },
+    "after4h": {
+      "price": 3738.62,
+      "profitPercent": "0.10",
+      "roi": "1.03"
+    },
+    "after8h": {
+      "price": 3735,
+      "profitPercent": "0.01",
+      "roi": "0.06"
+    },
+    "after12h": {
+      "price": 3750.01,
+      "profitPercent": "0.41",
+      "roi": "4.08"
+    },
+    "after24h": {
+      "price": 3762.14,
+      "profitPercent": "0.73",
+      "roi": "7.33"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-05-30T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3768,
+    "after1h": {
+      "price": 3790.96,
+      "profitPercent": "0.61",
+      "roi": "6.09"
+    },
+    "after4h": {
+      "price": 3791.09,
+      "profitPercent": "0.61",
+      "roi": "6.13"
+    },
+    "after8h": {
+      "price": 3740.3,
+      "profitPercent": "-0.74",
+      "roi": "-7.35"
+    },
+    "after12h": {
+      "price": 3755.32,
+      "profitPercent": "-0.34",
+      "roi": "-3.37"
+    },
+    "after24h": {
+      "price": 3827,
+      "profitPercent": "1.57",
+      "roi": "15.66"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-06-17T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3594.51,
+    "after1h": {
+      "price": 3581,
+      "profitPercent": "0.38",
+      "roi": "3.76"
+    },
+    "after4h": {
+      "price": 3550.3,
+      "profitPercent": "1.25",
+      "roi": "12.30"
+    },
+    "after8h": {
+      "price": 3517.96,
+      "profitPercent": "2.18",
+      "roi": "21.30"
+    },
+    "after12h": {
+      "price": 3524.57,
+      "profitPercent": "1.98",
+      "roi": "19.46"
+    },
+    "after24h": {
+      "price": 3427.53,
+      "profitPercent": "4.87",
+      "roi": "46.45"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-06-19T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3518.84,
+    "after1h": {
+      "price": 3527.79,
+      "profitPercent": "-0.25",
+      "roi": "-2.54"
+    },
+    "after4h": {
+      "price": 3553.03,
+      "profitPercent": "-0.96",
+      "roi": "-9.72"
+    },
+    "after8h": {
+      "price": 3555.61,
+      "profitPercent": "-1.03",
+      "roi": "-10.45"
+    },
+    "after12h": {
+      "price": 3550.76,
+      "profitPercent": "-0.90",
+      "roi": "-9.07"
+    },
+    "after24h": {
+      "price": 3519.69,
+      "profitPercent": "-0.02",
+      "roi": "-0.24"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-06-28T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3439.46,
+    "after1h": {
+      "price": 3483.89,
+      "profitPercent": "-1.28",
+      "roi": "-12.92"
+    },
+    "after4h": {
+      "price": 3458.41,
+      "profitPercent": "-0.55",
+      "roi": "-5.51"
+    },
+    "after8h": {
+      "price": 3437.77,
+      "profitPercent": "0.05",
+      "roi": "0.49"
+    },
+    "after12h": {
+      "price": 3439.26,
+      "profitPercent": "0.01",
+      "roi": "0.06"
+    },
+    "after24h": {
+      "price": 3388.73,
+      "profitPercent": "1.50",
+      "roi": "14.75"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-07-09T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3067.52,
+    "after1h": {
+      "price": 3044.06,
+      "profitPercent": "0.77",
+      "roi": "7.65"
+    },
+    "after4h": {
+      "price": 3051.14,
+      "profitPercent": "0.54",
+      "roi": "5.34"
+    },
+    "after8h": {
+      "price": 3060,
+      "profitPercent": "0.25",
+      "roi": "2.45"
+    },
+    "after12h": {
+      "price": 3057.83,
+      "profitPercent": "0.32",
+      "roi": "3.16"
+    },
+    "after24h": {
+      "price": 3105.43,
+      "profitPercent": "-1.22",
+      "roi": "-12.36"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-07-18T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3421.83,
+    "after1h": {
+      "price": 3445.58,
+      "profitPercent": "0.69",
+      "roi": "6.94"
+    },
+    "after4h": {
+      "price": 3450.11,
+      "profitPercent": "0.83",
+      "roi": "8.26"
+    },
+    "after8h": {
+      "price": 3466.08,
+      "profitPercent": "1.29",
+      "roi": "12.93"
+    },
+    "after12h": {
+      "price": 3398.15,
+      "profitPercent": "-0.69",
+      "roi": "-6.92"
+    },
+    "after24h": {
+      "price": 3422.44,
+      "profitPercent": "0.02",
+      "roi": "0.18"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-07-29T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3325,
+    "after1h": {
+      "price": 3306.88,
+      "profitPercent": "0.55",
+      "roi": "5.45"
+    },
+    "after4h": {
+      "price": 3312.46,
+      "profitPercent": "0.38",
+      "roi": "3.77"
+    },
+    "after8h": {
+      "price": 3328.01,
+      "profitPercent": "-0.09",
+      "roi": "-0.91"
+    },
+    "after12h": {
+      "price": 3310.6,
+      "profitPercent": "0.43",
+      "roi": "4.33"
+    },
+    "after24h": {
+      "price": 3299.77,
+      "profitPercent": "0.76",
+      "roi": "7.59"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-08-20T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2641.03,
+    "after1h": {
+      "price": 2645.28,
+      "profitPercent": "-0.16",
+      "roi": "-1.61"
+    },
+    "after4h": {
+      "price": 2573.34,
+      "profitPercent": "2.63",
+      "roi": "25.63"
+    },
+    "after8h": {
+      "price": 2600.67,
+      "profitPercent": "1.55",
+      "roi": "15.28"
+    },
+    "after12h": {
+      "price": 2571.51,
+      "profitPercent": "2.70",
+      "roi": "26.32"
+    },
+    "after24h": {
+      "price": 2576.4,
+      "profitPercent": "2.51",
+      "roi": "24.47"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-08-27T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2695.2,
+    "after1h": {
+      "price": 2677.8,
+      "profitPercent": "-0.65",
+      "roi": "-6.46"
+    },
+    "after4h": {
+      "price": 2672.96,
+      "profitPercent": "-0.83",
+      "roi": "-8.25"
+    },
+    "after8h": {
+      "price": 2608.98,
+      "profitPercent": "-3.20",
+      "roi": "-31.99"
+    },
+    "after12h": {
+      "price": 2585.03,
+      "profitPercent": "-4.09",
+      "roi": "-40.88"
+    },
+    "after24h": {
+      "price": 2463.05,
+      "profitPercent": "-8.61",
+      "roi": "-86.13"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-09-03T03:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2514.79,
+    "after1h": {
+      "price": 2517.17,
+      "profitPercent": "-0.09",
+      "roi": "-0.95"
+    },
+    "after4h": {
+      "price": 2518.89,
+      "profitPercent": "-0.16",
+      "roi": "-1.63"
+    },
+    "after8h": {
+      "price": 2508.19,
+      "profitPercent": "0.26",
+      "roi": "2.62"
+    },
+    "after12h": {
+      "price": 2442.93,
+      "profitPercent": "2.94",
+      "roi": "28.57"
+    },
+    "after24h": {
+      "price": 2371.93,
+      "profitPercent": "6.02",
+      "roi": "56.81"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-09-26T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2596.51,
+    "after1h": {
+      "price": 2601.65,
+      "profitPercent": "0.20",
+      "roi": "1.98"
+    },
+    "after4h": {
+      "price": 2615.74,
+      "profitPercent": "0.74",
+      "roi": "7.41"
+    },
+    "after8h": {
+      "price": 2629.75,
+      "profitPercent": "1.28",
+      "roi": "12.80"
+    },
+    "after12h": {
+      "price": 2612.28,
+      "profitPercent": "0.61",
+      "roi": "6.07"
+    },
+    "after24h": {
+      "price": 2618.43,
+      "profitPercent": "0.84",
+      "roi": "8.44"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-10-05T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2400.83,
+    "after1h": {
+      "price": 2398.75,
+      "profitPercent": "0.09",
+      "roi": "0.87"
+    },
+    "after4h": {
+      "price": 2423.42,
+      "profitPercent": "-0.93",
+      "roi": "-9.41"
+    },
+    "after8h": {
+      "price": 2418.12,
+      "profitPercent": "-0.72",
+      "roi": "-7.20"
+    },
+    "after12h": {
+      "price": 2413.34,
+      "profitPercent": "-0.52",
+      "roi": "-5.21"
+    },
+    "after24h": {
+      "price": 2415.31,
+      "profitPercent": "-0.60",
+      "roi": "-6.03"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-10-07T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2457.3,
+    "after1h": {
+      "price": 2448.09,
+      "profitPercent": "0.38",
+      "roi": "3.75"
+    },
+    "after4h": {
+      "price": 2474.66,
+      "profitPercent": "-0.70",
+      "roi": "-7.06"
+    },
+    "after8h": {
+      "price": 2475.31,
+      "profitPercent": "-0.73",
+      "roi": "-7.33"
+    },
+    "after12h": {
+      "price": 2453.64,
+      "profitPercent": "0.15",
+      "roi": "1.49"
+    },
+    "after24h": {
+      "price": 2432.16,
+      "profitPercent": "1.03",
+      "roi": "10.23"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-11-13T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3217.68,
+    "after1h": {
+      "price": 3321.96,
+      "profitPercent": "3.24",
+      "roi": "32.41"
+    },
+    "after4h": {
+      "price": 3276.61,
+      "profitPercent": "1.83",
+      "roi": "18.31"
+    },
+    "after8h": {
+      "price": 3153.79,
+      "profitPercent": "-1.99",
+      "roi": "-19.86"
+    },
+    "after12h": {
+      "price": 3217.25,
+      "profitPercent": "-0.01",
+      "roi": "-0.13"
+    },
+    "after24h": {
+      "price": 3168.67,
+      "profitPercent": "-1.52",
+      "roi": "-15.23"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2024-11-15T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3071.75,
+    "after1h": {
+      "price": 3098.08,
+      "profitPercent": "0.86",
+      "roi": "8.57"
+    },
+    "after4h": {
+      "price": 3105.73,
+      "profitPercent": "1.11",
+      "roi": "11.06"
+    },
+    "after8h": {
+      "price": 3036.75,
+      "profitPercent": "-1.14",
+      "roi": "-11.39"
+    },
+    "after12h": {
+      "price": 3092.4,
+      "profitPercent": "0.67",
+      "roi": "6.72"
+    },
+    "after24h": {
+      "price": 3122.06,
+      "profitPercent": "1.64",
+      "roi": "16.38"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2025-01-15T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3211.66,
+    "after1h": {
+      "price": 3239.99,
+      "profitPercent": "-0.87",
+      "roi": "-8.82"
+    },
+    "after4h": {
+      "price": 3229.14,
+      "profitPercent": "-0.54",
+      "roi": "-5.44"
+    },
+    "after8h": {
+      "price": 3208.2,
+      "profitPercent": "0.11",
+      "roi": "1.08"
+    },
+    "after12h": {
+      "price": 3328.36,
+      "profitPercent": "-3.51",
+      "roi": "-36.34"
+    },
+    "after24h": {
+      "price": 3384.15,
+      "profitPercent": "-5.10",
+      "roi": "-53.71"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2025-01-15T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3225,
+    "after1h": {
+      "price": 3228.57,
+      "profitPercent": "-0.11",
+      "roi": "-1.11"
+    },
+    "after4h": {
+      "price": 3231,
+      "profitPercent": "-0.19",
+      "roi": "-1.86"
+    },
+    "after8h": {
+      "price": 3200.67,
+      "profitPercent": "0.76",
+      "roi": "7.54"
+    },
+    "after12h": {
+      "price": 3338.3,
+      "profitPercent": "-3.39",
+      "roi": "-35.13"
+    },
+    "after24h": {
+      "price": 3373.34,
+      "profitPercent": "-4.40",
+      "roi": "-46.00"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2025-01-16T03:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 3362.1,
+    "after1h": {
+      "price": 3373.34,
+      "profitPercent": "-0.33",
+      "roi": "-3.34"
+    },
+    "after4h": {
+      "price": 3382.42,
+      "profitPercent": "-0.60",
+      "roi": "-6.04"
+    },
+    "after8h": {
+      "price": 3349.75,
+      "profitPercent": "0.37",
+      "roi": "3.67"
+    },
+    "after12h": {
+      "price": 3332,
+      "profitPercent": "0.90",
+      "roi": "8.95"
+    },
+    "after24h": {
+      "price": 3360,
+      "profitPercent": "0.06",
+      "roi": "0.62"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2025-02-11T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2684.79,
+    "after1h": {
+      "price": 2632.81,
+      "profitPercent": "1.97",
+      "roi": "19.36"
+    },
+    "after4h": {
+      "price": 2644.32,
+      "profitPercent": "1.53",
+      "roi": "15.07"
+    },
+    "after8h": {
+      "price": 2597.4,
+      "profitPercent": "3.36",
+      "roi": "32.55"
+    },
+    "after12h": {
+      "price": 2609.29,
+      "profitPercent": "2.89",
+      "roi": "28.12"
+    },
+    "after24h": {
+      "price": 2627.02,
+      "profitPercent": "2.20",
+      "roi": "21.52"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2025-03-05T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2185.61,
+    "after1h": {
+      "price": 2189.36,
+      "profitPercent": "-0.17",
+      "roi": "-1.72"
+    },
+    "after4h": {
+      "price": 2217.28,
+      "profitPercent": "-1.43",
+      "roi": "-14.49"
+    },
+    "after8h": {
+      "price": 2240.45,
+      "profitPercent": "-2.45",
+      "roi": "-25.09"
+    },
+    "after12h": {
+      "price": 2288.79,
+      "profitPercent": "-4.51",
+      "roi": "-47.21"
+    },
+    "after24h": {
+      "price": 2256.41,
+      "profitPercent": "-3.14",
+      "roi": "-32.39"
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "date": "2025-03-06T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2266.61,
+    "after1h": {
+      "price": 2245.29,
+      "profitPercent": "0.95",
+      "roi": "9.41"
+    },
+    "after4h": {
+      "price": 2220.98,
+      "profitPercent": "2.05",
+      "roi": "20.13"
+    },
+    "after8h": {
+      "price": 2199.21,
+      "profitPercent": "3.06",
+      "roi": "29.74"
+    },
+    "after12h": {
+      "price": 2116.38,
+      "profitPercent": "7.10",
+      "roi": "66.28"
+    },
+    "after24h": {
+      "price": 2177.26,
+      "profitPercent": "4.10",
+      "roi": "39.42"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-04-27T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 592.42,
+    "after1h": {
+      "price": 590.31,
+      "profitPercent": "-0.36",
+      "roi": "-3.56"
+    },
+    "after4h": {
+      "price": 595.88,
+      "profitPercent": "0.58",
+      "roi": "5.84"
+    },
+    "after8h": {
+      "price": 594.46,
+      "profitPercent": "0.34",
+      "roi": "3.44"
+    },
+    "after12h": {
+      "price": 597.67,
+      "profitPercent": "0.89",
+      "roi": "8.86"
+    },
+    "after24h": {
+      "price": 602.9,
+      "profitPercent": "1.77",
+      "roi": "17.69"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-05-03T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 562.47,
+    "after1h": {
+      "price": 570.99,
+      "profitPercent": "-1.49",
+      "roi": "-15.15"
+    },
+    "after4h": {
+      "price": 577.27,
+      "profitPercent": "-2.56",
+      "roi": "-26.31"
+    },
+    "after8h": {
+      "price": 580.6,
+      "profitPercent": "-3.12",
+      "roi": "-32.23"
+    },
+    "after12h": {
+      "price": 586.65,
+      "profitPercent": "-4.12",
+      "roi": "-42.99"
+    },
+    "after24h": {
+      "price": 588.67,
+      "profitPercent": "-4.45",
+      "roi": "-46.58"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-05-08T06:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 584.1,
+    "after1h": {
+      "price": 579.29,
+      "profitPercent": "-0.82",
+      "roi": "-8.23"
+    },
+    "after4h": {
+      "price": 586.52,
+      "profitPercent": "0.41",
+      "roi": "4.14"
+    },
+    "after8h": {
+      "price": 585.38,
+      "profitPercent": "0.22",
+      "roi": "2.19"
+    },
+    "after12h": {
+      "price": 585.14,
+      "profitPercent": "0.18",
+      "roi": "1.78"
+    },
+    "after24h": {
+      "price": 600.32,
+      "profitPercent": "2.78",
+      "roi": "27.77"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-05-11T06:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 586.61,
+    "after1h": {
+      "price": 586.8,
+      "profitPercent": "0.03",
+      "roi": "0.32"
+    },
+    "after4h": {
+      "price": 588.38,
+      "profitPercent": "0.30",
+      "roi": "3.02"
+    },
+    "after8h": {
+      "price": 589.99,
+      "profitPercent": "0.58",
+      "roi": "5.76"
+    },
+    "after12h": {
+      "price": 592.58,
+      "profitPercent": "1.02",
+      "roi": "10.18"
+    },
+    "after24h": {
+      "price": 589.85,
+      "profitPercent": "0.55",
+      "roi": "5.52"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-05-19T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 579.43,
+    "after1h": {
+      "price": 580.56,
+      "profitPercent": "-0.19",
+      "roi": "-1.95"
+    },
+    "after4h": {
+      "price": 576.55,
+      "profitPercent": "0.50",
+      "roi": "4.97"
+    },
+    "after8h": {
+      "price": 574.2,
+      "profitPercent": "0.91",
+      "roi": "9.03"
+    },
+    "after12h": {
+      "price": 575.4,
+      "profitPercent": "0.70",
+      "roi": "6.96"
+    },
+    "after24h": {
+      "price": 573.49,
+      "profitPercent": "1.04",
+      "roi": "10.25"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-06-08T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 686.94,
+    "after1h": {
+      "price": 689.93,
+      "profitPercent": "0.44",
+      "roi": "4.35"
+    },
+    "after4h": {
+      "price": 692.5,
+      "profitPercent": "0.81",
+      "roi": "8.09"
+    },
+    "after8h": {
+      "price": 684.26,
+      "profitPercent": "-0.39",
+      "roi": "-3.90"
+    },
+    "after12h": {
+      "price": 683.93,
+      "profitPercent": "-0.44",
+      "roi": "-4.38"
+    },
+    "after24h": {
+      "price": 678.8,
+      "profitPercent": "-1.18",
+      "roi": "-11.85"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-06-28T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 579.46,
+    "after1h": {
+      "price": 579.37,
+      "profitPercent": "0.02",
+      "roi": "0.16"
+    },
+    "after4h": {
+      "price": 577.49,
+      "profitPercent": "0.34",
+      "roi": "3.40"
+    },
+    "after8h": {
+      "price": 574.26,
+      "profitPercent": "0.91",
+      "roi": "8.97"
+    },
+    "after12h": {
+      "price": 570.87,
+      "profitPercent": "1.50",
+      "roi": "14.82"
+    },
+    "after24h": {
+      "price": 569.05,
+      "profitPercent": "1.83",
+      "roi": "17.97"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-07-07T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 521.35,
+    "after1h": {
+      "price": 522.84,
+      "profitPercent": "-0.28",
+      "roi": "-2.86"
+    },
+    "after4h": {
+      "price": 511.81,
+      "profitPercent": "1.86",
+      "roi": "18.30"
+    },
+    "after8h": {
+      "price": 510.7,
+      "profitPercent": "2.09",
+      "roi": "20.43"
+    },
+    "after12h": {
+      "price": 498.37,
+      "profitPercent": "4.61",
+      "roi": "44.08"
+    },
+    "after24h": {
+      "price": 481.73,
+      "profitPercent": "8.22",
+      "roi": "76.00"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-07-09T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 514.01,
+    "after1h": {
+      "price": 516.96,
+      "profitPercent": "-0.57",
+      "roi": "-5.74"
+    },
+    "after4h": {
+      "price": 518.56,
+      "profitPercent": "-0.88",
+      "roi": "-8.85"
+    },
+    "after8h": {
+      "price": 515.54,
+      "profitPercent": "-0.30",
+      "roi": "-2.98"
+    },
+    "after12h": {
+      "price": 514.41,
+      "profitPercent": "-0.08",
+      "roi": "-0.78"
+    },
+    "after24h": {
+      "price": 522.99,
+      "profitPercent": "-1.72",
+      "roi": "-17.47"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-07-23T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 587.83,
+    "after1h": {
+      "price": 585.15,
+      "profitPercent": "-0.46",
+      "roi": "-4.56"
+    },
+    "after4h": {
+      "price": 582.25,
+      "profitPercent": "-0.95",
+      "roi": "-9.49"
+    },
+    "after8h": {
+      "price": 582.75,
+      "profitPercent": "-0.86",
+      "roi": "-8.64"
+    },
+    "after12h": {
+      "price": 584.6,
+      "profitPercent": "-0.55",
+      "roi": "-5.49"
+    },
+    "after24h": {
+      "price": 586.79,
+      "profitPercent": "-0.18",
+      "roi": "-1.77"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-07-23T17:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 582.89,
+    "after1h": {
+      "price": 582.25,
+      "profitPercent": "-0.11",
+      "roi": "-1.10"
+    },
+    "after4h": {
+      "price": 581.09,
+      "profitPercent": "-0.31",
+      "roi": "-3.09"
+    },
+    "after8h": {
+      "price": 582.8,
+      "profitPercent": "-0.02",
+      "roi": "-0.15"
+    },
+    "after12h": {
+      "price": 583.67,
+      "profitPercent": "0.13",
+      "roi": "1.34"
+    },
+    "after24h": {
+      "price": 584.58,
+      "profitPercent": "0.29",
+      "roi": "2.90"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-08-06T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 475.11,
+    "after1h": {
+      "price": 486.71,
+      "profitPercent": "-2.38",
+      "roi": "-24.42"
+    },
+    "after4h": {
+      "price": 486.57,
+      "profitPercent": "-2.36",
+      "roi": "-24.12"
+    },
+    "after8h": {
+      "price": 488.53,
+      "profitPercent": "-2.75",
+      "roi": "-28.25"
+    },
+    "after12h": {
+      "price": 488.5,
+      "profitPercent": "-2.74",
+      "roi": "-28.18"
+    },
+    "after24h": {
+      "price": 487.15,
+      "profitPercent": "-2.47",
+      "roi": "-25.34"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-09-03T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 529.05,
+    "after1h": {
+      "price": 523.15,
+      "profitPercent": "1.13",
+      "roi": "11.15"
+    },
+    "after4h": {
+      "price": 521.26,
+      "profitPercent": "1.49",
+      "roi": "14.72"
+    },
+    "after8h": {
+      "price": 525.28,
+      "profitPercent": "0.72",
+      "roi": "7.13"
+    },
+    "after12h": {
+      "price": 512.43,
+      "profitPercent": "3.24",
+      "roi": "31.41"
+    },
+    "after24h": {
+      "price": 499.77,
+      "profitPercent": "5.86",
+      "roi": "55.34"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-09-09T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 505.91,
+    "after1h": {
+      "price": 507.49,
+      "profitPercent": "-0.31",
+      "roi": "-3.12"
+    },
+    "after4h": {
+      "price": 515.86,
+      "profitPercent": "-1.93",
+      "roi": "-19.67"
+    },
+    "after8h": {
+      "price": 519.12,
+      "profitPercent": "-2.54",
+      "roi": "-26.11"
+    },
+    "after12h": {
+      "price": 515.83,
+      "profitPercent": "-1.92",
+      "roi": "-19.61"
+    },
+    "after24h": {
+      "price": 520.5,
+      "profitPercent": "-2.80",
+      "roi": "-28.84"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-09-29T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 598.45,
+    "after1h": {
+      "price": 597.38,
+      "profitPercent": "-0.18",
+      "roi": "-1.79"
+    },
+    "after4h": {
+      "price": 598.43,
+      "profitPercent": "-0.00",
+      "roi": "-0.03"
+    },
+    "after8h": {
+      "price": 600.49,
+      "profitPercent": "0.34",
+      "roi": "3.41"
+    },
+    "after12h": {
+      "price": 582.17,
+      "profitPercent": "-2.72",
+      "roi": "-27.20"
+    },
+    "after24h": {
+      "price": 577.78,
+      "profitPercent": "-3.45",
+      "roi": "-34.54"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-10-05T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 561.7,
+    "after1h": {
+      "price": 563.42,
+      "profitPercent": "-0.31",
+      "roi": "-3.06"
+    },
+    "after4h": {
+      "price": 558.64,
+      "profitPercent": "0.55",
+      "roi": "5.45"
+    },
+    "after8h": {
+      "price": 562.62,
+      "profitPercent": "-0.16",
+      "roi": "-1.64"
+    },
+    "after12h": {
+      "price": 562.54,
+      "profitPercent": "-0.15",
+      "roi": "-1.50"
+    },
+    "after24h": {
+      "price": 565.72,
+      "profitPercent": "-0.71",
+      "roi": "-7.16"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-10-06T21:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 563.89,
+    "after1h": {
+      "price": 567.1,
+      "profitPercent": "-0.57",
+      "roi": "-5.69"
+    },
+    "after4h": {
+      "price": 575.54,
+      "profitPercent": "-2.02",
+      "roi": "-20.66"
+    },
+    "after8h": {
+      "price": 573.69,
+      "profitPercent": "-1.71",
+      "roi": "-17.38"
+    },
+    "after12h": {
+      "price": 572.53,
+      "profitPercent": "-1.51",
+      "roi": "-15.32"
+    },
+    "after24h": {
+      "price": 573.51,
+      "profitPercent": "-1.68",
+      "roi": "-17.06"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-10-28T03:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 587.1,
+    "after1h": {
+      "price": 587.46,
+      "profitPercent": "-0.06",
+      "roi": "-0.61"
+    },
+    "after4h": {
+      "price": 591.58,
+      "profitPercent": "-0.76",
+      "roi": "-7.63"
+    },
+    "after8h": {
+      "price": 594.49,
+      "profitPercent": "-1.24",
+      "roi": "-12.59"
+    },
+    "after12h": {
+      "price": 590.59,
+      "profitPercent": "-0.59",
+      "roi": "-5.94"
+    },
+    "after24h": {
+      "price": 605.88,
+      "profitPercent": "-3.10",
+      "roi": "-31.99"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-12-02T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 642.14,
+    "after1h": {
+      "price": 630.11,
+      "profitPercent": "-1.87",
+      "roi": "-18.73"
+    },
+    "after4h": {
+      "price": 640.52,
+      "profitPercent": "-0.25",
+      "roi": "-2.52"
+    },
+    "after8h": {
+      "price": 654.08,
+      "profitPercent": "1.86",
+      "roi": "18.59"
+    },
+    "after12h": {
+      "price": 653.59,
+      "profitPercent": "1.78",
+      "roi": "17.83"
+    },
+    "after24h": {
+      "price": 647.93,
+      "profitPercent": "0.90",
+      "roi": "9.02"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2024-12-12T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 714.24,
+    "after1h": {
+      "price": 718.67,
+      "profitPercent": "-0.62",
+      "roi": "-6.20"
+    },
+    "after4h": {
+      "price": 714.87,
+      "profitPercent": "-0.09",
+      "roi": "-0.88"
+    },
+    "after8h": {
+      "price": 704.92,
+      "profitPercent": "1.32",
+      "roi": "13.05"
+    },
+    "after12h": {
+      "price": 706.18,
+      "profitPercent": "1.14",
+      "roi": "11.28"
+    },
+    "after24h": {
+      "price": 716.09,
+      "profitPercent": "-0.26",
+      "roi": "-2.59"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-01-26T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 688.9,
+    "after1h": {
+      "price": 685.93,
+      "profitPercent": "0.43",
+      "roi": "4.31"
+    },
+    "after4h": {
+      "price": 686.14,
+      "profitPercent": "0.40",
+      "roi": "4.01"
+    },
+    "after8h": {
+      "price": 683.94,
+      "profitPercent": "0.73",
+      "roi": "7.20"
+    },
+    "after12h": {
+      "price": 682.59,
+      "profitPercent": "0.92",
+      "roi": "9.16"
+    },
+    "after24h": {
+      "price": 646.53,
+      "profitPercent": "6.55",
+      "roi": "61.50"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-02-09T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 621.65,
+    "after1h": {
+      "price": 622.52,
+      "profitPercent": "-0.14",
+      "roi": "-1.40"
+    },
+    "after4h": {
+      "price": 625.35,
+      "profitPercent": "-0.59",
+      "roi": "-5.95"
+    },
+    "after8h": {
+      "price": 616.83,
+      "profitPercent": "0.78",
+      "roi": "7.75"
+    },
+    "after12h": {
+      "price": 618.41,
+      "profitPercent": "0.52",
+      "roi": "5.21"
+    },
+    "after24h": {
+      "price": 605.7,
+      "profitPercent": "2.63",
+      "roi": "25.66"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-02-14T17:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 670.93,
+    "after1h": {
+      "price": 667.47,
+      "profitPercent": "-0.52",
+      "roi": "-5.16"
+    },
+    "after4h": {
+      "price": 662.15,
+      "profitPercent": "-1.31",
+      "roi": "-13.09"
+    },
+    "after8h": {
+      "price": 660.78,
+      "profitPercent": "-1.51",
+      "roi": "-15.13"
+    },
+    "after12h": {
+      "price": 660.41,
+      "profitPercent": "-1.57",
+      "roi": "-15.68"
+    },
+    "after24h": {
+      "price": 666.3,
+      "profitPercent": "-0.69",
+      "roi": "-6.90"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-02-16T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 660.93,
+    "after1h": {
+      "price": 659.94,
+      "profitPercent": "-0.15",
+      "roi": "-1.50"
+    },
+    "after4h": {
+      "price": 655.26,
+      "profitPercent": "-0.86",
+      "roi": "-8.58"
+    },
+    "after8h": {
+      "price": 666.54,
+      "profitPercent": "0.85",
+      "roi": "8.49"
+    },
+    "after12h": {
+      "price": 674.62,
+      "profitPercent": "2.07",
+      "roi": "20.71"
+    },
+    "after24h": {
+      "price": 669.11,
+      "profitPercent": "1.24",
+      "roi": "12.38"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-02-18T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 659.63,
+    "after1h": {
+      "price": 652.84,
+      "profitPercent": "-1.03",
+      "roi": "-10.29"
+    },
+    "after4h": {
+      "price": 635.21,
+      "profitPercent": "-3.70",
+      "roi": "-37.02"
+    },
+    "after8h": {
+      "price": 643.26,
+      "profitPercent": "-2.48",
+      "roi": "-24.82"
+    },
+    "after12h": {
+      "price": 640.29,
+      "profitPercent": "-2.93",
+      "roi": "-29.32"
+    },
+    "after24h": {
+      "price": 657.96,
+      "profitPercent": "-0.25",
+      "roi": "-2.53"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-03-05T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 590.91,
+    "after1h": {
+      "price": 591.78,
+      "profitPercent": "-0.15",
+      "roi": "-1.47"
+    },
+    "after4h": {
+      "price": 594.72,
+      "profitPercent": "-0.64",
+      "roi": "-6.45"
+    },
+    "after8h": {
+      "price": 597.93,
+      "profitPercent": "-1.17",
+      "roi": "-11.88"
+    },
+    "after12h": {
+      "price": 601.63,
+      "profitPercent": "-1.78",
+      "roi": "-18.14"
+    },
+    "after24h": {
+      "price": 600.11,
+      "profitPercent": "-1.53",
+      "roi": "-15.57"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-03-13T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 578.07,
+    "after1h": {
+      "price": 584.06,
+      "profitPercent": "-1.03",
+      "roi": "-10.36"
+    },
+    "after4h": {
+      "price": 580.12,
+      "profitPercent": "-0.35",
+      "roi": "-3.55"
+    },
+    "after8h": {
+      "price": 573.33,
+      "profitPercent": "0.83",
+      "roi": "8.20"
+    },
+    "after12h": {
+      "price": 581.93,
+      "profitPercent": "-0.66",
+      "roi": "-6.68"
+    },
+    "after24h": {
+      "price": 577.78,
+      "profitPercent": "0.05",
+      "roi": "0.50"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-03-13T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 579.02,
+    "after1h": {
+      "price": 581.08,
+      "profitPercent": "-0.35",
+      "roi": "-3.56"
+    },
+    "after4h": {
+      "price": 578.4,
+      "profitPercent": "0.11",
+      "roi": "1.07"
+    },
+    "after8h": {
+      "price": 577.05,
+      "profitPercent": "0.34",
+      "roi": "3.40"
+    },
+    "after12h": {
+      "price": 581.54,
+      "profitPercent": "-0.43",
+      "roi": "-4.35"
+    },
+    "after24h": {
+      "price": 583.7,
+      "profitPercent": "-0.80",
+      "roi": "-8.08"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-03-22T23:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 626.5,
+    "after1h": {
+      "price": 627.22,
+      "profitPercent": "0.11",
+      "roi": "1.15"
+    },
+    "after4h": {
+      "price": 623.39,
+      "profitPercent": "-0.50",
+      "roi": "-4.96"
+    },
+    "after8h": {
+      "price": 622.51,
+      "profitPercent": "-0.64",
+      "roi": "-6.37"
+    },
+    "after12h": {
+      "price": 620.99,
+      "profitPercent": "-0.88",
+      "roi": "-8.79"
+    },
+    "after24h": {
+      "price": 623.25,
+      "profitPercent": "-0.52",
+      "roi": "-5.19"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-03-23T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 623.59,
+    "after1h": {
+      "price": 622.06,
+      "profitPercent": "-0.25",
+      "roi": "-2.45"
+    },
+    "after4h": {
+      "price": 622.29,
+      "profitPercent": "-0.21",
+      "roi": "-2.08"
+    },
+    "after8h": {
+      "price": 623.01,
+      "profitPercent": "-0.09",
+      "roi": "-0.93"
+    },
+    "after12h": {
+      "price": 618.53,
+      "profitPercent": "-0.81",
+      "roi": "-8.11"
+    },
+    "after24h": {
+      "price": 625.89,
+      "profitPercent": "0.37",
+      "roi": "3.69"
+    }
+  },
+  {
+    "symbol": "BNBUSDT",
+    "date": "2025-04-01T17:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 609.4,
+    "after1h": {
+      "price": 608.14,
+      "profitPercent": "0.21",
+      "roi": "2.07"
+    },
+    "after4h": {
+      "price": 608.95,
+      "profitPercent": "0.07",
+      "roi": "0.74"
+    },
+    "after8h": {
+      "price": 606.79,
+      "profitPercent": "0.43",
+      "roi": "4.28"
+    },
+    "after12h": {
+      "price": 597.07,
+      "profitPercent": "2.07",
+      "roi": "20.23"
+    },
+    "after24h": {
+      "price": 603.09,
+      "profitPercent": "1.05",
+      "roi": "10.35"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-04-25T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 144.945,
+    "after1h": {
+      "price": 147.704,
+      "profitPercent": "1.90",
+      "roi": "19.03"
+    },
+    "after4h": {
+      "price": 148.056,
+      "profitPercent": "2.15",
+      "roi": "21.46"
+    },
+    "after8h": {
+      "price": 145.256,
+      "profitPercent": "0.21",
+      "roi": "2.15"
+    },
+    "after12h": {
+      "price": 144.146,
+      "profitPercent": "-0.55",
+      "roi": "-5.51"
+    },
+    "after24h": {
+      "price": 143.307,
+      "profitPercent": "-1.13",
+      "roi": "-11.30"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-05-08T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 147.681,
+    "after1h": {
+      "price": 145.818,
+      "profitPercent": "-1.26",
+      "roi": "-12.62"
+    },
+    "after4h": {
+      "price": 146.974,
+      "profitPercent": "-0.48",
+      "roi": "-4.79"
+    },
+    "after8h": {
+      "price": 141.5,
+      "profitPercent": "-4.19",
+      "roi": "-41.85"
+    },
+    "after12h": {
+      "price": 144.16,
+      "profitPercent": "-2.38",
+      "roi": "-23.84"
+    },
+    "after24h": {
+      "price": 144.823,
+      "profitPercent": "-1.94",
+      "roi": "-19.35"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-05-24T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 167.279,
+    "after1h": {
+      "price": 165.693,
+      "profitPercent": "-0.95",
+      "roi": "-9.48"
+    },
+    "after4h": {
+      "price": 168.349,
+      "profitPercent": "0.64",
+      "roi": "6.40"
+    },
+    "after8h": {
+      "price": 167.657,
+      "profitPercent": "0.23",
+      "roi": "2.26"
+    },
+    "after12h": {
+      "price": 169.666,
+      "profitPercent": "1.43",
+      "roi": "14.27"
+    },
+    "after24h": {
+      "price": 167.774,
+      "profitPercent": "0.30",
+      "roi": "2.96"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-06-04T06:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 165.727,
+    "after1h": {
+      "price": 165.376,
+      "profitPercent": "0.21",
+      "roi": "2.12"
+    },
+    "after4h": {
+      "price": 165.486,
+      "profitPercent": "0.15",
+      "roi": "1.45"
+    },
+    "after8h": {
+      "price": 166.059,
+      "profitPercent": "-0.20",
+      "roi": "-2.00"
+    },
+    "after12h": {
+      "price": 169.967,
+      "profitPercent": "-2.49",
+      "roi": "-25.58"
+    },
+    "after24h": {
+      "price": 174.1,
+      "profitPercent": "-4.81",
+      "roi": "-50.52"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-07-07T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 141.176,
+    "after1h": {
+      "price": 141.081,
+      "profitPercent": "0.07",
+      "roi": "0.67"
+    },
+    "after4h": {
+      "price": 139.451,
+      "profitPercent": "1.24",
+      "roi": "12.22"
+    },
+    "after8h": {
+      "price": 139.431,
+      "profitPercent": "1.25",
+      "roi": "12.36"
+    },
+    "after12h": {
+      "price": 139.648,
+      "profitPercent": "1.09",
+      "roi": "10.82"
+    },
+    "after24h": {
+      "price": 129.116,
+      "profitPercent": "9.34",
+      "roi": "85.43"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-07-30T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 180.901,
+    "after1h": {
+      "price": 179.737,
+      "profitPercent": "-0.64",
+      "roi": "-6.43"
+    },
+    "after4h": {
+      "price": 177.86,
+      "profitPercent": "-1.68",
+      "roi": "-16.81"
+    },
+    "after8h": {
+      "price": 179.072,
+      "profitPercent": "-1.01",
+      "roi": "-10.11"
+    },
+    "after12h": {
+      "price": 180.832,
+      "profitPercent": "-0.04",
+      "roi": "-0.38"
+    },
+    "after24h": {
+      "price": 180.018,
+      "profitPercent": "-0.49",
+      "roi": "-4.88"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-08-06T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 138.871,
+    "after1h": {
+      "price": 144.732,
+      "profitPercent": "-4.05",
+      "roi": "-42.20"
+    },
+    "after4h": {
+      "price": 145.056,
+      "profitPercent": "-4.26",
+      "roi": "-44.54"
+    },
+    "after8h": {
+      "price": 147.187,
+      "profitPercent": "-5.65",
+      "roi": "-59.88"
+    },
+    "after12h": {
+      "price": 149.015,
+      "profitPercent": "-6.81",
+      "roi": "-73.05"
+    },
+    "after24h": {
+      "price": 151.983,
+      "profitPercent": "-8.63",
+      "roi": "-94.42"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-08-20T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 145.332,
+    "after1h": {
+      "price": 145.852,
+      "profitPercent": "-0.36",
+      "roi": "-3.58"
+    },
+    "after4h": {
+      "price": 142.074,
+      "profitPercent": "2.29",
+      "roi": "22.42"
+    },
+    "after8h": {
+      "price": 143.969,
+      "profitPercent": "0.95",
+      "roi": "9.38"
+    },
+    "after12h": {
+      "price": 142.21,
+      "profitPercent": "2.20",
+      "roi": "21.48"
+    },
+    "after24h": {
+      "price": 141.238,
+      "profitPercent": "2.90",
+      "roi": "28.17"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-09-23T21:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 144.073,
+    "after1h": {
+      "price": 144.319,
+      "profitPercent": "0.17",
+      "roi": "1.71"
+    },
+    "after4h": {
+      "price": 144.311,
+      "profitPercent": "0.17",
+      "roi": "1.65"
+    },
+    "after8h": {
+      "price": 146.172,
+      "profitPercent": "1.46",
+      "roi": "14.57"
+    },
+    "after12h": {
+      "price": 146.455,
+      "profitPercent": "1.65",
+      "roi": "16.53"
+    },
+    "after24h": {
+      "price": 148.674,
+      "profitPercent": "3.19",
+      "roi": "31.94"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2024-10-07T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 147.313,
+    "after1h": {
+      "price": 146.584,
+      "profitPercent": "0.50",
+      "roi": "4.95"
+    },
+    "after4h": {
+      "price": 147.776,
+      "profitPercent": "-0.31",
+      "roi": "-3.14"
+    },
+    "after8h": {
+      "price": 149.036,
+      "profitPercent": "-1.16",
+      "roi": "-11.70"
+    },
+    "after12h": {
+      "price": 146.815,
+      "profitPercent": "0.34",
+      "roi": "3.38"
+    },
+    "after24h": {
+      "price": 143.584,
+      "profitPercent": "2.60",
+      "roi": "25.31"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2025-01-23T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 250.07,
+    "after1h": {
+      "price": 252.13,
+      "profitPercent": "0.82",
+      "roi": "8.24"
+    },
+    "after4h": {
+      "price": 250.66,
+      "profitPercent": "0.24",
+      "roi": "2.36"
+    },
+    "after8h": {
+      "price": 252.67,
+      "profitPercent": "1.04",
+      "roi": "10.40"
+    },
+    "after12h": {
+      "price": 255.21,
+      "profitPercent": "2.06",
+      "roi": "20.55"
+    },
+    "after24h": {
+      "price": 261.85,
+      "profitPercent": "4.71",
+      "roi": "47.11"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2025-01-25T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 250.82,
+    "after1h": {
+      "price": 253.48,
+      "profitPercent": "1.06",
+      "roi": "10.61"
+    },
+    "after4h": {
+      "price": 258.51,
+      "profitPercent": "3.07",
+      "roi": "30.66"
+    },
+    "after8h": {
+      "price": 258.9,
+      "profitPercent": "3.22",
+      "roi": "32.21"
+    },
+    "after12h": {
+      "price": 255.34,
+      "profitPercent": "1.80",
+      "roi": "18.02"
+    },
+    "after24h": {
+      "price": 254.94,
+      "profitPercent": "1.64",
+      "roi": "16.43"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2025-02-20T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 171.79,
+    "after1h": {
+      "price": 173.3,
+      "profitPercent": "-0.87",
+      "roi": "-8.79"
+    },
+    "after4h": {
+      "price": 174.52,
+      "profitPercent": "-1.56",
+      "roi": "-15.89"
+    },
+    "after8h": {
+      "price": 174.26,
+      "profitPercent": "-1.42",
+      "roi": "-14.38"
+    },
+    "after12h": {
+      "price": 173.96,
+      "profitPercent": "-1.25",
+      "roi": "-12.63"
+    },
+    "after24h": {
+      "price": 174.63,
+      "profitPercent": "-1.63",
+      "roi": "-16.53"
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "date": "2025-02-21T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 173.23,
+    "after1h": {
+      "price": 173.21,
+      "profitPercent": "0.01",
+      "roi": "0.12"
+    },
+    "after4h": {
+      "price": 175.9,
+      "profitPercent": "-1.52",
+      "roi": "-15.41"
+    },
+    "after8h": {
+      "price": 179.36,
+      "profitPercent": "-3.42",
+      "roi": "-35.39"
+    },
+    "after12h": {
+      "price": 177.6,
+      "profitPercent": "-2.46",
+      "roi": "-25.23"
+    },
+    "after24h": {
+      "price": 170.94,
+      "profitPercent": "1.34",
+      "roi": "13.22"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-04-20T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5004,
+    "after1h": {
+      "price": 0.5054,
+      "profitPercent": "-0.99",
+      "roi": "-9.99"
+    },
+    "after4h": {
+      "price": 0.5112,
+      "profitPercent": "-2.11",
+      "roi": "-21.58"
+    },
+    "after8h": {
+      "price": 0.516,
+      "profitPercent": "-3.02",
+      "roi": "-31.18"
+    },
+    "after12h": {
+      "price": 0.5164,
+      "profitPercent": "-3.10",
+      "roi": "-31.97"
+    },
+    "after24h": {
+      "price": 0.5226,
+      "profitPercent": "-4.25",
+      "roi": "-44.36"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-04-21T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5226,
+    "after1h": {
+      "price": 0.5257,
+      "profitPercent": "-0.59",
+      "roi": "-5.93"
+    },
+    "after4h": {
+      "price": 0.5272,
+      "profitPercent": "-0.87",
+      "roi": "-8.80"
+    },
+    "after8h": {
+      "price": 0.5314,
+      "profitPercent": "-1.66",
+      "roi": "-16.84"
+    },
+    "after12h": {
+      "price": 0.5276,
+      "profitPercent": "-0.95",
+      "roi": "-9.57"
+    },
+    "after24h": {
+      "price": 0.5242,
+      "profitPercent": "-0.31",
+      "roi": "-3.06"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-04-25T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5244,
+    "after1h": {
+      "price": 0.5265,
+      "profitPercent": "0.40",
+      "roi": "4.00"
+    },
+    "after4h": {
+      "price": 0.5302,
+      "profitPercent": "1.11",
+      "roi": "11.06"
+    },
+    "after8h": {
+      "price": 0.5251,
+      "profitPercent": "0.13",
+      "roi": "1.33"
+    },
+    "after12h": {
+      "price": 0.5274,
+      "profitPercent": "0.57",
+      "roi": "5.72"
+    },
+    "after24h": {
+      "price": 0.5201,
+      "profitPercent": "-0.82",
+      "roi": "-8.20"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-05-08T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5248,
+    "after1h": {
+      "price": 0.5267,
+      "profitPercent": "0.36",
+      "roi": "3.62"
+    },
+    "after4h": {
+      "price": 0.5264,
+      "profitPercent": "0.30",
+      "roi": "3.05"
+    },
+    "after8h": {
+      "price": 0.5187,
+      "profitPercent": "-1.16",
+      "roi": "-11.62"
+    },
+    "after12h": {
+      "price": 0.5198,
+      "profitPercent": "-0.95",
+      "roi": "-9.53"
+    },
+    "after24h": {
+      "price": 0.5118,
+      "profitPercent": "-2.48",
+      "roi": "-24.77"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-05-16T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5167,
+    "after1h": {
+      "price": 0.5196,
+      "profitPercent": "-0.56",
+      "roi": "-5.61"
+    },
+    "after4h": {
+      "price": 0.5149,
+      "profitPercent": "0.35",
+      "roi": "3.48"
+    },
+    "after8h": {
+      "price": 0.5197,
+      "profitPercent": "-0.58",
+      "roi": "-5.81"
+    },
+    "after12h": {
+      "price": 0.5168,
+      "profitPercent": "-0.02",
+      "roi": "-0.19"
+    },
+    "after24h": {
+      "price": 0.5197,
+      "profitPercent": "-0.58",
+      "roi": "-5.81"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-05-23T07:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5292,
+    "after1h": {
+      "price": 0.5299,
+      "profitPercent": "0.13",
+      "roi": "1.32"
+    },
+    "after4h": {
+      "price": 0.5295,
+      "profitPercent": "0.06",
+      "roi": "0.57"
+    },
+    "after8h": {
+      "price": 0.5293,
+      "profitPercent": "0.02",
+      "roi": "0.19"
+    },
+    "after12h": {
+      "price": 0.5207,
+      "profitPercent": "-1.61",
+      "roi": "-16.06"
+    },
+    "after24h": {
+      "price": 0.5233,
+      "profitPercent": "-1.11",
+      "roi": "-11.15"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-05-27T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5313,
+    "after1h": {
+      "price": 0.5299,
+      "profitPercent": "-0.26",
+      "roi": "-2.64"
+    },
+    "after4h": {
+      "price": 0.5298,
+      "profitPercent": "-0.28",
+      "roi": "-2.82"
+    },
+    "after8h": {
+      "price": 0.5396,
+      "profitPercent": "1.56",
+      "roi": "15.62"
+    },
+    "after12h": {
+      "price": 0.5355,
+      "profitPercent": "0.79",
+      "roi": "7.91"
+    },
+    "after24h": {
+      "price": 0.5276,
+      "profitPercent": "-0.70",
+      "roi": "-6.96"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-06-16T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.4907,
+    "after1h": {
+      "price": 0.4892,
+      "profitPercent": "0.31",
+      "roi": "3.06"
+    },
+    "after4h": {
+      "price": 0.4882,
+      "profitPercent": "0.51",
+      "roi": "5.09"
+    },
+    "after8h": {
+      "price": 0.4885,
+      "profitPercent": "0.45",
+      "roi": "4.48"
+    },
+    "after12h": {
+      "price": 0.4865,
+      "profitPercent": "0.86",
+      "roi": "8.56"
+    },
+    "after24h": {
+      "price": 0.5018,
+      "profitPercent": "-2.21",
+      "roi": "-22.62"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-07-09T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.4324,
+    "after1h": {
+      "price": 0.4306,
+      "profitPercent": "0.42",
+      "roi": "4.16"
+    },
+    "after4h": {
+      "price": 0.4328,
+      "profitPercent": "-0.09",
+      "roi": "-0.93"
+    },
+    "after8h": {
+      "price": 0.4352,
+      "profitPercent": "-0.64",
+      "roi": "-6.48"
+    },
+    "after12h": {
+      "price": 0.4335,
+      "profitPercent": "-0.25",
+      "roi": "-2.54"
+    },
+    "after24h": {
+      "price": 0.4358,
+      "profitPercent": "-0.78",
+      "roi": "-7.86"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-07-23T22:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5985,
+    "after1h": {
+      "price": 0.5972,
+      "profitPercent": "-0.22",
+      "roi": "-2.17"
+    },
+    "after4h": {
+      "price": 0.5968,
+      "profitPercent": "-0.28",
+      "roi": "-2.84"
+    },
+    "after8h": {
+      "price": 0.5989,
+      "profitPercent": "0.07",
+      "roi": "0.67"
+    },
+    "after12h": {
+      "price": 0.6261,
+      "profitPercent": "4.61",
+      "roi": "46.12"
+    },
+    "after24h": {
+      "price": 0.6094,
+      "profitPercent": "1.82",
+      "roi": "18.21"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-08-25T21:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.602,
+    "after1h": {
+      "price": 0.6027,
+      "profitPercent": "0.12",
+      "roi": "1.16"
+    },
+    "after4h": {
+      "price": 0.5961,
+      "profitPercent": "-0.98",
+      "roi": "-9.80"
+    },
+    "after8h": {
+      "price": 0.5972,
+      "profitPercent": "-0.80",
+      "roi": "-7.97"
+    },
+    "after12h": {
+      "price": 0.5971,
+      "profitPercent": "-0.81",
+      "roi": "-8.14"
+    },
+    "after24h": {
+      "price": 0.5858,
+      "profitPercent": "-2.69",
+      "roi": "-26.91"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-08-26T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5976,
+    "after1h": {
+      "price": 0.5971,
+      "profitPercent": "-0.08",
+      "roi": "-0.84"
+    },
+    "after4h": {
+      "price": 0.592,
+      "profitPercent": "-0.94",
+      "roi": "-9.37"
+    },
+    "after8h": {
+      "price": 0.5915,
+      "profitPercent": "-1.02",
+      "roi": "-10.21"
+    },
+    "after12h": {
+      "price": 0.5853,
+      "profitPercent": "-2.06",
+      "roi": "-20.58"
+    },
+    "after24h": {
+      "price": 0.5896,
+      "profitPercent": "-1.34",
+      "roi": "-13.39"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-08-31T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5661,
+    "after1h": {
+      "price": 0.5645,
+      "profitPercent": "0.28",
+      "roi": "2.83"
+    },
+    "after4h": {
+      "price": 0.5675,
+      "profitPercent": "-0.25",
+      "roi": "-2.47"
+    },
+    "after8h": {
+      "price": 0.5661,
+      "profitPercent": "0.00",
+      "roi": "0.00"
+    },
+    "after12h": {
+      "price": 0.5605,
+      "profitPercent": "1.00",
+      "roi": "9.89"
+    },
+    "after24h": {
+      "price": 0.5562,
+      "profitPercent": "1.78",
+      "roi": "17.49"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-09-03T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5664,
+    "after1h": {
+      "price": 0.5698,
+      "profitPercent": "-0.60",
+      "roi": "-6.00"
+    },
+    "after4h": {
+      "price": 0.5702,
+      "profitPercent": "-0.67",
+      "roi": "-6.71"
+    },
+    "after8h": {
+      "price": 0.5597,
+      "profitPercent": "1.20",
+      "roi": "11.83"
+    },
+    "after12h": {
+      "price": 0.5656,
+      "profitPercent": "0.14",
+      "roi": "1.41"
+    },
+    "after24h": {
+      "price": 0.5558,
+      "profitPercent": "1.91",
+      "roi": "18.71"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-10-11T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5361,
+    "after1h": {
+      "price": 0.5379,
+      "profitPercent": "-0.33",
+      "roi": "-3.36"
+    },
+    "after4h": {
+      "price": 0.5388,
+      "profitPercent": "-0.50",
+      "roi": "-5.04"
+    },
+    "after8h": {
+      "price": 0.5392,
+      "profitPercent": "-0.57",
+      "roi": "-5.78"
+    },
+    "after12h": {
+      "price": 0.5366,
+      "profitPercent": "-0.09",
+      "roi": "-0.93"
+    },
+    "after24h": {
+      "price": 0.5412,
+      "profitPercent": "-0.94",
+      "roi": "-9.51"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-10-18T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.5459,
+    "after1h": {
+      "price": 0.5462,
+      "profitPercent": "0.05",
+      "roi": "0.55"
+    },
+    "after4h": {
+      "price": 0.5448,
+      "profitPercent": "-0.20",
+      "roi": "-2.02"
+    },
+    "after8h": {
+      "price": 0.5456,
+      "profitPercent": "-0.05",
+      "roi": "-0.55"
+    },
+    "after12h": {
+      "price": 0.5461,
+      "profitPercent": "0.04",
+      "roi": "0.37"
+    },
+    "after24h": {
+      "price": 0.5407,
+      "profitPercent": "-0.95",
+      "roi": "-9.53"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-10-25T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5299,
+    "after1h": {
+      "price": 0.5292,
+      "profitPercent": "0.13",
+      "roi": "1.32"
+    },
+    "after4h": {
+      "price": 0.5253,
+      "profitPercent": "0.88",
+      "roi": "8.68"
+    },
+    "after8h": {
+      "price": 0.5262,
+      "profitPercent": "0.70",
+      "roi": "6.98"
+    },
+    "after12h": {
+      "price": 0.5256,
+      "profitPercent": "0.82",
+      "roi": "8.11"
+    },
+    "after24h": {
+      "price": 0.5069,
+      "profitPercent": "4.54",
+      "roi": "43.40"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-10-29T20:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.5248,
+    "after1h": {
+      "price": 0.5269,
+      "profitPercent": "-0.40",
+      "roi": "-4.00"
+    },
+    "after4h": {
+      "price": 0.5254,
+      "profitPercent": "-0.11",
+      "roi": "-1.14"
+    },
+    "after8h": {
+      "price": 0.5259,
+      "profitPercent": "-0.21",
+      "roi": "-2.10"
+    },
+    "after12h": {
+      "price": 0.522,
+      "profitPercent": "0.54",
+      "roi": "5.34"
+    },
+    "after24h": {
+      "price": 0.5252,
+      "profitPercent": "-0.08",
+      "roi": "-0.76"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2024-12-29T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2.183,
+    "after1h": {
+      "price": 2.1856,
+      "profitPercent": "-0.12",
+      "roi": "-1.19"
+    },
+    "after4h": {
+      "price": 2.1711,
+      "profitPercent": "0.55",
+      "roi": "5.45"
+    },
+    "after8h": {
+      "price": 2.1475,
+      "profitPercent": "1.65",
+      "roi": "16.26"
+    },
+    "after12h": {
+      "price": 2.1347,
+      "profitPercent": "2.26",
+      "roi": "22.13"
+    },
+    "after24h": {
+      "price": 2.0679,
+      "profitPercent": "5.57",
+      "roi": "52.73"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-01-08T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2.3346,
+    "after1h": {
+      "price": 2.3189,
+      "profitPercent": "-0.67",
+      "roi": "-6.72"
+    },
+    "after4h": {
+      "price": 2.2612,
+      "profitPercent": "-3.14",
+      "roi": "-31.44"
+    },
+    "after8h": {
+      "price": 2.3292,
+      "profitPercent": "-0.23",
+      "roi": "-2.31"
+    },
+    "after12h": {
+      "price": 2.316,
+      "profitPercent": "-0.80",
+      "roi": "-7.97"
+    },
+    "after24h": {
+      "price": 2.3606,
+      "profitPercent": "1.11",
+      "roi": "11.14"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-01-08T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2.324,
+    "after1h": {
+      "price": 2.3064,
+      "profitPercent": "-0.76",
+      "roi": "-7.57"
+    },
+    "after4h": {
+      "price": 2.3121,
+      "profitPercent": "-0.51",
+      "roi": "-5.12"
+    },
+    "after8h": {
+      "price": 2.274,
+      "profitPercent": "-2.15",
+      "roi": "-21.51"
+    },
+    "after12h": {
+      "price": 2.3224,
+      "profitPercent": "-0.07",
+      "roi": "-0.69"
+    },
+    "after24h": {
+      "price": 2.3175,
+      "profitPercent": "-0.28",
+      "roi": "-2.80"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-01-23T20:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 3.0983,
+    "after1h": {
+      "price": 3.0766,
+      "profitPercent": "-0.70",
+      "roi": "-7.00"
+    },
+    "after4h": {
+      "price": 3.078,
+      "profitPercent": "-0.66",
+      "roi": "-6.55"
+    },
+    "after8h": {
+      "price": 3.1593,
+      "profitPercent": "1.97",
+      "roi": "19.69"
+    },
+    "after12h": {
+      "price": 3.1793,
+      "profitPercent": "2.61",
+      "roi": "26.14"
+    },
+    "after24h": {
+      "price": 3.1036,
+      "profitPercent": "0.17",
+      "roi": "1.71"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-02-17T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2.7449,
+    "after1h": {
+      "price": 2.7595,
+      "profitPercent": "0.53",
+      "roi": "5.32"
+    },
+    "after4h": {
+      "price": 2.7016,
+      "profitPercent": "-1.58",
+      "roi": "-15.77"
+    },
+    "after8h": {
+      "price": 2.6705,
+      "profitPercent": "-2.71",
+      "roi": "-27.10"
+    },
+    "after12h": {
+      "price": 2.6895,
+      "profitPercent": "-2.02",
+      "roi": "-20.18"
+    },
+    "after24h": {
+      "price": 2.6352,
+      "profitPercent": "-4.00",
+      "roi": "-39.97"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-03-01T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2.1596,
+    "after1h": {
+      "price": 2.1642,
+      "profitPercent": "-0.21",
+      "roi": "-2.13"
+    },
+    "after4h": {
+      "price": 2.15,
+      "profitPercent": "0.45",
+      "roi": "4.45"
+    },
+    "after8h": {
+      "price": 2.1676,
+      "profitPercent": "-0.37",
+      "roi": "-3.70"
+    },
+    "after12h": {
+      "price": 2.1904,
+      "profitPercent": "-1.41",
+      "roi": "-14.26"
+    },
+    "after24h": {
+      "price": 2.2734,
+      "profitPercent": "-5.01",
+      "roi": "-52.69"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-03-02T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2.2254,
+    "after1h": {
+      "price": 2.5972,
+      "profitPercent": "-14.32",
+      "roi": "-167.07"
+    },
+    "after4h": {
+      "price": 2.7922,
+      "profitPercent": "-20.30",
+      "roi": "-254.70"
+    },
+    "after8h": {
+      "price": 2.9091,
+      "profitPercent": "-23.50",
+      "roi": "-307.23"
+    },
+    "after12h": {
+      "price": 2.8107,
+      "profitPercent": "-20.82",
+      "roi": "-263.01"
+    },
+    "after24h": {
+      "price": 2.5636,
+      "profitPercent": "-13.19",
+      "roi": "-151.97"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-03-17T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2.3273,
+    "after1h": {
+      "price": 2.3347,
+      "profitPercent": "0.32",
+      "roi": "3.18"
+    },
+    "after4h": {
+      "price": 2.3516,
+      "profitPercent": "1.04",
+      "roi": "10.44"
+    },
+    "after8h": {
+      "price": 2.3449,
+      "profitPercent": "0.76",
+      "roi": "7.56"
+    },
+    "after12h": {
+      "price": 2.3313,
+      "profitPercent": "0.17",
+      "roi": "1.72"
+    },
+    "after24h": {
+      "price": 2.3219,
+      "profitPercent": "-0.23",
+      "roi": "-2.32"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-03-21T18:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 2.4004,
+    "after1h": {
+      "price": 2.4005,
+      "profitPercent": "0.00",
+      "roi": "0.04"
+    },
+    "after4h": {
+      "price": 2.386,
+      "profitPercent": "-0.60",
+      "roi": "-6.00"
+    },
+    "after8h": {
+      "price": 2.3893,
+      "profitPercent": "-0.46",
+      "roi": "-4.62"
+    },
+    "after12h": {
+      "price": 2.4016,
+      "profitPercent": "0.05",
+      "roi": "0.50"
+    },
+    "after24h": {
+      "price": 2.3864,
+      "profitPercent": "-0.58",
+      "roi": "-5.83"
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "date": "2025-04-05T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 2.1315,
+    "after1h": {
+      "price": 2.1335,
+      "profitPercent": "-0.09",
+      "roi": "-0.94"
+    },
+    "after4h": {
+      "price": 2.1235,
+      "profitPercent": "0.38",
+      "roi": "3.75"
+    },
+    "after8h": {
+      "price": 2.1272,
+      "profitPercent": "0.20",
+      "roi": "2.02"
+    },
+    "after12h": {
+      "price": 2.1449,
+      "profitPercent": "-0.62",
+      "roi": "-6.29"
+    },
+    "after24h": {
+      "price": 2.05,
+      "profitPercent": "3.98",
+      "roi": "38.24"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-04-19T23:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.4679,
+    "after1h": {
+      "price": 0.4674,
+      "profitPercent": "0.11",
+      "roi": "1.07"
+    },
+    "after4h": {
+      "price": 0.4778,
+      "profitPercent": "-2.07",
+      "roi": "-21.16"
+    },
+    "after8h": {
+      "price": 0.4965,
+      "profitPercent": "-5.76",
+      "roi": "-61.12"
+    },
+    "after12h": {
+      "price": 0.4762,
+      "profitPercent": "-1.74",
+      "roi": "-17.74"
+    },
+    "after24h": {
+      "price": 0.5068,
+      "profitPercent": "-7.68",
+      "roi": "-83.14"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-04-20T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.4762,
+    "after1h": {
+      "price": 0.4795,
+      "profitPercent": "-0.69",
+      "roi": "-6.93"
+    },
+    "after4h": {
+      "price": 0.4907,
+      "profitPercent": "-2.95",
+      "roi": "-30.45"
+    },
+    "after8h": {
+      "price": 0.5019,
+      "profitPercent": "-5.12",
+      "roi": "-53.97"
+    },
+    "after12h": {
+      "price": 0.5068,
+      "profitPercent": "-6.04",
+      "roi": "-64.26"
+    },
+    "after24h": {
+      "price": 0.5038,
+      "profitPercent": "-5.48",
+      "roi": "-57.96"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-05-05T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.4588,
+    "after1h": {
+      "price": 0.4612,
+      "profitPercent": "0.52",
+      "roi": "5.23"
+    },
+    "after4h": {
+      "price": 0.4605,
+      "profitPercent": "0.37",
+      "roi": "3.71"
+    },
+    "after8h": {
+      "price": 0.4594,
+      "profitPercent": "0.13",
+      "roi": "1.31"
+    },
+    "after12h": {
+      "price": 0.457,
+      "profitPercent": "-0.39",
+      "roi": "-3.92"
+    },
+    "after24h": {
+      "price": 0.4614,
+      "profitPercent": "0.57",
+      "roi": "5.67"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-05-28T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.4671,
+    "after1h": {
+      "price": 0.4627,
+      "profitPercent": "0.95",
+      "roi": "9.42"
+    },
+    "after4h": {
+      "price": 0.456,
+      "profitPercent": "2.43",
+      "roi": "23.76"
+    },
+    "after8h": {
+      "price": 0.4582,
+      "profitPercent": "1.94",
+      "roi": "19.05"
+    },
+    "after12h": {
+      "price": 0.4585,
+      "profitPercent": "1.88",
+      "roi": "18.41"
+    },
+    "after24h": {
+      "price": 0.4581,
+      "profitPercent": "1.96",
+      "roi": "19.27"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-06-23T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3873,
+    "after1h": {
+      "price": 0.3875,
+      "profitPercent": "-0.05",
+      "roi": "-0.52"
+    },
+    "after4h": {
+      "price": 0.3866,
+      "profitPercent": "0.18",
+      "roi": "1.81"
+    },
+    "after8h": {
+      "price": 0.3861,
+      "profitPercent": "0.31",
+      "roi": "3.10"
+    },
+    "after12h": {
+      "price": 0.3798,
+      "profitPercent": "1.97",
+      "roi": "19.36"
+    },
+    "after24h": {
+      "price": 0.3724,
+      "profitPercent": "4.00",
+      "roi": "38.47"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-07-07T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3659,
+    "after1h": {
+      "price": 0.3672,
+      "profitPercent": "-0.35",
+      "roi": "-3.55"
+    },
+    "after4h": {
+      "price": 0.3652,
+      "profitPercent": "0.19",
+      "roi": "1.91"
+    },
+    "after8h": {
+      "price": 0.3648,
+      "profitPercent": "0.30",
+      "roi": "3.01"
+    },
+    "after12h": {
+      "price": 0.3595,
+      "profitPercent": "1.78",
+      "roi": "17.49"
+    },
+    "after24h": {
+      "price": 0.3501,
+      "profitPercent": "4.51",
+      "roi": "43.18"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-07-09T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3669,
+    "after1h": {
+      "price": 0.3646,
+      "profitPercent": "0.63",
+      "roi": "6.27"
+    },
+    "after4h": {
+      "price": 0.3706,
+      "profitPercent": "-1.00",
+      "roi": "-10.08"
+    },
+    "after8h": {
+      "price": 0.3734,
+      "profitPercent": "-1.74",
+      "roi": "-17.72"
+    },
+    "after12h": {
+      "price": 0.3716,
+      "profitPercent": "-1.26",
+      "roi": "-12.81"
+    },
+    "after24h": {
+      "price": 0.3723,
+      "profitPercent": "-1.45",
+      "roi": "-14.72"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-07-23T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.425,
+    "after1h": {
+      "price": 0.4252,
+      "profitPercent": "0.05",
+      "roi": "0.47"
+    },
+    "after4h": {
+      "price": 0.4213,
+      "profitPercent": "-0.87",
+      "roi": "-8.71"
+    },
+    "after8h": {
+      "price": 0.4082,
+      "profitPercent": "-3.95",
+      "roi": "-39.53"
+    },
+    "after12h": {
+      "price": 0.4103,
+      "profitPercent": "-3.46",
+      "roi": "-34.59"
+    },
+    "after24h": {
+      "price": 0.4184,
+      "profitPercent": "-1.55",
+      "roi": "-15.53"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-08-07T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3308,
+    "after1h": {
+      "price": 0.3355,
+      "profitPercent": "-1.40",
+      "roi": "-14.21"
+    },
+    "after4h": {
+      "price": 0.3362,
+      "profitPercent": "-1.61",
+      "roi": "-16.32"
+    },
+    "after8h": {
+      "price": 0.3367,
+      "profitPercent": "-1.75",
+      "roi": "-17.84"
+    },
+    "after12h": {
+      "price": 0.3361,
+      "profitPercent": "-1.58",
+      "roi": "-16.02"
+    },
+    "after24h": {
+      "price": 0.3227,
+      "profitPercent": "2.51",
+      "roi": "24.49"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-08-07T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3327,
+    "after1h": {
+      "price": 0.3361,
+      "profitPercent": "-1.01",
+      "roi": "-10.22"
+    },
+    "after4h": {
+      "price": 0.3237,
+      "profitPercent": "2.78",
+      "roi": "27.05"
+    },
+    "after8h": {
+      "price": 0.3204,
+      "profitPercent": "3.84",
+      "roi": "36.97"
+    },
+    "after12h": {
+      "price": 0.3238,
+      "profitPercent": "2.75",
+      "roi": "26.75"
+    },
+    "after24h": {
+      "price": 0.3323,
+      "profitPercent": "0.12",
+      "roi": "1.20"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-08-27T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.3669,
+    "after1h": {
+      "price": 0.3677,
+      "profitPercent": "0.22",
+      "roi": "2.18"
+    },
+    "after4h": {
+      "price": 0.368,
+      "profitPercent": "0.30",
+      "roi": "3.00"
+    },
+    "after8h": {
+      "price": 0.3609,
+      "profitPercent": "-1.64",
+      "roi": "-16.35"
+    },
+    "after12h": {
+      "price": 0.3641,
+      "profitPercent": "-0.76",
+      "roi": "-7.63"
+    },
+    "after24h": {
+      "price": 0.3489,
+      "profitPercent": "-4.91",
+      "roi": "-49.06"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-08-27T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.3648,
+    "after1h": {
+      "price": 0.3639,
+      "profitPercent": "-0.25",
+      "roi": "-2.47"
+    },
+    "after4h": {
+      "price": 0.3623,
+      "profitPercent": "-0.69",
+      "roi": "-6.85"
+    },
+    "after8h": {
+      "price": 0.3656,
+      "profitPercent": "0.22",
+      "roi": "2.19"
+    },
+    "after12h": {
+      "price": 0.3479,
+      "profitPercent": "-4.63",
+      "roi": "-46.33"
+    },
+    "after24h": {
+      "price": 0.3592,
+      "profitPercent": "-1.54",
+      "roi": "-15.35"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-09-08T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3321,
+    "after1h": {
+      "price": 0.3352,
+      "profitPercent": "-0.92",
+      "roi": "-9.33"
+    },
+    "after4h": {
+      "price": 0.336,
+      "profitPercent": "-1.16",
+      "roi": "-11.74"
+    },
+    "after8h": {
+      "price": 0.3388,
+      "profitPercent": "-1.98",
+      "roi": "-20.17"
+    },
+    "after12h": {
+      "price": 0.3444,
+      "profitPercent": "-3.57",
+      "roi": "-37.04"
+    },
+    "after24h": {
+      "price": 0.3415,
+      "profitPercent": "-2.75",
+      "roi": "-28.30"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-09-29T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.3976,
+    "after1h": {
+      "price": 0.4003,
+      "profitPercent": "0.68",
+      "roi": "6.79"
+    },
+    "after4h": {
+      "price": 0.4035,
+      "profitPercent": "1.48",
+      "roi": "14.84"
+    },
+    "after8h": {
+      "price": 0.398,
+      "profitPercent": "0.10",
+      "roi": "1.01"
+    },
+    "after12h": {
+      "price": 0.3886,
+      "profitPercent": "-2.26",
+      "roi": "-22.64"
+    },
+    "after24h": {
+      "price": 0.381,
+      "profitPercent": "-4.18",
+      "roi": "-41.75"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-10-07T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3584,
+    "after1h": {
+      "price": 0.3559,
+      "profitPercent": "0.70",
+      "roi": "6.98"
+    },
+    "after4h": {
+      "price": 0.358,
+      "profitPercent": "0.11",
+      "roi": "1.12"
+    },
+    "after8h": {
+      "price": 0.3588,
+      "profitPercent": "-0.11",
+      "roi": "-1.12"
+    },
+    "after12h": {
+      "price": 0.3568,
+      "profitPercent": "0.45",
+      "roi": "4.46"
+    },
+    "after24h": {
+      "price": 0.3525,
+      "profitPercent": "1.67",
+      "roi": "16.46"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2024-10-28T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.3371,
+    "after1h": {
+      "price": 0.3368,
+      "profitPercent": "0.09",
+      "roi": "0.89"
+    },
+    "after4h": {
+      "price": 0.3342,
+      "profitPercent": "0.87",
+      "roi": "8.60"
+    },
+    "after8h": {
+      "price": 0.3383,
+      "profitPercent": "-0.35",
+      "roi": "-3.56"
+    },
+    "after12h": {
+      "price": 0.3379,
+      "profitPercent": "-0.24",
+      "roi": "-2.37"
+    },
+    "after24h": {
+      "price": 0.3471,
+      "profitPercent": "-2.88",
+      "roi": "-29.66"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2025-01-30T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.9551,
+    "after1h": {
+      "price": 0.9604,
+      "profitPercent": "-0.55",
+      "roi": "-5.55"
+    },
+    "after4h": {
+      "price": 0.9711,
+      "profitPercent": "-1.65",
+      "roi": "-16.75"
+    },
+    "after8h": {
+      "price": 0.9611,
+      "profitPercent": "-0.62",
+      "roi": "-6.28"
+    },
+    "after12h": {
+      "price": 0.9556,
+      "profitPercent": "-0.05",
+      "roi": "-0.52"
+    },
+    "after24h": {
+      "price": 0.9755,
+      "profitPercent": "-2.09",
+      "roi": "-21.36"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2025-02-16T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.7839,
+    "after1h": {
+      "price": 0.7851,
+      "profitPercent": "0.15",
+      "roi": "1.53"
+    },
+    "after4h": {
+      "price": 0.7776,
+      "profitPercent": "-0.80",
+      "roi": "-8.04"
+    },
+    "after8h": {
+      "price": 0.779,
+      "profitPercent": "-0.63",
+      "roi": "-6.25"
+    },
+    "after12h": {
+      "price": 0.7728,
+      "profitPercent": "-1.42",
+      "roi": "-14.16"
+    },
+    "after24h": {
+      "price": 0.8057,
+      "profitPercent": "2.78",
+      "roi": "27.81"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2025-03-01T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.6359,
+    "after1h": {
+      "price": 0.6346,
+      "profitPercent": "0.20",
+      "roi": "2.04"
+    },
+    "after4h": {
+      "price": 0.6346,
+      "profitPercent": "0.20",
+      "roi": "2.04"
+    },
+    "after8h": {
+      "price": 0.6437,
+      "profitPercent": "-1.21",
+      "roi": "-12.27"
+    },
+    "after12h": {
+      "price": 0.6589,
+      "profitPercent": "-3.49",
+      "roi": "-36.17"
+    },
+    "after24h": {
+      "price": 0.6623,
+      "profitPercent": "-3.99",
+      "roi": "-41.52"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2025-03-08T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.8113,
+    "after1h": {
+      "price": 0.8181,
+      "profitPercent": "0.84",
+      "roi": "8.38"
+    },
+    "after4h": {
+      "price": 0.8122,
+      "profitPercent": "0.11",
+      "roi": "1.11"
+    },
+    "after8h": {
+      "price": 0.8124,
+      "profitPercent": "0.14",
+      "roi": "1.36"
+    },
+    "after12h": {
+      "price": 0.8116,
+      "profitPercent": "0.04",
+      "roi": "0.37"
+    },
+    "after24h": {
+      "price": 0.7771,
+      "profitPercent": "-4.22",
+      "roi": "-42.15"
+    }
+  },
+  {
+    "symbol": "ADAUSDT",
+    "date": "2025-03-12T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.729,
+    "after1h": {
+      "price": 0.7241,
+      "profitPercent": "0.68",
+      "roi": "6.72"
+    },
+    "after4h": {
+      "price": 0.7291,
+      "profitPercent": "-0.01",
+      "roi": "-0.14"
+    },
+    "after8h": {
+      "price": 0.7354,
+      "profitPercent": "-0.87",
+      "roi": "-8.78"
+    },
+    "after12h": {
+      "price": 0.7266,
+      "profitPercent": "0.33",
+      "roi": "3.29"
+    },
+    "after24h": {
+      "price": 0.7059,
+      "profitPercent": "3.27",
+      "roi": "31.69"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-04-21T07:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.16301,
+    "after1h": {
+      "price": 0.16199,
+      "profitPercent": "0.63",
+      "roi": "6.26"
+    },
+    "after4h": {
+      "price": 0.16196,
+      "profitPercent": "0.65",
+      "roi": "6.44"
+    },
+    "after8h": {
+      "price": 0.16013,
+      "profitPercent": "1.80",
+      "roi": "17.67"
+    },
+    "after12h": {
+      "price": 0.15706,
+      "profitPercent": "3.79",
+      "roi": "36.50"
+    },
+    "after24h": {
+      "price": 0.16042,
+      "profitPercent": "1.61",
+      "roi": "15.89"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-05-08T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.14983,
+    "after1h": {
+      "price": 0.1498,
+      "profitPercent": "-0.02",
+      "roi": "-0.20"
+    },
+    "after4h": {
+      "price": 0.14883,
+      "profitPercent": "-0.67",
+      "roi": "-6.67"
+    },
+    "after8h": {
+      "price": 0.14298,
+      "profitPercent": "-4.57",
+      "roi": "-45.72"
+    },
+    "after12h": {
+      "price": 0.14684,
+      "profitPercent": "-2.00",
+      "roi": "-19.96"
+    },
+    "after24h": {
+      "price": 0.14747,
+      "profitPercent": "-1.58",
+      "roi": "-15.75"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-05-20T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.14978,
+    "after1h": {
+      "price": 0.15117,
+      "profitPercent": "0.93",
+      "roi": "9.28"
+    },
+    "after4h": {
+      "price": 0.15215,
+      "profitPercent": "1.58",
+      "roi": "15.82"
+    },
+    "after8h": {
+      "price": 0.15118,
+      "profitPercent": "0.93",
+      "roi": "9.35"
+    },
+    "after12h": {
+      "price": 0.15187,
+      "profitPercent": "1.40",
+      "roi": "13.95"
+    },
+    "after24h": {
+      "price": 0.16398,
+      "profitPercent": "9.48",
+      "roi": "94.81"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-05-27T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.16706,
+    "after1h": {
+      "price": 0.16785,
+      "profitPercent": "0.47",
+      "roi": "4.73"
+    },
+    "after4h": {
+      "price": 0.17222,
+      "profitPercent": "3.09",
+      "roi": "30.89"
+    },
+    "after8h": {
+      "price": 0.16989,
+      "profitPercent": "1.69",
+      "roi": "16.94"
+    },
+    "after12h": {
+      "price": 0.16912,
+      "profitPercent": "1.23",
+      "roi": "12.33"
+    },
+    "after24h": {
+      "price": 0.16733,
+      "profitPercent": "0.16",
+      "roi": "1.62"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-06-28T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.12618,
+    "after1h": {
+      "price": 0.12528,
+      "profitPercent": "0.72",
+      "roi": "7.13"
+    },
+    "after4h": {
+      "price": 0.12343,
+      "profitPercent": "2.23",
+      "roi": "21.79"
+    },
+    "after8h": {
+      "price": 0.12351,
+      "profitPercent": "2.16",
+      "roi": "21.16"
+    },
+    "after12h": {
+      "price": 0.12404,
+      "profitPercent": "1.73",
+      "roi": "16.96"
+    },
+    "after24h": {
+      "price": 0.12352,
+      "profitPercent": "2.15",
+      "roi": "21.08"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-07-07T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.11113,
+    "after1h": {
+      "price": 0.11228,
+      "profitPercent": "-1.02",
+      "roi": "-10.35"
+    },
+    "after4h": {
+      "price": 0.11068,
+      "profitPercent": "0.41",
+      "roi": "4.05"
+    },
+    "after8h": {
+      "price": 0.11037,
+      "profitPercent": "0.69",
+      "roi": "6.84"
+    },
+    "after12h": {
+      "price": 0.10722,
+      "profitPercent": "3.65",
+      "roi": "35.18"
+    },
+    "after24h": {
+      "price": 0.10087,
+      "profitPercent": "10.17",
+      "roi": "92.32"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-07-09T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.10773,
+    "after1h": {
+      "price": 0.1072,
+      "profitPercent": "0.49",
+      "roi": "4.92"
+    },
+    "after4h": {
+      "price": 0.10687,
+      "profitPercent": "0.80",
+      "roi": "7.98"
+    },
+    "after8h": {
+      "price": 0.10739,
+      "profitPercent": "0.32",
+      "roi": "3.16"
+    },
+    "after12h": {
+      "price": 0.10682,
+      "profitPercent": "0.85",
+      "roi": "8.45"
+    },
+    "after24h": {
+      "price": 0.10871,
+      "profitPercent": "-0.90",
+      "roi": "-9.10"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-08-18T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.10208,
+    "after1h": {
+      "price": 0.10319,
+      "profitPercent": "-1.08",
+      "roi": "-10.87"
+    },
+    "after4h": {
+      "price": 0.10224,
+      "profitPercent": "-0.16",
+      "roi": "-1.57"
+    },
+    "after8h": {
+      "price": 0.10257,
+      "profitPercent": "-0.48",
+      "roi": "-4.80"
+    },
+    "after12h": {
+      "price": 0.10334,
+      "profitPercent": "-1.22",
+      "roi": "-12.34"
+    },
+    "after24h": {
+      "price": 0.10021,
+      "profitPercent": "1.87",
+      "roi": "18.32"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-08-26T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.10941,
+    "after1h": {
+      "price": 0.10879,
+      "profitPercent": "-0.57",
+      "roi": "-5.67"
+    },
+    "after4h": {
+      "price": 0.10736,
+      "profitPercent": "-1.87",
+      "roi": "-18.74"
+    },
+    "after8h": {
+      "price": 0.10517,
+      "profitPercent": "-3.88",
+      "roi": "-38.75"
+    },
+    "after12h": {
+      "price": 0.10548,
+      "profitPercent": "-3.59",
+      "roi": "-35.92"
+    },
+    "after24h": {
+      "price": 0.10471,
+      "profitPercent": "-4.30",
+      "roi": "-42.96"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-09-16T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.10145,
+    "after1h": {
+      "price": 0.09992,
+      "profitPercent": "-1.51",
+      "roi": "-15.08"
+    },
+    "after4h": {
+      "price": 0.09985,
+      "profitPercent": "-1.58",
+      "roi": "-15.77"
+    },
+    "after8h": {
+      "price": 0.09928,
+      "profitPercent": "-2.14",
+      "roi": "-21.39"
+    },
+    "after12h": {
+      "price": 0.09909,
+      "profitPercent": "-2.33",
+      "roi": "-23.26"
+    },
+    "after24h": {
+      "price": 0.0996,
+      "profitPercent": "-1.82",
+      "roi": "-18.24"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-10-07T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.1122,
+    "after1h": {
+      "price": 0.11137,
+      "profitPercent": "0.75",
+      "roi": "7.40"
+    },
+    "after4h": {
+      "price": 0.11206,
+      "profitPercent": "0.12",
+      "roi": "1.25"
+    },
+    "after8h": {
+      "price": 0.11239,
+      "profitPercent": "-0.17",
+      "roi": "-1.69"
+    },
+    "after12h": {
+      "price": 0.11187,
+      "profitPercent": "0.29",
+      "roi": "2.94"
+    },
+    "after24h": {
+      "price": 0.10764,
+      "profitPercent": "4.24",
+      "roi": "40.64"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-10-12T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.1099,
+    "after1h": {
+      "price": 0.10967,
+      "profitPercent": "0.21",
+      "roi": "2.09"
+    },
+    "after4h": {
+      "price": 0.11073,
+      "profitPercent": "-0.75",
+      "roi": "-7.55"
+    },
+    "after8h": {
+      "price": 0.1117,
+      "profitPercent": "-1.61",
+      "roi": "-16.38"
+    },
+    "after12h": {
+      "price": 0.11154,
+      "profitPercent": "-1.47",
+      "roi": "-14.92"
+    },
+    "after24h": {
+      "price": 0.11102,
+      "profitPercent": "-1.01",
+      "roi": "-10.19"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-10-23T06:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.13955,
+    "after1h": {
+      "price": 0.13965,
+      "profitPercent": "0.07",
+      "roi": "0.72"
+    },
+    "after4h": {
+      "price": 0.1369,
+      "profitPercent": "-1.90",
+      "roi": "-18.99"
+    },
+    "after8h": {
+      "price": 0.13994,
+      "profitPercent": "0.28",
+      "roi": "2.79"
+    },
+    "after12h": {
+      "price": 0.13629,
+      "profitPercent": "-2.34",
+      "roi": "-23.36"
+    },
+    "after24h": {
+      "price": 0.13863,
+      "profitPercent": "-0.66",
+      "roi": "-6.59"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-11-01T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.16112,
+    "after1h": {
+      "price": 0.16094,
+      "profitPercent": "-0.11",
+      "roi": "-1.12"
+    },
+    "after4h": {
+      "price": 0.16665,
+      "profitPercent": "3.43",
+      "roi": "34.32"
+    },
+    "after8h": {
+      "price": 0.16002,
+      "profitPercent": "-0.68",
+      "roi": "-6.83"
+    },
+    "after12h": {
+      "price": 0.15793,
+      "profitPercent": "-1.98",
+      "roi": "-19.80"
+    },
+    "after24h": {
+      "price": 0.16019,
+      "profitPercent": "-0.58",
+      "roi": "-5.77"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-11-15T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 0.36891,
+    "after1h": {
+      "price": 0.37326,
+      "profitPercent": "1.18",
+      "roi": "11.79"
+    },
+    "after4h": {
+      "price": 0.36189,
+      "profitPercent": "-1.90",
+      "roi": "-19.03"
+    },
+    "after8h": {
+      "price": 0.36231,
+      "profitPercent": "-1.79",
+      "roi": "-17.89"
+    },
+    "after12h": {
+      "price": 0.37813,
+      "profitPercent": "2.50",
+      "roi": "24.99"
+    },
+    "after24h": {
+      "price": 0.37617,
+      "profitPercent": "1.97",
+      "roi": "19.68"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2024-12-15T22:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.40072,
+    "after1h": {
+      "price": 0.40642,
+      "profitPercent": "-1.40",
+      "roi": "-14.22"
+    },
+    "after4h": {
+      "price": 0.40678,
+      "profitPercent": "-1.49",
+      "roi": "-15.12"
+    },
+    "after8h": {
+      "price": 0.40443,
+      "profitPercent": "-0.92",
+      "roi": "-9.26"
+    },
+    "after12h": {
+      "price": 0.39936,
+      "profitPercent": "0.34",
+      "roi": "3.39"
+    },
+    "after24h": {
+      "price": 0.40372,
+      "profitPercent": "-0.74",
+      "roi": "-7.49"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-01-28T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.33214,
+    "after1h": {
+      "price": 0.333,
+      "profitPercent": "-0.26",
+      "roi": "-2.59"
+    },
+    "after4h": {
+      "price": 0.32369,
+      "profitPercent": "2.61",
+      "roi": "25.44"
+    },
+    "after8h": {
+      "price": 0.31856,
+      "profitPercent": "4.26",
+      "roi": "40.89"
+    },
+    "after12h": {
+      "price": 0.32666,
+      "profitPercent": "1.68",
+      "roi": "16.50"
+    },
+    "after24h": {
+      "price": 0.32408,
+      "profitPercent": "2.49",
+      "roi": "24.27"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-02-09T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.2539,
+    "after1h": {
+      "price": 0.25398,
+      "profitPercent": "-0.03",
+      "roi": "-0.32"
+    },
+    "after4h": {
+      "price": 0.25312,
+      "profitPercent": "0.31",
+      "roi": "3.07"
+    },
+    "after8h": {
+      "price": 0.2495,
+      "profitPercent": "1.76",
+      "roi": "17.33"
+    },
+    "after12h": {
+      "price": 0.24873,
+      "profitPercent": "2.08",
+      "roi": "20.36"
+    },
+    "after24h": {
+      "price": 0.25118,
+      "profitPercent": "1.08",
+      "roi": "10.71"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-03-01T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.20298,
+    "after1h": {
+      "price": 0.20293,
+      "profitPercent": "0.02",
+      "roi": "0.25"
+    },
+    "after4h": {
+      "price": 0.20199,
+      "profitPercent": "0.49",
+      "roi": "4.88"
+    },
+    "after8h": {
+      "price": 0.20417,
+      "profitPercent": "-0.58",
+      "roi": "-5.86"
+    },
+    "after12h": {
+      "price": 0.20663,
+      "profitPercent": "-1.77",
+      "roi": "-17.98"
+    },
+    "after24h": {
+      "price": 0.20765,
+      "profitPercent": "-2.25",
+      "roi": "-23.01"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-03-02T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.20567,
+    "after1h": {
+      "price": 0.20734,
+      "profitPercent": "-0.81",
+      "roi": "-8.12"
+    },
+    "after4h": {
+      "price": 0.20687,
+      "profitPercent": "-0.58",
+      "roi": "-5.83"
+    },
+    "after8h": {
+      "price": 0.22819,
+      "profitPercent": "-9.87",
+      "roi": "-109.50"
+    },
+    "after12h": {
+      "price": 0.23286,
+      "profitPercent": "-11.68",
+      "roi": "-132.20"
+    },
+    "after24h": {
+      "price": 0.21771,
+      "profitPercent": "-5.53",
+      "roi": "-58.54"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-03-13T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.16937,
+    "after1h": {
+      "price": 0.1676,
+      "profitPercent": "1.06",
+      "roi": "10.45"
+    },
+    "after4h": {
+      "price": 0.16993,
+      "profitPercent": "-0.33",
+      "roi": "-3.31"
+    },
+    "after8h": {
+      "price": 0.16854,
+      "profitPercent": "0.49",
+      "roi": "4.90"
+    },
+    "after12h": {
+      "price": 0.1653,
+      "profitPercent": "2.46",
+      "roi": "24.03"
+    },
+    "after24h": {
+      "price": 0.16898,
+      "profitPercent": "0.23",
+      "roi": "2.30"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-03-15T07:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.17204,
+    "after1h": {
+      "price": 0.17311,
+      "profitPercent": "-0.62",
+      "roi": "-6.22"
+    },
+    "after4h": {
+      "price": 0.17418,
+      "profitPercent": "-1.23",
+      "roi": "-12.44"
+    },
+    "after8h": {
+      "price": 0.17673,
+      "profitPercent": "-2.65",
+      "roi": "-27.26"
+    },
+    "after12h": {
+      "price": 0.17525,
+      "profitPercent": "-1.83",
+      "roi": "-18.66"
+    },
+    "after24h": {
+      "price": 0.17544,
+      "profitPercent": "-1.94",
+      "roi": "-19.76"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-04-02T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.17219,
+    "after1h": {
+      "price": 0.17216,
+      "profitPercent": "0.02",
+      "roi": "0.17"
+    },
+    "after4h": {
+      "price": 0.17152,
+      "profitPercent": "0.39",
+      "roi": "3.89"
+    },
+    "after8h": {
+      "price": 0.17031,
+      "profitPercent": "1.10",
+      "roi": "10.92"
+    },
+    "after12h": {
+      "price": 0.17218,
+      "profitPercent": "0.01",
+      "roi": "0.06"
+    },
+    "after24h": {
+      "price": 0.16603,
+      "profitPercent": "3.71",
+      "roi": "35.77"
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "date": "2025-04-10T03:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 0.1554,
+    "after1h": {
+      "price": 0.15589,
+      "profitPercent": "-0.31",
+      "roi": "-3.15"
+    },
+    "after4h": {
+      "price": 0.15603,
+      "profitPercent": "-0.40",
+      "roi": "-4.05"
+    },
+    "after8h": {
+      "price": 0.1562,
+      "profitPercent": "-0.51",
+      "roi": "-5.15"
+    },
+    "after12h": {
+      "price": 0.1495,
+      "profitPercent": "3.95",
+      "roi": "37.97"
+    },
+    "after24h": {
+      "price": 0.1566,
+      "profitPercent": "-0.77",
+      "roi": "-7.72"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-05-08T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 7.083,
+    "after1h": {
+      "price": 7.024,
+      "profitPercent": "-0.83",
+      "roi": "-8.33"
+    },
+    "after4h": {
+      "price": 6.937,
+      "profitPercent": "-2.06",
+      "roi": "-20.61"
+    },
+    "after8h": {
+      "price": 7.137,
+      "profitPercent": "0.76",
+      "roi": "7.62"
+    },
+    "after12h": {
+      "price": 6.958,
+      "profitPercent": "-1.76",
+      "roi": "-17.65"
+    },
+    "after24h": {
+      "price": 6.923,
+      "profitPercent": "-2.26",
+      "roi": "-22.59"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-09-09T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.165,
+    "after1h": {
+      "price": 4.195,
+      "profitPercent": "-0.72",
+      "roi": "-7.20"
+    },
+    "after4h": {
+      "price": 4.292,
+      "profitPercent": "-2.96",
+      "roi": "-30.49"
+    },
+    "after8h": {
+      "price": 4.321,
+      "profitPercent": "-3.61",
+      "roi": "-37.45"
+    },
+    "after12h": {
+      "price": 4.254,
+      "profitPercent": "-2.09",
+      "roi": "-21.37"
+    },
+    "after24h": {
+      "price": 4.23,
+      "profitPercent": "-1.54",
+      "roi": "-15.61"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-09-29T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 4.757,
+    "after1h": {
+      "price": 4.78,
+      "profitPercent": "0.48",
+      "roi": "4.83"
+    },
+    "after4h": {
+      "price": 4.802,
+      "profitPercent": "0.95",
+      "roi": "9.46"
+    },
+    "after8h": {
+      "price": 4.777,
+      "profitPercent": "0.42",
+      "roi": "4.20"
+    },
+    "after12h": {
+      "price": 4.662,
+      "profitPercent": "-2.00",
+      "roi": "-19.97"
+    },
+    "after24h": {
+      "price": 4.548,
+      "profitPercent": "-4.39",
+      "roi": "-43.94"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-10-07T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.199,
+    "after1h": {
+      "price": 4.16,
+      "profitPercent": "0.94",
+      "roi": "9.29"
+    },
+    "after4h": {
+      "price": 4.187,
+      "profitPercent": "0.29",
+      "roi": "2.86"
+    },
+    "after8h": {
+      "price": 4.238,
+      "profitPercent": "-0.92",
+      "roi": "-9.29"
+    },
+    "after12h": {
+      "price": 4.223,
+      "profitPercent": "-0.57",
+      "roi": "-5.72"
+    },
+    "after24h": {
+      "price": 4.133,
+      "profitPercent": "1.60",
+      "roi": "15.72"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-10-12T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.168,
+    "after1h": {
+      "price": 4.165,
+      "profitPercent": "0.07",
+      "roi": "0.72"
+    },
+    "after4h": {
+      "price": 4.194,
+      "profitPercent": "-0.62",
+      "roi": "-6.24"
+    },
+    "after8h": {
+      "price": 4.24,
+      "profitPercent": "-1.70",
+      "roi": "-17.27"
+    },
+    "after12h": {
+      "price": 4.242,
+      "profitPercent": "-1.74",
+      "roi": "-17.75"
+    },
+    "after24h": {
+      "price": 4.182,
+      "profitPercent": "-0.33",
+      "roi": "-3.36"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-10-12T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.209,
+    "after1h": {
+      "price": 4.211,
+      "profitPercent": "-0.05",
+      "roi": "-0.48"
+    },
+    "after4h": {
+      "price": 4.196,
+      "profitPercent": "0.31",
+      "roi": "3.09"
+    },
+    "after8h": {
+      "price": 4.199,
+      "profitPercent": "0.24",
+      "roi": "2.38"
+    },
+    "after12h": {
+      "price": 4.181,
+      "profitPercent": "0.67",
+      "roi": "6.65"
+    },
+    "after24h": {
+      "price": 4.131,
+      "profitPercent": "1.89",
+      "roi": "18.53"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-10-28T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.092,
+    "after1h": {
+      "price": 4.115,
+      "profitPercent": "-0.56",
+      "roi": "-5.62"
+    },
+    "after4h": {
+      "price": 4.181,
+      "profitPercent": "-2.13",
+      "roi": "-21.75"
+    },
+    "after8h": {
+      "price": 4.188,
+      "profitPercent": "-2.29",
+      "roi": "-23.46"
+    },
+    "after12h": {
+      "price": 4.02,
+      "profitPercent": "1.79",
+      "roi": "17.60"
+    },
+    "after24h": {
+      "price": 4.178,
+      "profitPercent": "-2.06",
+      "roi": "-21.02"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-10-29T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.134,
+    "after1h": {
+      "price": 4.147,
+      "profitPercent": "-0.31",
+      "roi": "-3.14"
+    },
+    "after4h": {
+      "price": 4.156,
+      "profitPercent": "-0.53",
+      "roi": "-5.32"
+    },
+    "after8h": {
+      "price": 4.229,
+      "profitPercent": "-2.25",
+      "roi": "-22.98"
+    },
+    "after12h": {
+      "price": 4.165,
+      "profitPercent": "-0.74",
+      "roi": "-7.50"
+    },
+    "after24h": {
+      "price": 4.162,
+      "profitPercent": "-0.67",
+      "roi": "-6.77"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-11-06T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.042,
+    "after1h": {
+      "price": 4.047,
+      "profitPercent": "-0.12",
+      "roi": "-1.24"
+    },
+    "after4h": {
+      "price": 4.082,
+      "profitPercent": "-0.98",
+      "roi": "-9.90"
+    },
+    "after8h": {
+      "price": 4.124,
+      "profitPercent": "-1.99",
+      "roi": "-20.29"
+    },
+    "after12h": {
+      "price": 4.184,
+      "profitPercent": "-3.39",
+      "roi": "-35.13"
+    },
+    "after24h": {
+      "price": 4.077,
+      "profitPercent": "-0.86",
+      "roi": "-8.66"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-12-12T10:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 9.168,
+    "after1h": {
+      "price": 9.098,
+      "profitPercent": "0.77",
+      "roi": "7.64"
+    },
+    "after4h": {
+      "price": 9.242,
+      "profitPercent": "-0.80",
+      "roi": "-8.07"
+    },
+    "after8h": {
+      "price": 9.256,
+      "profitPercent": "-0.95",
+      "roi": "-9.60"
+    },
+    "after12h": {
+      "price": 8.994,
+      "profitPercent": "1.93",
+      "roi": "18.98"
+    },
+    "after24h": {
+      "price": 9.019,
+      "profitPercent": "1.65",
+      "roi": "16.25"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-12-24T20:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 7.42,
+    "after1h": {
+      "price": 7.569,
+      "profitPercent": "-1.97",
+      "roi": "-20.08"
+    },
+    "after4h": {
+      "price": 7.529,
+      "profitPercent": "-1.45",
+      "roi": "-14.69"
+    },
+    "after8h": {
+      "price": 7.434,
+      "profitPercent": "-0.19",
+      "roi": "-1.89"
+    },
+    "after12h": {
+      "price": 7.454,
+      "profitPercent": "-0.46",
+      "roi": "-4.58"
+    },
+    "after24h": {
+      "price": 7.472,
+      "profitPercent": "-0.70",
+      "roi": "-7.01"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2024-12-29T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 7.08,
+    "after1h": {
+      "price": 7.076,
+      "profitPercent": "0.06",
+      "roi": "0.56"
+    },
+    "after4h": {
+      "price": 7.046,
+      "profitPercent": "0.48",
+      "roi": "4.80"
+    },
+    "after8h": {
+      "price": 6.923,
+      "profitPercent": "2.27",
+      "roi": "22.18"
+    },
+    "after12h": {
+      "price": 6.88,
+      "profitPercent": "2.91",
+      "roi": "28.25"
+    },
+    "after24h": {
+      "price": 6.899,
+      "profitPercent": "2.62",
+      "roi": "25.56"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2025-01-02T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 7.24,
+    "after1h": {
+      "price": 7.252,
+      "profitPercent": "-0.17",
+      "roi": "-1.66"
+    },
+    "after4h": {
+      "price": 7.155,
+      "profitPercent": "1.19",
+      "roi": "11.74"
+    },
+    "after8h": {
+      "price": 7.17,
+      "profitPercent": "0.98",
+      "roi": "9.67"
+    },
+    "after12h": {
+      "price": 7.218,
+      "profitPercent": "0.30",
+      "roi": "3.04"
+    },
+    "after24h": {
+      "price": 7.73,
+      "profitPercent": "-6.34",
+      "roi": "-67.68"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2025-01-15T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 6.639,
+    "after1h": {
+      "price": 6.651,
+      "profitPercent": "-0.18",
+      "roi": "-1.81"
+    },
+    "after4h": {
+      "price": 6.906,
+      "profitPercent": "-3.87",
+      "roi": "-40.22"
+    },
+    "after8h": {
+      "price": 6.89,
+      "profitPercent": "-3.64",
+      "roi": "-37.81"
+    },
+    "after12h": {
+      "price": 6.997,
+      "profitPercent": "-5.12",
+      "roi": "-53.92"
+    },
+    "after24h": {
+      "price": 6.926,
+      "profitPercent": "-4.14",
+      "roi": "-43.23"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2025-01-22T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 6.649,
+    "after1h": {
+      "price": 6.61,
+      "profitPercent": "0.59",
+      "roi": "5.87"
+    },
+    "after4h": {
+      "price": 6.616,
+      "profitPercent": "0.50",
+      "roi": "4.96"
+    },
+    "after8h": {
+      "price": 6.592,
+      "profitPercent": "0.86",
+      "roi": "8.57"
+    },
+    "after12h": {
+      "price": 6.549,
+      "profitPercent": "1.53",
+      "roi": "15.04"
+    },
+    "after24h": {
+      "price": 6.339,
+      "profitPercent": "4.89",
+      "roi": "46.62"
+    }
+  },
+  {
+    "symbol": "DOTUSDT",
+    "date": "2025-03-15T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 4.216,
+    "after1h": {
+      "price": 4.209,
+      "profitPercent": "0.17",
+      "roi": "1.66"
+    },
+    "after4h": {
+      "price": 4.282,
+      "profitPercent": "-1.54",
+      "roi": "-15.65"
+    },
+    "after8h": {
+      "price": 4.297,
+      "profitPercent": "-1.89",
+      "roi": "-19.21"
+    },
+    "after12h": {
+      "price": 4.386,
+      "profitPercent": "-3.88",
+      "roi": "-40.32"
+    },
+    "after24h": {
+      "price": 4.336,
+      "profitPercent": "-2.77",
+      "roi": "-28.46"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-05-08T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 34.683,
+    "after1h": {
+      "price": 34.759,
+      "profitPercent": "0.22",
+      "roi": "2.19"
+    },
+    "after4h": {
+      "price": 34.714,
+      "profitPercent": "0.09",
+      "roi": "0.89"
+    },
+    "after8h": {
+      "price": 33.919,
+      "profitPercent": "-2.20",
+      "roi": "-22.03"
+    },
+    "after12h": {
+      "price": 34.348,
+      "profitPercent": "-0.97",
+      "roi": "-9.66"
+    },
+    "after24h": {
+      "price": 33.935,
+      "profitPercent": "-2.16",
+      "roi": "-21.57"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-05-20T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 36,
+    "after1h": {
+      "price": 35.642,
+      "profitPercent": "-0.99",
+      "roi": "-9.94"
+    },
+    "after4h": {
+      "price": 35.547,
+      "profitPercent": "-1.26",
+      "roi": "-12.58"
+    },
+    "after8h": {
+      "price": 35.994,
+      "profitPercent": "-0.02",
+      "roi": "-0.17"
+    },
+    "after12h": {
+      "price": 35.857,
+      "profitPercent": "-0.40",
+      "roi": "-3.97"
+    },
+    "after24h": {
+      "price": 39.796,
+      "profitPercent": "10.54",
+      "roi": "105.44"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-06-30T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 27.855,
+    "after1h": {
+      "price": 28.168,
+      "profitPercent": "1.12",
+      "roi": "11.24"
+    },
+    "after4h": {
+      "price": 28.345,
+      "profitPercent": "1.76",
+      "roi": "17.59"
+    },
+    "after8h": {
+      "price": 28.273,
+      "profitPercent": "1.50",
+      "roi": "15.01"
+    },
+    "after12h": {
+      "price": 27.965,
+      "profitPercent": "0.39",
+      "roi": "3.95"
+    },
+    "after24h": {
+      "price": 29.78,
+      "profitPercent": "6.91",
+      "roi": "69.11"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-07-10T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 26.721,
+    "after1h": {
+      "price": 26.316,
+      "profitPercent": "1.54",
+      "roi": "15.16"
+    },
+    "after4h": {
+      "price": 26.298,
+      "profitPercent": "1.61",
+      "roi": "15.83"
+    },
+    "after8h": {
+      "price": 25.991,
+      "profitPercent": "2.81",
+      "roi": "27.32"
+    },
+    "after12h": {
+      "price": 25.618,
+      "profitPercent": "4.31",
+      "roi": "41.28"
+    },
+    "after24h": {
+      "price": 26.047,
+      "profitPercent": "2.59",
+      "roi": "25.22"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-07-18T06:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 27.78,
+    "after1h": {
+      "price": 27.566,
+      "profitPercent": "-0.77",
+      "roi": "-7.70"
+    },
+    "after4h": {
+      "price": 27.554,
+      "profitPercent": "-0.81",
+      "roi": "-8.14"
+    },
+    "after8h": {
+      "price": 27.278,
+      "profitPercent": "-1.81",
+      "roi": "-18.07"
+    },
+    "after12h": {
+      "price": 26.924,
+      "profitPercent": "-3.08",
+      "roi": "-30.81"
+    },
+    "after24h": {
+      "price": 27.276,
+      "profitPercent": "-1.81",
+      "roi": "-18.14"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-07-18T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 27.686,
+    "after1h": {
+      "price": 27.621,
+      "profitPercent": "-0.23",
+      "roi": "-2.35"
+    },
+    "after4h": {
+      "price": 27.615,
+      "profitPercent": "-0.26",
+      "roi": "-2.56"
+    },
+    "after8h": {
+      "price": 27.132,
+      "profitPercent": "-2.00",
+      "roi": "-20.01"
+    },
+    "after12h": {
+      "price": 27.129,
+      "profitPercent": "-2.01",
+      "roi": "-20.12"
+    },
+    "after24h": {
+      "price": 26.871,
+      "profitPercent": "-2.94",
+      "roi": "-29.44"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-08-09T04:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 21.711,
+    "after1h": {
+      "price": 21.771,
+      "profitPercent": "-0.28",
+      "roi": "-2.76"
+    },
+    "after4h": {
+      "price": 21.82,
+      "profitPercent": "-0.50",
+      "roi": "-5.02"
+    },
+    "after8h": {
+      "price": 21.692,
+      "profitPercent": "0.09",
+      "roi": "0.88"
+    },
+    "after12h": {
+      "price": 21.533,
+      "profitPercent": "0.83",
+      "roi": "8.20"
+    },
+    "after24h": {
+      "price": 21.502,
+      "profitPercent": "0.97",
+      "roi": "9.63"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-08-17T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 20.455,
+    "after1h": {
+      "price": 20.558,
+      "profitPercent": "-0.50",
+      "roi": "-5.04"
+    },
+    "after4h": {
+      "price": 20.558,
+      "profitPercent": "-0.50",
+      "roi": "-5.04"
+    },
+    "after8h": {
+      "price": 20.688,
+      "profitPercent": "-1.13",
+      "roi": "-11.39"
+    },
+    "after12h": {
+      "price": 20.598,
+      "profitPercent": "-0.69",
+      "roi": "-6.99"
+    },
+    "after24h": {
+      "price": 21.212,
+      "profitPercent": "-3.57",
+      "roi": "-37.01"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-09-29T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 28.818,
+    "after1h": {
+      "price": 28.9,
+      "profitPercent": "0.28",
+      "roi": "2.85"
+    },
+    "after4h": {
+      "price": 29.244,
+      "profitPercent": "1.48",
+      "roi": "14.78"
+    },
+    "after8h": {
+      "price": 29.02,
+      "profitPercent": "0.70",
+      "roi": "7.01"
+    },
+    "after12h": {
+      "price": 28.573,
+      "profitPercent": "-0.85",
+      "roi": "-8.50"
+    },
+    "after24h": {
+      "price": 27.931,
+      "profitPercent": "-3.08",
+      "roi": "-30.78"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-10-05T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 25.837,
+    "after1h": {
+      "price": 25.832,
+      "profitPercent": "0.02",
+      "roi": "0.19"
+    },
+    "after4h": {
+      "price": 26.178,
+      "profitPercent": "-1.30",
+      "roi": "-13.20"
+    },
+    "after8h": {
+      "price": 25.824,
+      "profitPercent": "0.05",
+      "roi": "0.50"
+    },
+    "after12h": {
+      "price": 25.694,
+      "profitPercent": "0.56",
+      "roi": "5.53"
+    },
+    "after24h": {
+      "price": 25.74,
+      "profitPercent": "0.38",
+      "roi": "3.75"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-10-16T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 27.847,
+    "after1h": {
+      "price": 27.92,
+      "profitPercent": "0.26",
+      "roi": "2.62"
+    },
+    "after4h": {
+      "price": 27.469,
+      "profitPercent": "-1.36",
+      "roi": "-13.57"
+    },
+    "after8h": {
+      "price": 27.603,
+      "profitPercent": "-0.88",
+      "roi": "-8.76"
+    },
+    "after12h": {
+      "price": 28.007,
+      "profitPercent": "0.57",
+      "roi": "5.75"
+    },
+    "after24h": {
+      "price": 27.247,
+      "profitPercent": "-2.15",
+      "roi": "-21.55"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-10-22T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 27.858,
+    "after1h": {
+      "price": 27.798,
+      "profitPercent": "-0.22",
+      "roi": "-2.15"
+    },
+    "after4h": {
+      "price": 27.562,
+      "profitPercent": "-1.06",
+      "roi": "-10.63"
+    },
+    "after8h": {
+      "price": 27.73,
+      "profitPercent": "-0.46",
+      "roi": "-4.59"
+    },
+    "after12h": {
+      "price": 27.299,
+      "profitPercent": "-2.01",
+      "roi": "-20.07"
+    },
+    "after24h": {
+      "price": 26.677,
+      "profitPercent": "-4.24",
+      "roi": "-42.39"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-10-29T12:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 26.61,
+    "after1h": {
+      "price": 26.637,
+      "profitPercent": "-0.10",
+      "roi": "-1.01"
+    },
+    "after4h": {
+      "price": 27.001,
+      "profitPercent": "-1.45",
+      "roi": "-14.69"
+    },
+    "after8h": {
+      "price": 26.532,
+      "profitPercent": "0.29",
+      "roi": "2.93"
+    },
+    "after12h": {
+      "price": 26.643,
+      "profitPercent": "-0.12",
+      "roi": "-1.24"
+    },
+    "after24h": {
+      "price": 26.2,
+      "profitPercent": "1.56",
+      "roi": "15.41"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-10-29T19:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 26.58,
+    "after1h": {
+      "price": 26.532,
+      "profitPercent": "0.18",
+      "roi": "1.81"
+    },
+    "after4h": {
+      "price": 26.869,
+      "profitPercent": "-1.08",
+      "roi": "-10.87"
+    },
+    "after8h": {
+      "price": 26.588,
+      "profitPercent": "-0.03",
+      "roi": "-0.30"
+    },
+    "after12h": {
+      "price": 26.604,
+      "profitPercent": "-0.09",
+      "roi": "-0.90"
+    },
+    "after24h": {
+      "price": 26.149,
+      "profitPercent": "1.65",
+      "roi": "16.22"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-11-19T19:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 34.781,
+    "after1h": {
+      "price": 34.137,
+      "profitPercent": "-1.85",
+      "roi": "-18.52"
+    },
+    "after4h": {
+      "price": 34.224,
+      "profitPercent": "-1.60",
+      "roi": "-16.01"
+    },
+    "after8h": {
+      "price": 33.574,
+      "profitPercent": "-3.47",
+      "roi": "-34.70"
+    },
+    "after12h": {
+      "price": 34.008,
+      "profitPercent": "-2.22",
+      "roi": "-22.22"
+    },
+    "after24h": {
+      "price": 33.194,
+      "profitPercent": "-4.56",
+      "roi": "-45.63"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2024-12-12T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 49.795,
+    "after1h": {
+      "price": 50.281,
+      "profitPercent": "-0.97",
+      "roi": "-9.76"
+    },
+    "after4h": {
+      "price": 52.285,
+      "profitPercent": "-4.76",
+      "roi": "-50.01"
+    },
+    "after8h": {
+      "price": 52.14,
+      "profitPercent": "-4.50",
+      "roi": "-47.09"
+    },
+    "after12h": {
+      "price": 53.124,
+      "profitPercent": "-6.27",
+      "roi": "-66.85"
+    },
+    "after24h": {
+      "price": 51.819,
+      "profitPercent": "-3.91",
+      "roi": "-40.65"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-01-15T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 36.42,
+    "after1h": {
+      "price": 36.586,
+      "profitPercent": "-0.45",
+      "roi": "-4.56"
+    },
+    "after4h": {
+      "price": 39.019,
+      "profitPercent": "-6.66",
+      "roi": "-71.36"
+    },
+    "after8h": {
+      "price": 38.655,
+      "profitPercent": "-5.78",
+      "roi": "-61.37"
+    },
+    "after12h": {
+      "price": 39.146,
+      "profitPercent": "-6.96",
+      "roi": "-74.85"
+    },
+    "after24h": {
+      "price": 38.688,
+      "profitPercent": "-5.86",
+      "roi": "-62.27"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-02-21T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 25.487,
+    "after1h": {
+      "price": 24.58,
+      "profitPercent": "3.69",
+      "roi": "35.59"
+    },
+    "after4h": {
+      "price": 24.088,
+      "profitPercent": "5.81",
+      "roi": "54.89"
+    },
+    "after8h": {
+      "price": 25.056,
+      "profitPercent": "1.72",
+      "roi": "16.91"
+    },
+    "after12h": {
+      "price": 25.263,
+      "profitPercent": "0.89",
+      "roi": "8.79"
+    },
+    "after24h": {
+      "price": 25.737,
+      "profitPercent": "-0.97",
+      "roi": "-9.81"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-02-24T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 24.956,
+    "after1h": {
+      "price": 24.446,
+      "profitPercent": "-2.04",
+      "roi": "-20.44"
+    },
+    "after4h": {
+      "price": 23.891,
+      "profitPercent": "-4.27",
+      "roi": "-42.68"
+    },
+    "after8h": {
+      "price": 23.595,
+      "profitPercent": "-5.45",
+      "roi": "-54.54"
+    },
+    "after12h": {
+      "price": 23.676,
+      "profitPercent": "-5.13",
+      "roi": "-51.29"
+    },
+    "after24h": {
+      "price": 21.644,
+      "profitPercent": "-13.27",
+      "roi": "-132.71"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-02-27T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 22.516,
+    "after1h": {
+      "price": 22.536,
+      "profitPercent": "-0.09",
+      "roi": "-0.89"
+    },
+    "after4h": {
+      "price": 22.144,
+      "profitPercent": "1.68",
+      "roi": "16.52"
+    },
+    "after8h": {
+      "price": 22.068,
+      "profitPercent": "2.03",
+      "roi": "19.90"
+    },
+    "after12h": {
+      "price": 20.569,
+      "profitPercent": "9.47",
+      "roi": "86.47"
+    },
+    "after24h": {
+      "price": 21.863,
+      "profitPercent": "2.99",
+      "roi": "29.00"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-03-13T06:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 18.773,
+    "after1h": {
+      "price": 18.786,
+      "profitPercent": "-0.07",
+      "roi": "-0.69"
+    },
+    "after4h": {
+      "price": 19.011,
+      "profitPercent": "-1.25",
+      "roi": "-12.68"
+    },
+    "after8h": {
+      "price": 18.515,
+      "profitPercent": "1.39",
+      "roi": "13.74"
+    },
+    "after12h": {
+      "price": 18.277,
+      "profitPercent": "2.71",
+      "roi": "26.42"
+    },
+    "after24h": {
+      "price": 18.54,
+      "profitPercent": "1.26",
+      "roi": "12.41"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-03-28T22:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 20.581,
+    "after1h": {
+      "price": 20.351,
+      "profitPercent": "-1.12",
+      "roi": "-11.18"
+    },
+    "after4h": {
+      "price": 20.17,
+      "profitPercent": "-2.00",
+      "roi": "-19.97"
+    },
+    "after8h": {
+      "price": 20.104,
+      "profitPercent": "-2.32",
+      "roi": "-23.18"
+    },
+    "after12h": {
+      "price": 19.9,
+      "profitPercent": "-3.31",
+      "roi": "-33.09"
+    },
+    "after24h": {
+      "price": 19.505,
+      "profitPercent": "-5.23",
+      "roi": "-52.28"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-04-02T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 19.497,
+    "after1h": {
+      "price": 19.428,
+      "profitPercent": "0.36",
+      "roi": "3.54"
+    },
+    "after4h": {
+      "price": 19.165,
+      "profitPercent": "1.73",
+      "roi": "17.03"
+    },
+    "after8h": {
+      "price": 19.247,
+      "profitPercent": "1.30",
+      "roi": "12.82"
+    },
+    "after12h": {
+      "price": 19.245,
+      "profitPercent": "1.31",
+      "roi": "12.93"
+    },
+    "after24h": {
+      "price": 18.329,
+      "profitPercent": "6.37",
+      "roi": "59.91"
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "date": "2025-04-08T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 17.125,
+    "after1h": {
+      "price": 16.664,
+      "profitPercent": "2.77",
+      "roi": "26.92"
+    },
+    "after4h": {
+      "price": 16.028,
+      "profitPercent": "6.84",
+      "roi": "64.06"
+    },
+    "after8h": {
+      "price": 16.137,
+      "profitPercent": "6.12",
+      "roi": "57.69"
+    },
+    "after12h": {
+      "price": 16.044,
+      "profitPercent": "6.74",
+      "roi": "63.12"
+    },
+    "after24h": {
+      "price": 16.805,
+      "profitPercent": "1.90",
+      "roi": "18.69"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-04-19T23:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 13.936,
+    "after1h": {
+      "price": 13.813,
+      "profitPercent": "0.89",
+      "roi": "8.83"
+    },
+    "after4h": {
+      "price": 13.952,
+      "profitPercent": "-0.11",
+      "roi": "-1.15"
+    },
+    "after8h": {
+      "price": 14.037,
+      "profitPercent": "-0.72",
+      "roi": "-7.25"
+    },
+    "after12h": {
+      "price": 14.16,
+      "profitPercent": "-1.58",
+      "roi": "-16.07"
+    },
+    "after24h": {
+      "price": 14.947,
+      "profitPercent": "-6.76",
+      "roi": "-72.55"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-04-25T05:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 14.772,
+    "after1h": {
+      "price": 14.73,
+      "profitPercent": "-0.28",
+      "roi": "-2.84"
+    },
+    "after4h": {
+      "price": 14.632,
+      "profitPercent": "-0.95",
+      "roi": "-9.48"
+    },
+    "after8h": {
+      "price": 14.526,
+      "profitPercent": "-1.67",
+      "roi": "-16.65"
+    },
+    "after12h": {
+      "price": 14.74,
+      "profitPercent": "-0.22",
+      "roi": "-2.17"
+    },
+    "after24h": {
+      "price": 14.834,
+      "profitPercent": "0.42",
+      "roi": "4.20"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-05-04T11:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 14.187,
+    "after1h": {
+      "price": 14.279,
+      "profitPercent": "-0.64",
+      "roi": "-6.48"
+    },
+    "after4h": {
+      "price": 14.26,
+      "profitPercent": "-0.51",
+      "roi": "-5.15"
+    },
+    "after8h": {
+      "price": 14.379,
+      "profitPercent": "-1.34",
+      "roi": "-13.53"
+    },
+    "after12h": {
+      "price": 14.307,
+      "profitPercent": "-0.84",
+      "roi": "-8.46"
+    },
+    "after24h": {
+      "price": 14.291,
+      "profitPercent": "-0.73",
+      "roi": "-7.33"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-05-08T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 13.99,
+    "after1h": {
+      "price": 14.052,
+      "profitPercent": "0.44",
+      "roi": "4.43"
+    },
+    "after4h": {
+      "price": 13.972,
+      "profitPercent": "-0.13",
+      "roi": "-1.29"
+    },
+    "after8h": {
+      "price": 13.833,
+      "profitPercent": "-1.12",
+      "roi": "-11.22"
+    },
+    "after12h": {
+      "price": 14.056,
+      "profitPercent": "0.47",
+      "roi": "4.72"
+    },
+    "after24h": {
+      "price": 13.927,
+      "profitPercent": "-0.45",
+      "roi": "-4.50"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-05-16T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 13.851,
+    "after1h": {
+      "price": 13.888,
+      "profitPercent": "-0.27",
+      "roi": "-2.67"
+    },
+    "after4h": {
+      "price": 13.778,
+      "profitPercent": "0.53",
+      "roi": "5.27"
+    },
+    "after8h": {
+      "price": 13.882,
+      "profitPercent": "-0.22",
+      "roi": "-2.24"
+    },
+    "after12h": {
+      "price": 14.922,
+      "profitPercent": "-7.18",
+      "roi": "-77.32"
+    },
+    "after24h": {
+      "price": 16.456,
+      "profitPercent": "-15.83",
+      "roi": "-188.07"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-05-27T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 17.157,
+    "after1h": {
+      "price": 17.121,
+      "profitPercent": "-0.21",
+      "roi": "-2.10"
+    },
+    "after4h": {
+      "price": 17.379,
+      "profitPercent": "1.29",
+      "roi": "12.94"
+    },
+    "after8h": {
+      "price": 18.444,
+      "profitPercent": "7.50",
+      "roi": "75.01"
+    },
+    "after12h": {
+      "price": 18.815,
+      "profitPercent": "9.66",
+      "roi": "96.64"
+    },
+    "after24h": {
+      "price": 18.299,
+      "profitPercent": "6.66",
+      "roi": "66.56"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-06-20T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 14.488,
+    "after1h": {
+      "price": 14.411,
+      "profitPercent": "0.53",
+      "roi": "5.31"
+    },
+    "after4h": {
+      "price": 14.34,
+      "profitPercent": "1.03",
+      "roi": "10.22"
+    },
+    "after8h": {
+      "price": 14.317,
+      "profitPercent": "1.19",
+      "roi": "11.80"
+    },
+    "after12h": {
+      "price": 14.3,
+      "profitPercent": "1.31",
+      "roi": "12.98"
+    },
+    "after24h": {
+      "price": 14.255,
+      "profitPercent": "1.63",
+      "roi": "16.08"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-07-09T01:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 12.97,
+    "after1h": {
+      "price": 13.158,
+      "profitPercent": "-1.43",
+      "roi": "-14.49"
+    },
+    "after4h": {
+      "price": 13.012,
+      "profitPercent": "-0.32",
+      "roi": "-3.24"
+    },
+    "after8h": {
+      "price": 13.106,
+      "profitPercent": "-1.04",
+      "roi": "-10.49"
+    },
+    "after12h": {
+      "price": 12.959,
+      "profitPercent": "0.08",
+      "roi": "0.85"
+    },
+    "after24h": {
+      "price": 12.799,
+      "profitPercent": "1.34",
+      "roi": "13.18"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-07-13T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 12.992,
+    "after1h": {
+      "price": 12.988,
+      "profitPercent": "0.03",
+      "roi": "0.31"
+    },
+    "after4h": {
+      "price": 12.961,
+      "profitPercent": "0.24",
+      "roi": "2.39"
+    },
+    "after8h": {
+      "price": 13.107,
+      "profitPercent": "-0.88",
+      "roi": "-8.85"
+    },
+    "after12h": {
+      "price": 13.069,
+      "profitPercent": "-0.59",
+      "roi": "-5.93"
+    },
+    "after24h": {
+      "price": 13.316,
+      "profitPercent": "-2.43",
+      "roi": "-24.94"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-07-23T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 13.946,
+    "after1h": {
+      "price": 13.8,
+      "profitPercent": "-1.05",
+      "roi": "-10.47"
+    },
+    "after4h": {
+      "price": 13.8,
+      "profitPercent": "-1.05",
+      "roi": "-10.47"
+    },
+    "after8h": {
+      "price": 13.872,
+      "profitPercent": "-0.53",
+      "roi": "-5.31"
+    },
+    "after12h": {
+      "price": 13.848,
+      "profitPercent": "-0.70",
+      "roi": "-7.03"
+    },
+    "after24h": {
+      "price": 13.904,
+      "profitPercent": "-0.30",
+      "roi": "-3.01"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-07-27T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 13.619,
+    "after1h": {
+      "price": 13.551,
+      "profitPercent": "0.50",
+      "roi": "4.99"
+    },
+    "after4h": {
+      "price": 13.519,
+      "profitPercent": "0.74",
+      "roi": "7.34"
+    },
+    "after8h": {
+      "price": 13.541,
+      "profitPercent": "0.58",
+      "roi": "5.73"
+    },
+    "after12h": {
+      "price": 13.437,
+      "profitPercent": "1.35",
+      "roi": "13.36"
+    },
+    "after24h": {
+      "price": 13.419,
+      "profitPercent": "1.49",
+      "roi": "14.69"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-07-29T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 13.647,
+    "after1h": {
+      "price": 13.546,
+      "profitPercent": "0.75",
+      "roi": "7.40"
+    },
+    "after4h": {
+      "price": 13.59,
+      "profitPercent": "0.42",
+      "roi": "4.18"
+    },
+    "after8h": {
+      "price": 13.563,
+      "profitPercent": "0.62",
+      "roi": "6.16"
+    },
+    "after12h": {
+      "price": 13.619,
+      "profitPercent": "0.21",
+      "roi": "2.05"
+    },
+    "after24h": {
+      "price": 13.472,
+      "profitPercent": "1.30",
+      "roi": "12.82"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-08-10T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 10.58,
+    "after1h": {
+      "price": 10.573,
+      "profitPercent": "0.07",
+      "roi": "0.66"
+    },
+    "after4h": {
+      "price": 10.555,
+      "profitPercent": "0.24",
+      "roi": "2.36"
+    },
+    "after8h": {
+      "price": 10.559,
+      "profitPercent": "0.20",
+      "roi": "1.98"
+    },
+    "after12h": {
+      "price": 10.606,
+      "profitPercent": "-0.25",
+      "roi": "-2.46"
+    },
+    "after24h": {
+      "price": 10.399,
+      "profitPercent": "1.74",
+      "roi": "17.11"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-08-28T08:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 11.125,
+    "after1h": {
+      "price": 11.454,
+      "profitPercent": "2.96",
+      "roi": "29.57"
+    },
+    "after4h": {
+      "price": 11.648,
+      "profitPercent": "4.70",
+      "roi": "47.01"
+    },
+    "after8h": {
+      "price": 11.361,
+      "profitPercent": "2.12",
+      "roi": "21.21"
+    },
+    "after12h": {
+      "price": 11.321,
+      "profitPercent": "1.76",
+      "roi": "17.62"
+    },
+    "after24h": {
+      "price": 11.192,
+      "profitPercent": "0.60",
+      "roi": "6.02"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-10-01T00:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 11.974,
+    "after1h": {
+      "price": 11.973,
+      "profitPercent": "-0.01",
+      "roi": "-0.08"
+    },
+    "after4h": {
+      "price": 12.158,
+      "profitPercent": "1.54",
+      "roi": "15.37"
+    },
+    "after8h": {
+      "price": 12.144,
+      "profitPercent": "1.42",
+      "roi": "14.20"
+    },
+    "after12h": {
+      "price": 12.082,
+      "profitPercent": "0.90",
+      "roi": "9.02"
+    },
+    "after24h": {
+      "price": 11.063,
+      "profitPercent": "-7.61",
+      "roi": "-76.08"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-10-05T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 11.251,
+    "after1h": {
+      "price": 11.274,
+      "profitPercent": "-0.20",
+      "roi": "-2.04"
+    },
+    "after4h": {
+      "price": 11.086,
+      "profitPercent": "1.49",
+      "roi": "14.67"
+    },
+    "after8h": {
+      "price": 11.196,
+      "profitPercent": "0.49",
+      "roi": "4.89"
+    },
+    "after12h": {
+      "price": 11.294,
+      "profitPercent": "-0.38",
+      "roi": "-3.82"
+    },
+    "after24h": {
+      "price": 11.207,
+      "profitPercent": "0.39",
+      "roi": "3.91"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-10-29T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 11.492,
+    "after1h": {
+      "price": 11.55,
+      "profitPercent": "-0.50",
+      "roi": "-5.05"
+    },
+    "after4h": {
+      "price": 11.652,
+      "profitPercent": "-1.37",
+      "roi": "-13.92"
+    },
+    "after8h": {
+      "price": 11.756,
+      "profitPercent": "-2.25",
+      "roi": "-22.97"
+    },
+    "after12h": {
+      "price": 11.877,
+      "profitPercent": "-3.24",
+      "roi": "-33.50"
+    },
+    "after24h": {
+      "price": 12.356,
+      "profitPercent": "-6.99",
+      "roi": "-75.18"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-10-29T19:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 11.542,
+    "after1h": {
+      "price": 11.568,
+      "profitPercent": "-0.22",
+      "roi": "-2.25"
+    },
+    "after4h": {
+      "price": 11.798,
+      "profitPercent": "-2.17",
+      "roi": "-22.18"
+    },
+    "after8h": {
+      "price": 11.999,
+      "profitPercent": "-3.81",
+      "roi": "-39.59"
+    },
+    "after12h": {
+      "price": 11.967,
+      "profitPercent": "-3.55",
+      "roi": "-36.82"
+    },
+    "after24h": {
+      "price": 12.248,
+      "profitPercent": "-5.76",
+      "roi": "-61.17"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-12-18T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 27.399,
+    "after1h": {
+      "price": 27.663,
+      "profitPercent": "0.96",
+      "roi": "9.64"
+    },
+    "after4h": {
+      "price": 25.542,
+      "profitPercent": "-6.78",
+      "roi": "-67.78"
+    },
+    "after8h": {
+      "price": 25.071,
+      "profitPercent": "-8.50",
+      "roi": "-84.97"
+    },
+    "after12h": {
+      "price": 24.467,
+      "profitPercent": "-10.70",
+      "roi": "-107.01"
+    },
+    "after24h": {
+      "price": 24.304,
+      "profitPercent": "-11.30",
+      "roi": "-112.96"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2024-12-24T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 24.393,
+    "after1h": {
+      "price": 24.754,
+      "profitPercent": "-1.46",
+      "roi": "-14.80"
+    },
+    "after4h": {
+      "price": 25.015,
+      "profitPercent": "-2.49",
+      "roi": "-25.50"
+    },
+    "after8h": {
+      "price": 25.079,
+      "profitPercent": "-2.74",
+      "roi": "-28.12"
+    },
+    "after12h": {
+      "price": 24.785,
+      "profitPercent": "-1.58",
+      "roi": "-16.07"
+    },
+    "after24h": {
+      "price": 24.376,
+      "profitPercent": "0.07",
+      "roi": "0.70"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-01-02T14:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 22.489,
+    "after1h": {
+      "price": 22.206,
+      "profitPercent": "1.27",
+      "roi": "12.58"
+    },
+    "after4h": {
+      "price": 22.327,
+      "profitPercent": "0.73",
+      "roi": "7.20"
+    },
+    "after8h": {
+      "price": 22.012,
+      "profitPercent": "2.17",
+      "roi": "21.21"
+    },
+    "after12h": {
+      "price": 22.069,
+      "profitPercent": "1.90",
+      "roi": "18.68"
+    },
+    "after24h": {
+      "price": 23.005,
+      "profitPercent": "-2.24",
+      "roi": "-22.94"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-01-15T02:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 20.38,
+    "after1h": {
+      "price": 20.446,
+      "profitPercent": "-0.32",
+      "roi": "-3.24"
+    },
+    "after4h": {
+      "price": 20.528,
+      "profitPercent": "-0.72",
+      "roi": "-7.26"
+    },
+    "after8h": {
+      "price": 20.372,
+      "profitPercent": "0.04",
+      "roi": "0.39"
+    },
+    "after12h": {
+      "price": 21.603,
+      "profitPercent": "-5.66",
+      "roi": "-60.01"
+    },
+    "after24h": {
+      "price": 21.743,
+      "profitPercent": "-6.27",
+      "roi": "-66.88"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-01-15T09:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 20.298,
+    "after1h": {
+      "price": 20.372,
+      "profitPercent": "-0.36",
+      "roi": "-3.65"
+    },
+    "after4h": {
+      "price": 21.257,
+      "profitPercent": "-4.51",
+      "roi": "-47.25"
+    },
+    "after8h": {
+      "price": 21.254,
+      "profitPercent": "-4.50",
+      "roi": "-47.10"
+    },
+    "after12h": {
+      "price": 21.699,
+      "profitPercent": "-6.46",
+      "roi": "-69.02"
+    },
+    "after24h": {
+      "price": 21.741,
+      "profitPercent": "-6.64",
+      "roi": "-71.09"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-01-23T13:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 24.778,
+    "after1h": {
+      "price": 25.665,
+      "profitPercent": "3.58",
+      "roi": "35.80"
+    },
+    "after4h": {
+      "price": 25.551,
+      "profitPercent": "3.12",
+      "roi": "31.20"
+    },
+    "after8h": {
+      "price": 25.077,
+      "profitPercent": "1.21",
+      "roi": "12.07"
+    },
+    "after12h": {
+      "price": 25.342,
+      "profitPercent": "2.28",
+      "roi": "22.76"
+    },
+    "after24h": {
+      "price": 25.983,
+      "profitPercent": "4.86",
+      "roi": "48.63"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-01-25T15:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 25.121,
+    "after1h": {
+      "price": 25.037,
+      "profitPercent": "-0.33",
+      "roi": "-3.34"
+    },
+    "after4h": {
+      "price": 25.234,
+      "profitPercent": "0.45",
+      "roi": "4.50"
+    },
+    "after8h": {
+      "price": 24.911,
+      "profitPercent": "-0.84",
+      "roi": "-8.36"
+    },
+    "after12h": {
+      "price": 25.567,
+      "profitPercent": "1.78",
+      "roi": "17.75"
+    },
+    "after24h": {
+      "price": 25.436,
+      "profitPercent": "1.25",
+      "roi": "12.54"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-03-08T16:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "BUY",
+    "price": 15.292,
+    "after1h": {
+      "price": 15.323,
+      "profitPercent": "0.20",
+      "roi": "2.03"
+    },
+    "after4h": {
+      "price": 15.409,
+      "profitPercent": "0.77",
+      "roi": "7.65"
+    },
+    "after8h": {
+      "price": 15.232,
+      "profitPercent": "-0.39",
+      "roi": "-3.92"
+    },
+    "after12h": {
+      "price": 15.278,
+      "profitPercent": "-0.09",
+      "roi": "-0.92"
+    },
+    "after24h": {
+      "price": 13.976,
+      "profitPercent": "-8.61",
+      "roi": "-86.06"
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "date": "2025-03-14T20:00:00.000Z",
+    "strategy": "macd_rsi_volume",
+    "action": "SELL",
+    "price": 13.802,
+    "after1h": {
+      "price": 13.804,
+      "profitPercent": "-0.01",
+      "roi": "-0.14"
+    },
+    "after4h": {
+      "price": 13.827,
+      "profitPercent": "-0.18",
+      "roi": "-1.81"
+    },
+    "after8h": {
+      "price": 14.197,
+      "profitPercent": "-2.78",
+      "roi": "-28.62"
+    },
+    "after12h": {
+      "price": 13.894,
+      "profitPercent": "-0.66",
+      "roi": "-6.67"
+    },
+    "after24h": {
+      "price": 14.109,
+      "profitPercent": "-2.18",
+      "roi": "-22.24"
+    }
+  }
+]

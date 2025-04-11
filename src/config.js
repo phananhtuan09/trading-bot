@@ -48,6 +48,10 @@ const STRATEGY_CONFIG = {
     oversold: 35, // RSI dưới 35 là vùng quá bán.
   },
   bbSqueezeThreshold: 0.1, // Ngưỡng độ hẹp Bollinger Band
+
+  bbDynamic: true,
+  maxRiskPerTrade: 0.02,
+  atrPeriod: 14,
 }
 
 module.exports = {

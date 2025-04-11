@@ -1,0 +1,801 @@
+{
+  "totalStrategies": 1,
+  "totalSignals": 234,
+  "totalSymbols": 10,
+  "strategies": {
+    "macd_rsi_volume": {
+      "totalSignals": 234,
+      "allPositiveSignals": 34,
+      "bestInterval": "1h",
+      "performanceByInterval": {
+        "1h": {
+          "signalCount": 234,
+          "profit": {
+            "max": "3.69",
+            "min": "-14.32",
+            "avg": "-0.11"
+          },
+          "roi": {
+            "max": "35.80",
+            "min": "-167.07",
+            "avg": "-1.20"
+          }
+        },
+        "4h": {
+          "signalCount": 234,
+          "profit": {
+            "max": "6.84",
+            "min": "-20.30",
+            "avg": "-0.28"
+          },
+          "roi": {
+            "max": "64.06",
+            "min": "-254.70",
+            "avg": "-3.23"
+          }
+        },
+        "8h": {
+          "signalCount": 234,
+          "profit": {
+            "max": "7.50",
+            "min": "-23.50",
+            "avg": "-0.55"
+          },
+          "roi": {
+            "max": "75.01",
+            "min": "-307.23",
+            "avg": "-6.14"
+          }
+        },
+        "12h": {
+          "signalCount": 234,
+          "profit": {
+            "max": "9.66",
+            "min": "-20.82",
+            "avg": "-0.40"
+          },
+          "roi": {
+            "max": "96.64",
+            "min": "-263.01",
+            "avg": "-4.75"
+          }
+        },
+        "24h": {
+          "signalCount": 234,
+          "profit": {
+            "max": "19.84",
+            "min": "-15.83",
+            "avg": "-0.39"
+          },
+          "roi": {
+            "max": "198.36",
+            "min": "-188.07",
+            "avg": "-4.83"
+          }
+        }
+      },
+      "symbols": {
+        "BTCUSDT": {
+          "totalSignals": 25,
+          "allPositiveSignals": 1,
+          "bestInterval": "1h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 25,
+              "profit": {
+                "max": "0.89",
+                "min": "-1.20",
+                "avg": "-0.09"
+              },
+              "roi": {
+                "max": "8.87",
+                "min": "-12.16",
+                "avg": "-0.96"
+              }
+            },
+            "4h": {
+              "signalCount": 25,
+              "profit": {
+                "max": "2.30",
+                "min": "-3.16",
+                "avg": "-0.27"
+              },
+              "roi": {
+                "max": "22.96",
+                "min": "-32.29",
+                "avg": "-2.77"
+              }
+            },
+            "8h": {
+              "signalCount": 25,
+              "profit": {
+                "max": "3.88",
+                "min": "-4.06",
+                "avg": "-0.54"
+              },
+              "roi": {
+                "max": "37.32",
+                "min": "-42.33",
+                "avg": "-5.55"
+              }
+            },
+            "12h": {
+              "signalCount": 25,
+              "profit": {
+                "max": "3.86",
+                "min": "-4.63",
+                "avg": "-0.09"
+              },
+              "roi": {
+                "max": "37.14",
+                "min": "-48.58",
+                "avg": "-1.20"
+              }
+            },
+            "24h": {
+              "signalCount": 25,
+              "profit": {
+                "max": "3.84",
+                "min": "-6.00",
+                "avg": "-0.52"
+              },
+              "roi": {
+                "max": "38.36",
+                "min": "-63.78",
+                "avg": "-5.44"
+              }
+            }
+          }
+        },
+        "ETHUSDT": {
+          "totalSignals": 24,
+          "allPositiveSignals": 6,
+          "bestInterval": "24h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "3.24",
+                "min": "-1.28",
+                "avg": "0.31"
+              },
+              "roi": {
+                "max": "32.41",
+                "min": "-12.92",
+                "avg": "3.06"
+              }
+            },
+            "4h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "2.63",
+                "min": "-1.43",
+                "avg": "0.35"
+              },
+              "roi": {
+                "max": "25.63",
+                "min": "-14.49",
+                "avg": "3.43"
+              }
+            },
+            "8h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "3.36",
+                "min": "-3.20",
+                "avg": "0.14"
+              },
+              "roi": {
+                "max": "32.55",
+                "min": "-31.99",
+                "avg": "1.22"
+              }
+            },
+            "12h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "7.10",
+                "min": "-4.51",
+                "avg": "0.21"
+              },
+              "roi": {
+                "max": "66.28",
+                "min": "-47.21",
+                "avg": "1.54"
+              }
+            },
+            "24h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "19.84",
+                "min": "-8.61",
+                "avg": "0.94"
+              },
+              "roi": {
+                "max": "198.36",
+                "min": "-86.13",
+                "avg": "8.77"
+              }
+            }
+          }
+        },
+        "BNBUSDT": {
+          "totalSignals": 31,
+          "allPositiveSignals": 5,
+          "bestInterval": "24h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 31,
+              "profit": {
+                "max": "1.13",
+                "min": "-2.38",
+                "avg": "-0.38"
+              },
+              "roi": {
+                "max": "11.15",
+                "min": "-24.42",
+                "avg": "-3.85"
+              }
+            },
+            "4h": {
+              "signalCount": 31,
+              "profit": {
+                "max": "1.86",
+                "min": "-3.70",
+                "avg": "-0.41"
+              },
+              "roi": {
+                "max": "18.30",
+                "min": "-37.02",
+                "avg": "-4.23"
+              }
+            },
+            "8h": {
+              "signalCount": 31,
+              "profit": {
+                "max": "2.09",
+                "min": "-3.12",
+                "avg": "-0.18"
+              },
+              "roi": {
+                "max": "20.43",
+                "min": "-32.23",
+                "avg": "-1.99"
+              }
+            },
+            "12h": {
+              "signalCount": 31,
+              "profit": {
+                "max": "4.61",
+                "min": "-4.12",
+                "avg": "-0.10"
+              },
+              "roi": {
+                "max": "44.08",
+                "min": "-42.99",
+                "avg": "-1.25"
+              }
+            },
+            "24h": {
+              "signalCount": 31,
+              "profit": {
+                "max": "8.22",
+                "min": "-4.45",
+                "avg": "0.30"
+              },
+              "roi": {
+                "max": "76.00",
+                "min": "-46.58",
+                "avg": "2.36"
+              }
+            }
+          }
+        },
+        "SOLUSDT": {
+          "totalSignals": 14,
+          "allPositiveSignals": 4,
+          "bestInterval": "24h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 14,
+              "profit": {
+                "max": "1.90",
+                "min": "-4.05",
+                "avg": "-0.24"
+              },
+              "roi": {
+                "max": "19.03",
+                "min": "-42.20",
+                "avg": "-2.55"
+              }
+            },
+            "4h": {
+              "signalCount": 14,
+              "profit": {
+                "max": "3.07",
+                "min": "-4.26",
+                "avg": "0.01"
+              },
+              "roi": {
+                "max": "30.66",
+                "min": "-44.54",
+                "avg": "-0.14"
+              }
+            },
+            "8h": {
+              "signalCount": 14,
+              "profit": {
+                "max": "3.22",
+                "min": "-5.65",
+                "avg": "-0.62"
+              },
+              "roi": {
+                "max": "32.21",
+                "min": "-59.88",
+                "avg": "-6.57"
+              }
+            },
+            "12h": {
+              "signalCount": 14,
+              "profit": {
+                "max": "2.20",
+                "min": "-6.81",
+                "avg": "-0.39"
+              },
+              "roi": {
+                "max": "21.48",
+                "min": "-73.05",
+                "avg": "-4.37"
+              }
+            },
+            "24h": {
+              "signalCount": 14,
+              "profit": {
+                "max": "9.34",
+                "min": "-8.63",
+                "avg": "0.53"
+              },
+              "roi": {
+                "max": "85.43",
+                "min": "-94.42",
+                "avg": "3.83"
+              }
+            }
+          }
+        },
+        "XRPUSDT": {
+          "totalSignals": 28,
+          "allPositiveSignals": 1,
+          "bestInterval": "1h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 28,
+              "profit": {
+                "max": "0.53",
+                "min": "-14.32",
+                "avg": "-0.64"
+              },
+              "roi": {
+                "max": "5.32",
+                "min": "-167.07",
+                "avg": "-7.24"
+              }
+            },
+            "4h": {
+              "signalCount": 28,
+              "profit": {
+                "max": "1.11",
+                "min": "-20.30",
+                "avg": "-1.02"
+              },
+              "roi": {
+                "max": "11.06",
+                "min": "-254.70",
+                "avg": "-12.04"
+              }
+            },
+            "8h": {
+              "signalCount": 28,
+              "profit": {
+                "max": "1.97",
+                "min": "-23.50",
+                "avg": "-1.09"
+              },
+              "roi": {
+                "max": "19.69",
+                "min": "-307.23",
+                "avg": "-13.51"
+              }
+            },
+            "12h": {
+              "signalCount": 28,
+              "profit": {
+                "max": "4.61",
+                "min": "-20.82",
+                "avg": "-0.75"
+              },
+              "roi": {
+                "max": "46.12",
+                "min": "-263.01",
+                "avg": "-9.57"
+              }
+            },
+            "24h": {
+              "signalCount": 28,
+              "profit": {
+                "max": "5.57",
+                "min": "-13.19",
+                "avg": "-0.77"
+              },
+              "roi": {
+                "max": "52.73",
+                "min": "-151.97",
+                "avg": "-8.89"
+              }
+            }
+          }
+        },
+        "ADAUSDT": {
+          "totalSignals": 21,
+          "allPositiveSignals": 1,
+          "bestInterval": "1h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 21,
+              "profit": {
+                "max": "0.95",
+                "min": "-1.40",
+                "avg": "0.03"
+              },
+              "roi": {
+                "max": "9.42",
+                "min": "-14.21",
+                "avg": "0.25"
+              }
+            },
+            "4h": {
+              "signalCount": 21,
+              "profit": {
+                "max": "2.78",
+                "min": "-2.95",
+                "avg": "-0.18"
+              },
+              "roi": {
+                "max": "27.05",
+                "min": "-30.45",
+                "avg": "-1.97"
+              }
+            },
+            "8h": {
+              "signalCount": 21,
+              "profit": {
+                "max": "3.84",
+                "min": "-5.76",
+                "avg": "-0.89"
+              },
+              "roi": {
+                "max": "36.97",
+                "min": "-61.12",
+                "avg": "-9.38"
+              }
+            },
+            "12h": {
+              "signalCount": 21,
+              "profit": {
+                "max": "2.75",
+                "min": "-6.04",
+                "avg": "-1.03"
+              },
+              "roi": {
+                "max": "26.75",
+                "min": "-64.26",
+                "avg": "-10.77"
+              }
+            },
+            "24h": {
+              "signalCount": 21,
+              "profit": {
+                "max": "4.51",
+                "min": "-7.68",
+                "avg": "-1.02"
+              },
+              "roi": {
+                "max": "43.18",
+                "min": "-83.14",
+                "avg": "-11.06"
+              }
+            }
+          }
+        },
+        "DOGEUSDT": {
+          "totalSignals": 24,
+          "allPositiveSignals": 5,
+          "bestInterval": "24h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "1.18",
+                "min": "-1.51",
+                "avg": "-0.05"
+              },
+              "roi": {
+                "max": "11.79",
+                "min": "-15.08",
+                "avg": "-0.53"
+              }
+            },
+            "4h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "3.43",
+                "min": "-1.90",
+                "avg": "0.14"
+              },
+              "roi": {
+                "max": "34.32",
+                "min": "-19.03",
+                "avg": "1.28"
+              }
+            },
+            "8h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "4.26",
+                "min": "-9.87",
+                "avg": "-0.60"
+              },
+              "roi": {
+                "max": "40.89",
+                "min": "-109.50",
+                "avg": "-6.61"
+              }
+            },
+            "12h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "3.95",
+                "min": "-11.68",
+                "avg": "-0.18"
+              },
+              "roi": {
+                "max": "37.97",
+                "min": "-132.20",
+                "avg": "-2.70"
+              }
+            },
+            "24h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "10.17",
+                "min": "-5.53",
+                "avg": "0.71"
+              },
+              "roi": {
+                "max": "94.81",
+                "min": "-58.54",
+                "avg": "6.35"
+              }
+            }
+          }
+        },
+        "DOTUSDT": {
+          "totalSignals": 16,
+          "allPositiveSignals": 2,
+          "bestInterval": "1h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 16,
+              "profit": {
+                "max": "0.94",
+                "min": "-1.97",
+                "avg": "-0.11"
+              },
+              "roi": {
+                "max": "9.29",
+                "min": "-20.08",
+                "avg": "-1.19"
+              }
+            },
+            "4h": {
+              "signalCount": 16,
+              "profit": {
+                "max": "1.19",
+                "min": "-3.87",
+                "avg": "-0.83"
+              },
+              "roi": {
+                "max": "11.74",
+                "min": "-40.22",
+                "avg": "-8.50"
+              }
+            },
+            "8h": {
+              "signalCount": 16,
+              "profit": {
+                "max": "2.27",
+                "min": "-3.64",
+                "avg": "-0.87"
+              },
+              "roi": {
+                "max": "22.18",
+                "min": "-37.81",
+                "avg": "-9.04"
+              }
+            },
+            "12h": {
+              "signalCount": 16,
+              "profit": {
+                "max": "2.91",
+                "min": "-5.12",
+                "avg": "-0.79"
+              },
+              "roi": {
+                "max": "28.25",
+                "min": "-53.92",
+                "avg": "-8.40"
+              }
+            },
+            "24h": {
+              "signalCount": 16,
+              "profit": {
+                "max": "4.89",
+                "min": "-6.34",
+                "avg": "-0.84"
+              },
+              "roi": {
+                "max": "46.62",
+                "min": "-67.68",
+                "avg": "-9.10"
+              }
+            }
+          }
+        },
+        "AVAXUSDT": {
+          "totalSignals": 24,
+          "allPositiveSignals": 4,
+          "bestInterval": "1h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "3.69",
+                "min": "-2.04",
+                "avg": "0.03"
+              },
+              "roi": {
+                "max": "35.59",
+                "min": "-20.44",
+                "avg": "0.21"
+              }
+            },
+            "4h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "6.84",
+                "min": "-6.66",
+                "avg": "-0.38"
+              },
+              "roi": {
+                "max": "64.06",
+                "min": "-71.36",
+                "avg": "-4.48"
+              }
+            },
+            "8h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "6.12",
+                "min": "-5.78",
+                "avg": "-0.50"
+              },
+              "roi": {
+                "max": "57.69",
+                "min": "-61.37",
+                "avg": "-5.48"
+              }
+            },
+            "12h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "9.47",
+                "min": "-6.96",
+                "avg": "-0.26"
+              },
+              "roi": {
+                "max": "86.47",
+                "min": "-74.85",
+                "avg": "-3.67"
+              }
+            },
+            "24h": {
+              "signalCount": 24,
+              "profit": {
+                "max": "10.54",
+                "min": "-13.27",
+                "avg": "-0.69"
+              },
+              "roi": {
+                "max": "105.44",
+                "min": "-132.71",
+                "avg": "-7.48"
+              }
+            }
+          }
+        },
+        "LINKUSDT": {
+          "totalSignals": 27,
+          "allPositiveSignals": 5,
+          "bestInterval": "1h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 27,
+              "profit": {
+                "max": "3.58",
+                "min": "-1.46",
+                "avg": "0.18"
+              },
+              "roi": {
+                "max": "35.80",
+                "min": "-14.80",
+                "avg": "1.77"
+              }
+            },
+            "4h": {
+              "signalCount": 27,
+              "profit": {
+                "max": "4.70",
+                "min": "-6.78",
+                "avg": "-0.15"
+              },
+              "roi": {
+                "max": "47.01",
+                "min": "-67.78",
+                "avg": "-1.64"
+              }
+            },
+            "8h": {
+              "signalCount": 27,
+              "profit": {
+                "max": "7.50",
+                "min": "-8.50",
+                "avg": "-0.58"
+              },
+              "roi": {
+                "max": "75.01",
+                "min": "-84.97",
+                "avg": "-6.09"
+              }
+            },
+            "12h": {
+              "signalCount": 27,
+              "profit": {
+                "max": "9.66",
+                "min": "-10.70",
+                "avg": "-0.81"
+              },
+              "roi": {
+                "max": "96.64",
+                "min": "-107.01",
+                "avg": "-8.77"
+              }
+            },
+            "24h": {
+              "signalCount": 27,
+              "profit": {
+                "max": "6.66",
+                "min": "-15.83",
+                "avg": "-2.31"
+              },
+              "roi": {
+                "max": "66.56",
+                "min": "-188.07",
+                "avg": "-25.13"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
