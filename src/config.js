@@ -6,8 +6,8 @@ const STRATEGY_CONFIG = {
 
   // Cấu hình cho đường EMA: chu kỳ ngắn và chu kỳ dài.
   emaPeriods: {
-    short: 20, // EMA ngắn: sử dụng 20 giá trị cuối.
-    long: 50, // EMA dài: sử dụng 50 giá trị cuối.
+    short: 35, // EMA ngắn: sử dụng 20 giá trị cuối.
+    long: 65, // EMA dài: sử dụng 50 giá trị cuối.
   },
 
   // Cấu hình cho chỉ báo RSI, sử dụng 14 giá trị cuối.
@@ -44,14 +44,15 @@ const STRATEGY_CONFIG = {
 
   // Cấu hình ngưỡng RSI để xác định vùng quá mua hoặc quá bán.
   rsiThresholds: {
-    overbought: 65, // RSI trên 65 là vùng quá mua.
-    oversold: 35, // RSI dưới 35 là vùng quá bán.
+    overbought: 60, // RSI trên 65 là vùng quá mua.
+    oversold: 40, // RSI dưới 35 là vùng quá bán.
   },
   bbSqueezeThreshold: 0.1, // Ngưỡng độ hẹp Bollinger Band
 
   bbDynamic: true,
   maxRiskPerTrade: 0.02,
   atrPeriod: 14,
+  volumeThreshold: 1.2,
 }
 
 module.exports = {

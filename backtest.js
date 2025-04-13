@@ -12,19 +12,19 @@ const BACKTEST_SETTINGS = {
     // Thêm danh sách 10 coin
     'BTCUSDT',
     'ETHUSDT',
-    // 'BNBUSDT',
-    // 'SOLUSDT',
-    // 'XRPUSDT',
-    // 'ADAUSDT',
-    // 'DOGEUSDT',
-    // 'DOTUSDT',
-    // 'AVAXUSDT',
-    // 'LINKUSDT',
+    'BNBUSDT',
+    'SOLUSDT',
+    'XRPUSDT',
+    'ADAUSDT',
+    'DOGEUSDT',
+    'DOTUSDT',
+    'AVAXUSDT',
+    'LINKUSDT',
   ],
   interval: '1h',
   years: 1,
   resultFile: 'backtest_results.json',
-  concurrency: 1, // Giới hạn request đồng thời
+  concurrency: 2, // Giới hạn request đồng thời
 }
 
 async function fetchHistoricalData(symbol) {
@@ -114,7 +114,7 @@ async function processSymbol(symbol) {
       const lows = chunk.map((c) => c.low)
       const volumes = chunk.map((c) => c.volume)
 
-      // Tính chỉ báo
+      // Tính EMA với dữ liệu đủ độ dài
       const emaShort = EMA.calculate({
         period: STRATEGY_CONFIG.emaPeriods.short,
         values: closes,
@@ -123,20 +123,22 @@ async function processSymbol(symbol) {
         period: STRATEGY_CONFIG.emaPeriods.long,
         values: closes,
       })
-      const rsi = RSI.calculate({
+
+      // Tính RSI và kiểm tra độ dài
+      const rsiValues = RSI.calculate({
         values: closes,
         period: STRATEGY_CONFIG.rsiPeriod,
       })
-      const lastRSI = rsi.at(-1)
+      const lastRSI = rsiValues.length > 0 ? rsiValues.at(-1) : NaN // Tránh undefined
 
       // Phát hiện tín hiệu
       const signals = [
         // TradingStrategies.checkBreakout(highs, lows, closes, volumes, emaShort, emaLong, rsi[rsi.length - 1]),
-        TradingStrategies.checkBollingerBand(closes, emaShort, emaLong, rsi,volumes ),
+        TradingStrategies.checkBollingerBand(closes, volumes, rsiValues),
         // TradingStrategies.checkMACD_RSI_Volume(closes, volumes, rsi),
       ]
 
-      signals.forEach((signal, idx) => {
+      signals.forEach((signal) => {
         if (!signal) return
 
         const result = {

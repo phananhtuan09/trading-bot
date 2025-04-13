@@ -1,0 +1,2730 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-04-29T07:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 62362,
+    "after1h": {
+      "price": 62371.8,
+      "profitPercent": "-0.02",
+      "roi": "-0.16"
+    },
+    "after4h": {
+      "price": 62222.9,
+      "profitPercent": "0.22",
+      "roi": "2.23"
+    },
+    "after8h": {
+      "price": 63012.2,
+      "profitPercent": "-1.03",
+      "roi": "-10.43"
+    },
+    "after12h": {
+      "price": 62953.4,
+      "profitPercent": "-0.94",
+      "roi": "-9.48"
+    },
+    "after24h": {
+      "price": 63123.8,
+      "profitPercent": "-1.21",
+      "roi": "-12.22"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-04-30T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61213.6,
+    "after1h": {
+      "price": 60764.9,
+      "profitPercent": "0.74",
+      "roi": "7.33"
+    },
+    "after4h": {
+      "price": 60388,
+      "profitPercent": "1.37",
+      "roi": "13.49"
+    },
+    "after8h": {
+      "price": 60561,
+      "profitPercent": "1.08",
+      "roi": "10.66"
+    },
+    "after12h": {
+      "price": 59902.4,
+      "profitPercent": "2.19",
+      "roi": "21.42"
+    },
+    "after24h": {
+      "price": 57461.5,
+      "profitPercent": "6.53",
+      "roi": "61.30"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-04-30T20:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 59931.8,
+    "after1h": {
+      "price": 60149.2,
+      "profitPercent": "-0.36",
+      "roi": "-3.63"
+    },
+    "after4h": {
+      "price": 60217.2,
+      "profitPercent": "-0.47",
+      "roi": "-4.76"
+    },
+    "after8h": {
+      "price": 60262.6,
+      "profitPercent": "-0.55",
+      "roi": "-5.52"
+    },
+    "after12h": {
+      "price": 57153.1,
+      "profitPercent": "4.86",
+      "roi": "46.36"
+    },
+    "after24h": {
+      "price": 57334.2,
+      "profitPercent": "4.53",
+      "roi": "43.34"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-04T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 63704.9,
+    "after1h": {
+      "price": 63790.3,
+      "profitPercent": "-0.13",
+      "roi": "-1.34"
+    },
+    "after4h": {
+      "price": 63438.3,
+      "profitPercent": "0.42",
+      "roi": "4.18"
+    },
+    "after8h": {
+      "price": 63877.3,
+      "profitPercent": "-0.27",
+      "roi": "-2.71"
+    },
+    "after12h": {
+      "price": 63286,
+      "profitPercent": "0.66",
+      "roi": "6.58"
+    },
+    "after24h": {
+      "price": 64088.3,
+      "profitPercent": "-0.60",
+      "roi": "-6.02"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-09T11:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61033,
+    "after1h": {
+      "price": 61480.8,
+      "profitPercent": "-0.73",
+      "roi": "-7.34"
+    },
+    "after4h": {
+      "price": 62122.5,
+      "profitPercent": "-1.75",
+      "roi": "-17.85"
+    },
+    "after8h": {
+      "price": 62420.6,
+      "profitPercent": "-2.22",
+      "roi": "-22.74"
+    },
+    "after12h": {
+      "price": 63050.1,
+      "profitPercent": "-3.20",
+      "roi": "-33.05"
+    },
+    "after24h": {
+      "price": 63276.5,
+      "profitPercent": "-3.55",
+      "roi": "-36.76"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-14T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61670.5,
+    "after1h": {
+      "price": 61772.1,
+      "profitPercent": "-0.16",
+      "roi": "-1.65"
+    },
+    "after4h": {
+      "price": 61288.8,
+      "profitPercent": "0.62",
+      "roi": "6.19"
+    },
+    "after8h": {
+      "price": 61670,
+      "profitPercent": "0.00",
+      "roi": "0.01"
+    },
+    "after12h": {
+      "price": 61668.7,
+      "profitPercent": "0.00",
+      "roi": "0.03"
+    },
+    "after24h": {
+      "price": 64106.7,
+      "profitPercent": "-3.80",
+      "roi": "-39.50"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-19T03:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 67133,
+    "after1h": {
+      "price": 67120,
+      "profitPercent": "0.02",
+      "roi": "0.19"
+    },
+    "after4h": {
+      "price": 67295,
+      "profitPercent": "-0.24",
+      "roi": "-2.41"
+    },
+    "after8h": {
+      "price": 67303.3,
+      "profitPercent": "-0.25",
+      "roi": "-2.54"
+    },
+    "after12h": {
+      "price": 66863,
+      "profitPercent": "0.40",
+      "roi": "4.02"
+    },
+    "after24h": {
+      "price": 66643.1,
+      "profitPercent": "0.74",
+      "roi": "7.30"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-23T20:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 67831.5,
+    "after1h": {
+      "price": 68019.1,
+      "profitPercent": "-0.28",
+      "roi": "-2.77"
+    },
+    "after4h": {
+      "price": 67871.2,
+      "profitPercent": "-0.06",
+      "roi": "-0.59"
+    },
+    "after8h": {
+      "price": 67737.4,
+      "profitPercent": "0.14",
+      "roi": "1.39"
+    },
+    "after12h": {
+      "price": 67206.5,
+      "profitPercent": "0.93",
+      "roi": "9.21"
+    },
+    "after24h": {
+      "price": 68850.1,
+      "profitPercent": "-1.48",
+      "roi": "-15.02"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-05-29T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 67596.1,
+    "after1h": {
+      "price": 67658.6,
+      "profitPercent": "-0.09",
+      "roi": "-0.92"
+    },
+    "after4h": {
+      "price": 67516.3,
+      "profitPercent": "0.12",
+      "roi": "1.18"
+    },
+    "after8h": {
+      "price": 67619.1,
+      "profitPercent": "-0.03",
+      "roi": "-0.34"
+    },
+    "after12h": {
+      "price": 68214.3,
+      "profitPercent": "-0.91",
+      "roi": "-9.15"
+    },
+    "after24h": {
+      "price": 68723.2,
+      "profitPercent": "-1.64",
+      "roi": "-16.67"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-04T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 70459,
+    "after1h": {
+      "price": 70444.5,
+      "profitPercent": "0.02",
+      "roi": "0.21"
+    },
+    "after4h": {
+      "price": 70580,
+      "profitPercent": "-0.17",
+      "roi": "-1.72"
+    },
+    "after8h": {
+      "price": 70994,
+      "profitPercent": "-0.75",
+      "roi": "-7.59"
+    },
+    "after12h": {
+      "price": 71244.1,
+      "profitPercent": "-1.10",
+      "roi": "-11.14"
+    },
+    "after24h": {
+      "price": 71314.8,
+      "profitPercent": "-1.20",
+      "roi": "-12.15"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-20T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 65959.9,
+    "after1h": {
+      "price": 65118.8,
+      "profitPercent": "1.29",
+      "roi": "12.75"
+    },
+    "after4h": {
+      "price": 64863.9,
+      "profitPercent": "1.69",
+      "roi": "16.62"
+    },
+    "after8h": {
+      "price": 65078.9,
+      "profitPercent": "1.35",
+      "roi": "13.36"
+    },
+    "after12h": {
+      "price": 64810.4,
+      "profitPercent": "1.77",
+      "roi": "17.43"
+    },
+    "after24h": {
+      "price": 63806.2,
+      "profitPercent": "3.38",
+      "roi": "32.65"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-24T08:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 62710.6,
+    "after1h": {
+      "price": 61370,
+      "profitPercent": "2.18",
+      "roi": "21.38"
+    },
+    "after4h": {
+      "price": 61194.8,
+      "profitPercent": "2.48",
+      "roi": "24.17"
+    },
+    "after8h": {
+      "price": 60144.5,
+      "profitPercent": "4.27",
+      "roi": "40.92"
+    },
+    "after12h": {
+      "price": 59491.9,
+      "profitPercent": "5.41",
+      "roi": "51.33"
+    },
+    "after24h": {
+      "price": 60841.5,
+      "profitPercent": "3.07",
+      "roi": "29.81"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-30T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61494.6,
+    "after1h": {
+      "price": 61711,
+      "profitPercent": "-0.35",
+      "roi": "-3.52"
+    },
+    "after4h": {
+      "price": 61600,
+      "profitPercent": "-0.17",
+      "roi": "-1.71"
+    },
+    "after8h": {
+      "price": 61981.6,
+      "profitPercent": "-0.79",
+      "roi": "-7.92"
+    },
+    "after12h": {
+      "price": 62924.6,
+      "profitPercent": "-2.27",
+      "roi": "-23.25"
+    },
+    "after24h": {
+      "price": 62868.4,
+      "profitPercent": "-2.19",
+      "roi": "-22.34"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-30T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61581.7,
+    "after1h": {
+      "price": 61722.4,
+      "profitPercent": "-0.23",
+      "roi": "-2.28"
+    },
+    "after4h": {
+      "price": 62057.4,
+      "profitPercent": "-0.77",
+      "roi": "-7.72"
+    },
+    "after8h": {
+      "price": 62894.9,
+      "profitPercent": "-2.09",
+      "roi": "-21.32"
+    },
+    "after12h": {
+      "price": 63427.1,
+      "profitPercent": "-2.91",
+      "roi": "-29.97"
+    },
+    "after24h": {
+      "price": 62809.6,
+      "profitPercent": "-1.95",
+      "roi": "-19.94"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-06-30T20:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61981.6,
+    "after1h": {
+      "price": 61931.6,
+      "profitPercent": "0.08",
+      "roi": "0.81"
+    },
+    "after4h": {
+      "price": 62924.6,
+      "profitPercent": "-1.50",
+      "roi": "-15.21"
+    },
+    "after8h": {
+      "price": 63262.9,
+      "profitPercent": "-2.03",
+      "roi": "-20.67"
+    },
+    "after12h": {
+      "price": 62910,
+      "profitPercent": "-1.48",
+      "roi": "-14.98"
+    },
+    "after24h": {
+      "price": 63274.9,
+      "profitPercent": "-2.04",
+      "roi": "-20.87"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-03T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 60589.1,
+    "after1h": {
+      "price": 60286.8,
+      "profitPercent": "0.50",
+      "roi": "4.99"
+    },
+    "after4h": {
+      "price": 60372.3,
+      "profitPercent": "0.36",
+      "roi": "3.58"
+    },
+    "after8h": {
+      "price": 60235.5,
+      "profitPercent": "0.59",
+      "roi": "5.84"
+    },
+    "after12h": {
+      "price": 58561.7,
+      "profitPercent": "3.46",
+      "roi": "33.46"
+    },
+    "after24h": {
+      "price": 57402.1,
+      "profitPercent": "5.55",
+      "roi": "52.60"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-04T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 57402.1,
+    "after1h": {
+      "price": 57433.9,
+      "profitPercent": "-0.06",
+      "roi": "-0.55"
+    },
+    "after4h": {
+      "price": 58230.4,
+      "profitPercent": "-1.42",
+      "roi": "-14.43"
+    },
+    "after8h": {
+      "price": 58485.9,
+      "profitPercent": "-1.85",
+      "roi": "-18.88"
+    },
+    "after12h": {
+      "price": 57150.9,
+      "profitPercent": "0.44",
+      "roi": "4.38"
+    },
+    "after24h": {
+      "price": 55801.9,
+      "profitPercent": "2.87",
+      "roi": "27.88"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-05T00:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 57363.4,
+    "after1h": {
+      "price": 57150.9,
+      "profitPercent": "0.37",
+      "roi": "3.70"
+    },
+    "after4h": {
+      "price": 53923.2,
+      "profitPercent": "6.38",
+      "roi": "59.97"
+    },
+    "after8h": {
+      "price": 54065.9,
+      "profitPercent": "6.10",
+      "roi": "57.48"
+    },
+    "after12h": {
+      "price": 55037.2,
+      "profitPercent": "4.23",
+      "roi": "40.55"
+    },
+    "after24h": {
+      "price": 56582.3,
+      "profitPercent": "1.38",
+      "roi": "13.62"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-08T09:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 57498.6,
+    "after1h": {
+      "price": 56800,
+      "profitPercent": "1.23",
+      "roi": "12.15"
+    },
+    "after4h": {
+      "price": 57217.9,
+      "profitPercent": "0.49",
+      "roi": "4.88"
+    },
+    "after8h": {
+      "price": 56262.5,
+      "profitPercent": "2.20",
+      "roi": "21.50"
+    },
+    "after12h": {
+      "price": 56622.3,
+      "profitPercent": "1.55",
+      "roi": "15.24"
+    },
+    "after24h": {
+      "price": 57563.4,
+      "profitPercent": "-0.11",
+      "roi": "-1.13"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-15T08:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 62847.5,
+    "after1h": {
+      "price": 62609.3,
+      "profitPercent": "0.38",
+      "roi": "3.79"
+    },
+    "after4h": {
+      "price": 62586.1,
+      "profitPercent": "0.42",
+      "roi": "4.16"
+    },
+    "after8h": {
+      "price": 63369.6,
+      "profitPercent": "-0.82",
+      "roi": "-8.31"
+    },
+    "after12h": {
+      "price": 63694.6,
+      "profitPercent": "-1.33",
+      "roi": "-13.48"
+    },
+    "after24h": {
+      "price": 62799.2,
+      "profitPercent": "0.08",
+      "roi": "0.77"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-20T21:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 67059.2,
+    "after1h": {
+      "price": 67067.1,
+      "profitPercent": "-0.01",
+      "roi": "-0.12"
+    },
+    "after4h": {
+      "price": 67242.1,
+      "profitPercent": "-0.27",
+      "roi": "-2.73"
+    },
+    "after8h": {
+      "price": 67015.4,
+      "profitPercent": "0.07",
+      "roi": "0.65"
+    },
+    "after12h": {
+      "price": 66944.1,
+      "profitPercent": "0.17",
+      "roi": "1.72"
+    },
+    "after24h": {
+      "price": 68169.8,
+      "profitPercent": "-1.63",
+      "roi": "-16.56"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-27T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 68662.1,
+    "after1h": {
+      "price": 68514.5,
+      "profitPercent": "0.22",
+      "roi": "2.15"
+    },
+    "after4h": {
+      "price": 67758.8,
+      "profitPercent": "1.33",
+      "roi": "13.16"
+    },
+    "after8h": {
+      "price": 67929.4,
+      "profitPercent": "1.08",
+      "roi": "10.67"
+    },
+    "after12h": {
+      "price": 67315.3,
+      "profitPercent": "2.00",
+      "roi": "19.61"
+    },
+    "after24h": {
+      "price": 67646.2,
+      "profitPercent": "1.50",
+      "roi": "14.80"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-30T15:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 66198,
+    "after1h": {
+      "price": 66150.2,
+      "profitPercent": "0.07",
+      "roi": "0.72"
+    },
+    "after4h": {
+      "price": 65899.4,
+      "profitPercent": "0.45",
+      "roi": "4.51"
+    },
+    "after8h": {
+      "price": 66159.3,
+      "profitPercent": "0.06",
+      "roi": "0.58"
+    },
+    "after12h": {
+      "price": 66028.9,
+      "profitPercent": "0.26",
+      "roi": "2.55"
+    },
+    "after24h": {
+      "price": 66354.5,
+      "profitPercent": "-0.24",
+      "roi": "-2.36"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-01T05:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 64279.5,
+    "after1h": {
+      "price": 64204.5,
+      "profitPercent": "0.12",
+      "roi": "1.17"
+    },
+    "after4h": {
+      "price": 64441.9,
+      "profitPercent": "-0.25",
+      "roi": "-2.53"
+    },
+    "after8h": {
+      "price": 64724.7,
+      "profitPercent": "-0.69",
+      "roi": "-6.93"
+    },
+    "after12h": {
+      "price": 63202.4,
+      "profitPercent": "1.70",
+      "roi": "16.76"
+    },
+    "after24h": {
+      "price": 64160.9,
+      "profitPercent": "0.18",
+      "roi": "1.85"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-03T21:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 60631.3,
+    "after1h": {
+      "price": 60610.8,
+      "profitPercent": "0.03",
+      "roi": "0.34"
+    },
+    "after4h": {
+      "price": 60715,
+      "profitPercent": "-0.14",
+      "roi": "-1.38"
+    },
+    "after8h": {
+      "price": 60762,
+      "profitPercent": "-0.22",
+      "roi": "-2.16"
+    },
+    "after12h": {
+      "price": 60678.8,
+      "profitPercent": "-0.08",
+      "roi": "-0.78"
+    },
+    "after24h": {
+      "price": 58443.9,
+      "profitPercent": "3.74",
+      "roi": "36.08"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-04T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 59234,
+    "after1h": {
+      "price": 59126.9,
+      "profitPercent": "0.18",
+      "roi": "1.81"
+    },
+    "after4h": {
+      "price": 58144.5,
+      "profitPercent": "1.87",
+      "roi": "18.39"
+    },
+    "after8h": {
+      "price": 53864.1,
+      "profitPercent": "9.97",
+      "roi": "90.66"
+    },
+    "after12h": {
+      "price": 52645.6,
+      "profitPercent": "12.51",
+      "roi": "111.23"
+    },
+    "after24h": {
+      "price": 53450.4,
+      "profitPercent": "10.82",
+      "roi": "97.64"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-05T07:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 52645.6,
+    "after1h": {
+      "price": 52727.7,
+      "profitPercent": "-0.16",
+      "roi": "-1.56"
+    },
+    "after4h": {
+      "price": 51316.8,
+      "profitPercent": "2.59",
+      "roi": "25.24"
+    },
+    "after8h": {
+      "price": 54289.8,
+      "profitPercent": "-3.03",
+      "roi": "-31.23"
+    },
+    "after12h": {
+      "price": 53450.4,
+      "profitPercent": "-1.51",
+      "roi": "-15.29"
+    },
+    "after24h": {
+      "price": 55979.1,
+      "profitPercent": "-5.95",
+      "roi": "-63.32"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-05T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 51927.7,
+    "after1h": {
+      "price": 54028.3,
+      "profitPercent": "-3.89",
+      "roi": "-40.45"
+    },
+    "after4h": {
+      "price": 54676.2,
+      "profitPercent": "-5.03",
+      "roi": "-52.93"
+    },
+    "after8h": {
+      "price": 54344.9,
+      "profitPercent": "-4.45",
+      "roi": "-46.55"
+    },
+    "after12h": {
+      "price": 55690,
+      "profitPercent": "-6.76",
+      "roi": "-72.45"
+    },
+    "after24h": {
+      "price": 55180.1,
+      "profitPercent": "-5.89",
+      "roi": "-62.63"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-11T08:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 61226.1,
+    "after1h": {
+      "price": 61078.8,
+      "profitPercent": "0.24",
+      "roi": "2.41"
+    },
+    "after4h": {
+      "price": 60469.9,
+      "profitPercent": "1.25",
+      "roi": "12.35"
+    },
+    "after8h": {
+      "price": 60154.6,
+      "profitPercent": "1.78",
+      "roi": "17.50"
+    },
+    "after12h": {
+      "price": 58480,
+      "profitPercent": "4.70",
+      "roi": "44.85"
+    },
+    "after24h": {
+      "price": 58291.1,
+      "profitPercent": "5.04",
+      "roi": "47.94"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-15T21:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 57582.9,
+    "after1h": {
+      "price": 57584.1,
+      "profitPercent": "-0.00",
+      "roi": "-0.02"
+    },
+    "after4h": {
+      "price": 57515.3,
+      "profitPercent": "0.12",
+      "roi": "1.17"
+    },
+    "after8h": {
+      "price": 58157.3,
+      "profitPercent": "-0.99",
+      "roi": "-9.98"
+    },
+    "after12h": {
+      "price": 58645.1,
+      "profitPercent": "-1.81",
+      "roi": "-18.45"
+    },
+    "after24h": {
+      "price": 58993.4,
+      "profitPercent": "-2.39",
+      "roi": "-24.50"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-08-19T10:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 58016.1,
+    "after1h": {
+      "price": 58360.9,
+      "profitPercent": "-0.59",
+      "roi": "-5.94"
+    },
+    "after4h": {
+      "price": 58587.5,
+      "profitPercent": "-0.98",
+      "roi": "-9.85"
+    },
+    "after8h": {
+      "price": 58975.5,
+      "profitPercent": "-1.63",
+      "roi": "-16.54"
+    },
+    "after12h": {
+      "price": 59203.1,
+      "profitPercent": "-2.00",
+      "roi": "-20.46"
+    },
+    "after24h": {
+      "price": 60682,
+      "profitPercent": "-4.39",
+      "roi": "-45.95"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-09-03T02:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 59280.1,
+    "after1h": {
+      "price": 59087.9,
+      "profitPercent": "0.33",
+      "roi": "3.24"
+    },
+    "after4h": {
+      "price": 58870.1,
+      "profitPercent": "0.70",
+      "roi": "6.92"
+    },
+    "after8h": {
+      "price": 59051.3,
+      "profitPercent": "0.39",
+      "roi": "3.86"
+    },
+    "after12h": {
+      "price": 57651.6,
+      "profitPercent": "2.82",
+      "roi": "27.47"
+    },
+    "after24h": {
+      "price": 56616.1,
+      "profitPercent": "4.71",
+      "roi": "44.94"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-09-05T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 56639,
+    "after1h": {
+      "price": 57007.4,
+      "profitPercent": "-0.65",
+      "roi": "-6.50"
+    },
+    "after4h": {
+      "price": 56307.2,
+      "profitPercent": "0.59",
+      "roi": "5.86"
+    },
+    "after8h": {
+      "price": 56065.3,
+      "profitPercent": "1.02",
+      "roi": "10.13"
+    },
+    "after12h": {
+      "price": 56146.9,
+      "profitPercent": "0.88",
+      "roi": "8.69"
+    },
+    "after24h": {
+      "price": 56831.4,
+      "profitPercent": "-0.34",
+      "roi": "-3.40"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-09-16T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 58146.7,
+    "after1h": {
+      "price": 57866.9,
+      "profitPercent": "0.48",
+      "roi": "4.81"
+    },
+    "after4h": {
+      "price": 57979.8,
+      "profitPercent": "0.29",
+      "roi": "2.87"
+    },
+    "after8h": {
+      "price": 57866.8,
+      "profitPercent": "0.48",
+      "roi": "4.81"
+    },
+    "after12h": {
+      "price": 58608.4,
+      "profitPercent": "-0.79",
+      "roi": "-7.94"
+    },
+    "after24h": {
+      "price": 60941.4,
+      "profitPercent": "-4.59",
+      "roi": "-48.06"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-09-27T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 65646.2,
+    "after1h": {
+      "price": 66203.1,
+      "profitPercent": "-0.84",
+      "roi": "-8.48"
+    },
+    "after4h": {
+      "price": 65879.3,
+      "profitPercent": "-0.35",
+      "roi": "-3.55"
+    },
+    "after8h": {
+      "price": 65785.1,
+      "profitPercent": "-0.21",
+      "roi": "-2.12"
+    },
+    "after12h": {
+      "price": 65959.2,
+      "profitPercent": "-0.47",
+      "roi": "-4.77"
+    },
+    "after24h": {
+      "price": 65498.2,
+      "profitPercent": "0.23",
+      "roi": "2.25"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-10-06T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 62601.5,
+    "after1h": {
+      "price": 62590,
+      "profitPercent": "0.02",
+      "roi": "0.18"
+    },
+    "after4h": {
+      "price": 62789.3,
+      "profitPercent": "-0.30",
+      "roi": "-3.00"
+    },
+    "after8h": {
+      "price": 63494.6,
+      "profitPercent": "-1.41",
+      "roi": "-14.27"
+    },
+    "after12h": {
+      "price": 63509.9,
+      "profitPercent": "-1.43",
+      "roi": "-14.51"
+    },
+    "after24h": {
+      "price": 63349.4,
+      "profitPercent": "-1.18",
+      "roi": "-11.95"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-10-22T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 66969.9,
+    "after1h": {
+      "price": 67548.7,
+      "profitPercent": "-0.86",
+      "roi": "-8.64"
+    },
+    "after4h": {
+      "price": 67313.5,
+      "profitPercent": "-0.51",
+      "roi": "-5.13"
+    },
+    "after8h": {
+      "price": 67514.1,
+      "profitPercent": "-0.81",
+      "roi": "-8.13"
+    },
+    "after12h": {
+      "price": 67334.5,
+      "profitPercent": "-0.54",
+      "roi": "-5.44"
+    },
+    "after24h": {
+      "price": 66780.6,
+      "profitPercent": "0.28",
+      "roi": "2.83"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-10-23T18:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 66037.1,
+    "after1h": {
+      "price": 66465.2,
+      "profitPercent": "-0.64",
+      "roi": "-6.48"
+    },
+    "after4h": {
+      "price": 66460.3,
+      "profitPercent": "-0.64",
+      "roi": "-6.41"
+    },
+    "after8h": {
+      "price": 67440,
+      "profitPercent": "-2.08",
+      "roi": "-21.24"
+    },
+    "after12h": {
+      "price": 67108,
+      "profitPercent": "-1.60",
+      "roi": "-16.22"
+    },
+    "after24h": {
+      "price": 67805.1,
+      "profitPercent": "-2.61",
+      "roi": "-26.77"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-10-25T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 68288.4,
+    "after1h": {
+      "price": 67660.6,
+      "profitPercent": "0.93",
+      "roi": "9.19"
+    },
+    "after4h": {
+      "price": 66993.1,
+      "profitPercent": "1.93",
+      "roi": "18.97"
+    },
+    "after8h": {
+      "price": 66600,
+      "profitPercent": "2.54",
+      "roi": "24.72"
+    },
+    "after12h": {
+      "price": 66818.3,
+      "profitPercent": "2.20",
+      "roi": "21.53"
+    },
+    "after24h": {
+      "price": 66770.1,
+      "profitPercent": "2.27",
+      "roi": "22.23"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-10-29T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 72528.6,
+    "after1h": {
+      "price": 72328,
+      "profitPercent": "0.28",
+      "roi": "2.77"
+    },
+    "after4h": {
+      "price": 72739.5,
+      "profitPercent": "-0.29",
+      "roi": "-2.91"
+    },
+    "after8h": {
+      "price": 72249.9,
+      "profitPercent": "0.39",
+      "roi": "3.84"
+    },
+    "after12h": {
+      "price": 72244.8,
+      "profitPercent": "0.39",
+      "roi": "3.91"
+    },
+    "after24h": {
+      "price": 71826.1,
+      "profitPercent": "0.98",
+      "roi": "9.69"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-01T02:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 69592.7,
+    "after1h": {
+      "price": 69397.7,
+      "profitPercent": "0.28",
+      "roi": "2.80"
+    },
+    "after4h": {
+      "price": 69240.1,
+      "profitPercent": "0.51",
+      "roi": "5.07"
+    },
+    "after8h": {
+      "price": 69999.9,
+      "profitPercent": "-0.58",
+      "roi": "-5.85"
+    },
+    "after12h": {
+      "price": 71273.4,
+      "profitPercent": "-2.36",
+      "roi": "-24.15"
+    },
+    "after24h": {
+      "price": 69659,
+      "profitPercent": "-0.10",
+      "roi": "-0.95"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-03T15:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 68076,
+    "after1h": {
+      "price": 68131.1,
+      "profitPercent": "-0.08",
+      "roi": "-0.81"
+    },
+    "after4h": {
+      "price": 68670,
+      "profitPercent": "-0.87",
+      "roi": "-8.73"
+    },
+    "after8h": {
+      "price": 68762.5,
+      "profitPercent": "-1.00",
+      "roi": "-10.08"
+    },
+    "after12h": {
+      "price": 69034,
+      "profitPercent": "-1.39",
+      "roi": "-14.07"
+    },
+    "after24h": {
+      "price": 68614.7,
+      "profitPercent": "-0.79",
+      "roi": "-7.91"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-06T07:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 73435.9,
+    "after1h": {
+      "price": 73482.5,
+      "profitPercent": "-0.06",
+      "roi": "-0.63"
+    },
+    "after4h": {
+      "price": 74291.6,
+      "profitPercent": "-1.15",
+      "roi": "-11.65"
+    },
+    "after8h": {
+      "price": 74289.6,
+      "profitPercent": "-1.15",
+      "roi": "-11.63"
+    },
+    "after12h": {
+      "price": 75817.9,
+      "profitPercent": "-3.14",
+      "roi": "-32.44"
+    },
+    "after24h": {
+      "price": 74800,
+      "profitPercent": "-1.82",
+      "roi": "-18.58"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-10T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 79707,
+    "after1h": {
+      "price": 79779,
+      "profitPercent": "-0.09",
+      "roi": "-0.90"
+    },
+    "after4h": {
+      "price": 79836.1,
+      "profitPercent": "-0.16",
+      "roi": "-1.62"
+    },
+    "after8h": {
+      "price": 79015.5,
+      "profitPercent": "0.88",
+      "roi": "8.68"
+    },
+    "after12h": {
+      "price": 80618.9,
+      "profitPercent": "-1.13",
+      "roi": "-11.44"
+    },
+    "after24h": {
+      "price": 82180,
+      "profitPercent": "-3.01",
+      "roi": "-31.03"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-20T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 94048.1,
+    "after1h": {
+      "price": 93903.6,
+      "profitPercent": "0.15",
+      "roi": "1.54"
+    },
+    "after4h": {
+      "price": 94256.7,
+      "profitPercent": "-0.22",
+      "roi": "-2.22"
+    },
+    "after8h": {
+      "price": 94708,
+      "profitPercent": "-0.70",
+      "roi": "-7.02"
+    },
+    "after12h": {
+      "price": 97591.2,
+      "profitPercent": "-3.63",
+      "roi": "-37.67"
+    },
+    "after24h": {
+      "price": 97175.5,
+      "profitPercent": "-3.22",
+      "roi": "-33.25"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-21T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 97324.2,
+    "after1h": {
+      "price": 97545.3,
+      "profitPercent": "-0.23",
+      "roi": "-2.27"
+    },
+    "after4h": {
+      "price": 97175.5,
+      "profitPercent": "0.15",
+      "roi": "1.53"
+    },
+    "after8h": {
+      "price": 98152.6,
+      "profitPercent": "-0.84",
+      "roi": "-8.51"
+    },
+    "after12h": {
+      "price": 98044.1,
+      "profitPercent": "-0.73",
+      "roi": "-7.40"
+    },
+    "after24h": {
+      "price": 98680.5,
+      "profitPercent": "-1.37",
+      "roi": "-13.94"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-25T22:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 94479,
+    "after1h": {
+      "price": 93064,
+      "profitPercent": "1.52",
+      "roi": "14.98"
+    },
+    "after4h": {
+      "price": 94645.2,
+      "profitPercent": "-0.18",
+      "roi": "-1.76"
+    },
+    "after8h": {
+      "price": 94553.5,
+      "profitPercent": "-0.08",
+      "roi": "-0.79"
+    },
+    "after12h": {
+      "price": 92414.5,
+      "profitPercent": "2.23",
+      "roi": "21.85"
+    },
+    "after24h": {
+      "price": 91888,
+      "profitPercent": "2.82",
+      "roi": "27.42"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-11-29T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 96988.9,
+    "after1h": {
+      "price": 97280,
+      "profitPercent": "-0.30",
+      "roi": "-3.00"
+    },
+    "after4h": {
+      "price": 97841.3,
+      "profitPercent": "-0.87",
+      "roi": "-8.79"
+    },
+    "after8h": {
+      "price": 97358.8,
+      "profitPercent": "-0.38",
+      "roi": "-3.81"
+    },
+    "after12h": {
+      "price": 97023.1,
+      "profitPercent": "-0.04",
+      "roi": "-0.35"
+    },
+    "after24h": {
+      "price": 96613,
+      "profitPercent": "0.39",
+      "roi": "3.88"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-11T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 99763.2,
+    "after1h": {
+      "price": 100370.4,
+      "profitPercent": "-0.60",
+      "roi": "-6.09"
+    },
+    "after4h": {
+      "price": 101491.2,
+      "profitPercent": "-1.70",
+      "roi": "-17.32"
+    },
+    "after8h": {
+      "price": 100485.9,
+      "profitPercent": "-0.72",
+      "roi": "-7.24"
+    },
+    "after12h": {
+      "price": 100588,
+      "profitPercent": "-0.82",
+      "roi": "-8.27"
+    },
+    "after24h": {
+      "price": 101600.1,
+      "profitPercent": "-1.81",
+      "roi": "-18.41"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-12T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 101449.8,
+    "after1h": {
+      "price": 101600.1,
+      "profitPercent": "-0.15",
+      "roi": "-1.48"
+    },
+    "after4h": {
+      "price": 99992.8,
+      "profitPercent": "1.46",
+      "roi": "14.36"
+    },
+    "after8h": {
+      "price": 100060,
+      "profitPercent": "1.39",
+      "roi": "13.70"
+    },
+    "after12h": {
+      "price": 99973.8,
+      "profitPercent": "1.48",
+      "roi": "14.55"
+    },
+    "after24h": {
+      "price": 100950.1,
+      "profitPercent": "0.49",
+      "roi": "4.93"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-16T02:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 104564.4,
+    "after1h": {
+      "price": 104560,
+      "profitPercent": "0.00",
+      "roi": "0.04"
+    },
+    "after4h": {
+      "price": 105130,
+      "profitPercent": "-0.54",
+      "roi": "-5.41"
+    },
+    "after8h": {
+      "price": 104660.4,
+      "profitPercent": "-0.09",
+      "roi": "-0.92"
+    },
+    "after12h": {
+      "price": 105453.9,
+      "profitPercent": "-0.84",
+      "roi": "-8.51"
+    },
+    "after24h": {
+      "price": 106217.6,
+      "profitPercent": "-1.56",
+      "roi": "-15.81"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-16T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 106546,
+    "after1h": {
+      "price": 105758,
+      "profitPercent": "0.75",
+      "roi": "7.40"
+    },
+    "after4h": {
+      "price": 106023.2,
+      "profitPercent": "0.49",
+      "roi": "4.91"
+    },
+    "after8h": {
+      "price": 106824.4,
+      "profitPercent": "-0.26",
+      "roi": "-2.61"
+    },
+    "after12h": {
+      "price": 106784,
+      "profitPercent": "-0.22",
+      "roi": "-2.23"
+    },
+    "after24h": {
+      "price": 106450.5,
+      "profitPercent": "0.09",
+      "roi": "0.90"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-19T02:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 100526.3,
+    "after1h": {
+      "price": 101163.3,
+      "profitPercent": "-0.63",
+      "roi": "-6.34"
+    },
+    "after4h": {
+      "price": 101159.8,
+      "profitPercent": "-0.63",
+      "roi": "-6.30"
+    },
+    "after8h": {
+      "price": 102378.7,
+      "profitPercent": "-1.81",
+      "roi": "-18.43"
+    },
+    "after12h": {
+      "price": 100908.2,
+      "profitPercent": "-0.38",
+      "roi": "-3.80"
+    },
+    "after24h": {
+      "price": 97594.3,
+      "profitPercent": "3.00",
+      "roi": "29.17"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-23T02:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 94684.8,
+    "after1h": {
+      "price": 95989.9,
+      "profitPercent": "-1.36",
+      "roi": "-13.78"
+    },
+    "after4h": {
+      "price": 94783.6,
+      "profitPercent": "-0.10",
+      "roi": "-1.04"
+    },
+    "after8h": {
+      "price": 96342.9,
+      "profitPercent": "-1.72",
+      "roi": "-17.51"
+    },
+    "after12h": {
+      "price": 94380,
+      "profitPercent": "0.32",
+      "roi": "3.22"
+    },
+    "after24h": {
+      "price": 93931.5,
+      "profitPercent": "0.80",
+      "roi": "7.96"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2024-12-29T23:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 93700,
+    "after1h": {
+      "price": 93542.6,
+      "profitPercent": "0.17",
+      "roi": "1.68"
+    },
+    "after4h": {
+      "price": 93681.1,
+      "profitPercent": "0.02",
+      "roi": "0.20"
+    },
+    "after8h": {
+      "price": 93688.9,
+      "profitPercent": "0.01",
+      "roi": "0.12"
+    },
+    "after12h": {
+      "price": 93900.1,
+      "profitPercent": "-0.21",
+      "roi": "-2.14"
+    },
+    "after24h": {
+      "price": 92759.3,
+      "profitPercent": "1.01",
+      "roi": "10.04"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-02T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 96426.1,
+    "after1h": {
+      "price": 97216.3,
+      "profitPercent": "-0.81",
+      "roi": "-8.19"
+    },
+    "after4h": {
+      "price": 96734.4,
+      "profitPercent": "-0.32",
+      "roi": "-3.20"
+    },
+    "after8h": {
+      "price": 97180,
+      "profitPercent": "-0.78",
+      "roi": "-7.82"
+    },
+    "after12h": {
+      "price": 96960.5,
+      "profitPercent": "-0.55",
+      "roi": "-5.54"
+    },
+    "after24h": {
+      "price": 96464.1,
+      "profitPercent": "-0.04",
+      "roi": "-0.39"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-02T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 96734.4,
+    "after1h": {
+      "price": 97288.4,
+      "profitPercent": "-0.57",
+      "roi": "-5.73"
+    },
+    "after4h": {
+      "price": 97180,
+      "profitPercent": "-0.46",
+      "roi": "-4.61"
+    },
+    "after8h": {
+      "price": 96960.5,
+      "profitPercent": "-0.23",
+      "roi": "-2.34"
+    },
+    "after12h": {
+      "price": 96727.3,
+      "profitPercent": "0.01",
+      "roi": "0.07"
+    },
+    "after24h": {
+      "price": 97986.8,
+      "profitPercent": "-1.28",
+      "roi": "-12.95"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-09T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 92810.9,
+    "after1h": {
+      "price": 94195.2,
+      "profitPercent": "-1.47",
+      "roi": "-14.92"
+    },
+    "after4h": {
+      "price": 92986.9,
+      "profitPercent": "-0.19",
+      "roi": "-1.90"
+    },
+    "after8h": {
+      "price": 92415.7,
+      "profitPercent": "0.43",
+      "roi": "4.26"
+    },
+    "after12h": {
+      "price": 93315.8,
+      "profitPercent": "-0.54",
+      "roi": "-5.44"
+    },
+    "after24h": {
+      "price": 94078.1,
+      "profitPercent": "-1.35",
+      "roi": "-13.65"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-13T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 91800,
+    "after1h": {
+      "price": 92093.6,
+      "profitPercent": "-0.32",
+      "roi": "-3.20"
+    },
+    "after4h": {
+      "price": 92039.3,
+      "profitPercent": "-0.26",
+      "roi": "-2.61"
+    },
+    "after8h": {
+      "price": 94360.1,
+      "profitPercent": "-2.71",
+      "roi": "-27.89"
+    },
+    "after12h": {
+      "price": 94848.4,
+      "profitPercent": "-3.21",
+      "roi": "-33.21"
+    },
+    "after24h": {
+      "price": 96249,
+      "profitPercent": "-4.62",
+      "roi": "-48.46"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-15T20:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 99516,
+    "after1h": {
+      "price": 99628,
+      "profitPercent": "-0.11",
+      "roi": "-1.13"
+    },
+    "after4h": {
+      "price": 99831.5,
+      "profitPercent": "-0.32",
+      "roi": "-3.17"
+    },
+    "after8h": {
+      "price": 99573.1,
+      "profitPercent": "-0.06",
+      "roi": "-0.57"
+    },
+    "after12h": {
+      "price": 98910,
+      "profitPercent": "0.61",
+      "roi": "6.09"
+    },
+    "after24h": {
+      "price": 100305.4,
+      "profitPercent": "-0.79",
+      "roi": "-7.93"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-17T20:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 104654.5,
+    "after1h": {
+      "price": 104568.8,
+      "profitPercent": "0.08",
+      "roi": "0.82"
+    },
+    "after4h": {
+      "price": 104615.7,
+      "profitPercent": "0.04",
+      "roi": "0.37"
+    },
+    "after8h": {
+      "price": 103561.4,
+      "profitPercent": "1.06",
+      "roi": "10.44"
+    },
+    "after12h": {
+      "price": 103242,
+      "profitPercent": "1.37",
+      "roi": "13.50"
+    },
+    "after24h": {
+      "price": 104000,
+      "profitPercent": "0.63",
+      "roi": "6.25"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-20T07:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 107178.8,
+    "after1h": {
+      "price": 108332,
+      "profitPercent": "-1.06",
+      "roi": "-10.76"
+    },
+    "after4h": {
+      "price": 108267.5,
+      "profitPercent": "-1.01",
+      "roi": "-10.16"
+    },
+    "after8h": {
+      "price": 105008.7,
+      "profitPercent": "2.07",
+      "roi": "20.25"
+    },
+    "after12h": {
+      "price": 103674.2,
+      "profitPercent": "3.38",
+      "roi": "32.70"
+    },
+    "after24h": {
+      "price": 101980.7,
+      "profitPercent": "5.10",
+      "roi": "48.50"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-24T18:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 106270,
+    "after1h": {
+      "price": 105726.7,
+      "profitPercent": "0.51",
+      "roi": "5.11"
+    },
+    "after4h": {
+      "price": 104724.9,
+      "profitPercent": "1.48",
+      "roi": "14.54"
+    },
+    "after8h": {
+      "price": 104520.3,
+      "profitPercent": "1.67",
+      "roi": "16.46"
+    },
+    "after12h": {
+      "price": 104265.1,
+      "profitPercent": "1.92",
+      "roi": "18.87"
+    },
+    "after24h": {
+      "price": 104935.9,
+      "profitPercent": "1.27",
+      "roi": "12.55"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-01-30T15:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 105519.4,
+    "after1h": {
+      "price": 105657.3,
+      "profitPercent": "-0.13",
+      "roi": "-1.31"
+    },
+    "after4h": {
+      "price": 105659.8,
+      "profitPercent": "-0.13",
+      "roi": "-1.33"
+    },
+    "after8h": {
+      "price": 104676.9,
+      "profitPercent": "0.80",
+      "roi": "7.98"
+    },
+    "after12h": {
+      "price": 104286.7,
+      "profitPercent": "1.18",
+      "roi": "11.68"
+    },
+    "after24h": {
+      "price": 105407,
+      "profitPercent": "0.11",
+      "roi": "1.07"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-02T00:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 101208.6,
+    "after1h": {
+      "price": 101214.6,
+      "profitPercent": "-0.01",
+      "roi": "-0.06"
+    },
+    "after4h": {
+      "price": 99490.1,
+      "profitPercent": "1.73",
+      "roi": "16.98"
+    },
+    "after8h": {
+      "price": 99782,
+      "profitPercent": "1.43",
+      "roi": "14.10"
+    },
+    "after12h": {
+      "price": 98124.4,
+      "profitPercent": "3.14",
+      "roi": "30.47"
+    },
+    "after24h": {
+      "price": 96464.6,
+      "profitPercent": "4.92",
+      "roi": "46.87"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-02T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 98232,
+    "after1h": {
+      "price": 97759.1,
+      "profitPercent": "0.48",
+      "roi": "4.81"
+    },
+    "after4h": {
+      "price": 97664.5,
+      "profitPercent": "0.58",
+      "roi": "5.78"
+    },
+    "after8h": {
+      "price": 94001.6,
+      "profitPercent": "4.50",
+      "roi": "43.07"
+    },
+    "after12h": {
+      "price": 95271.1,
+      "profitPercent": "3.11",
+      "roi": "30.14"
+    },
+    "after24h": {
+      "price": 101831.9,
+      "profitPercent": "-3.54",
+      "roi": "-36.65"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-17T05:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 96198.5,
+    "after1h": {
+      "price": 96344.8,
+      "profitPercent": "-0.15",
+      "roi": "-1.52"
+    },
+    "after4h": {
+      "price": 96110.5,
+      "profitPercent": "0.09",
+      "roi": "0.91"
+    },
+    "after8h": {
+      "price": 96365,
+      "profitPercent": "-0.17",
+      "roi": "-1.73"
+    },
+    "after12h": {
+      "price": 95434,
+      "profitPercent": "0.80",
+      "roi": "7.95"
+    },
+    "after24h": {
+      "price": 95576.8,
+      "profitPercent": "0.65",
+      "roi": "6.46"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-21T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 98740.1,
+    "after1h": {
+      "price": 98057.6,
+      "profitPercent": "0.70",
+      "roi": "6.91"
+    },
+    "after4h": {
+      "price": 96500.1,
+      "profitPercent": "2.32",
+      "roi": "22.69"
+    },
+    "after8h": {
+      "price": 95786.5,
+      "profitPercent": "3.08",
+      "roi": "29.91"
+    },
+    "after12h": {
+      "price": 96296.1,
+      "profitPercent": "2.54",
+      "roi": "24.75"
+    },
+    "after24h": {
+      "price": 96481.6,
+      "profitPercent": "2.34",
+      "roi": "22.87"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-23T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 95600.1,
+    "after1h": {
+      "price": 95685,
+      "profitPercent": "-0.09",
+      "roi": "-0.89"
+    },
+    "after4h": {
+      "price": 95710.7,
+      "profitPercent": "-0.12",
+      "roi": "-1.16"
+    },
+    "after8h": {
+      "price": 95934.2,
+      "profitPercent": "-0.35",
+      "roi": "-3.49"
+    },
+    "after12h": {
+      "price": 95681.6,
+      "profitPercent": "-0.09",
+      "roi": "-0.85"
+    },
+    "after24h": {
+      "price": 94616,
+      "profitPercent": "1.04",
+      "roi": "10.29"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-02-25T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 87429,
+    "after1h": {
+      "price": 87219.7,
+      "profitPercent": "0.24",
+      "roi": "2.39"
+    },
+    "after4h": {
+      "price": 88140.1,
+      "profitPercent": "-0.81",
+      "roi": "-8.13"
+    },
+    "after8h": {
+      "price": 88102,
+      "profitPercent": "-0.76",
+      "roi": "-7.70"
+    },
+    "after12h": {
+      "price": 88657.3,
+      "profitPercent": "-1.39",
+      "roi": "-14.05"
+    },
+    "after24h": {
+      "price": 86784,
+      "profitPercent": "0.74",
+      "roi": "7.38"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-05T13:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 89422.5,
+    "after1h": {
+      "price": 88477.3,
+      "profitPercent": "1.07",
+      "roi": "10.57"
+    },
+    "after4h": {
+      "price": 89650.2,
+      "profitPercent": "-0.25",
+      "roi": "-2.55"
+    },
+    "after8h": {
+      "price": 90317,
+      "profitPercent": "-0.99",
+      "roi": "-10.00"
+    },
+    "after12h": {
+      "price": 91003.6,
+      "profitPercent": "-1.74",
+      "roi": "-17.68"
+    },
+    "after24h": {
+      "price": 89539,
+      "profitPercent": "-0.13",
+      "roi": "-1.30"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-10T00:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 81242,
+    "after1h": {
+      "price": 81715.3,
+      "profitPercent": "-0.58",
+      "roi": "-5.83"
+    },
+    "after4h": {
+      "price": 82585.8,
+      "profitPercent": "-1.63",
+      "roi": "-16.54"
+    },
+    "after8h": {
+      "price": 81309.9,
+      "profitPercent": "-0.08",
+      "roi": "-0.84"
+    },
+    "after12h": {
+      "price": 83208,
+      "profitPercent": "-2.36",
+      "roi": "-24.20"
+    },
+    "after24h": {
+      "price": 77630.7,
+      "profitPercent": "4.65",
+      "roi": "44.45"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-10T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 79037.1,
+    "after1h": {
+      "price": 79270.3,
+      "profitPercent": "-0.29",
+      "roi": "-2.95"
+    },
+    "after4h": {
+      "price": 78567.8,
+      "profitPercent": "0.60",
+      "roi": "5.94"
+    },
+    "after8h": {
+      "price": 79486.6,
+      "profitPercent": "-0.57",
+      "roi": "-5.69"
+    },
+    "after12h": {
+      "price": 80386,
+      "profitPercent": "-1.68",
+      "roi": "-17.07"
+    },
+    "after24h": {
+      "price": 83060.1,
+      "profitPercent": "-4.84",
+      "roi": "-50.90"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-14T14:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 83495.9,
+    "after1h": {
+      "price": 84692.2,
+      "profitPercent": "-1.41",
+      "roi": "-14.33"
+    },
+    "after4h": {
+      "price": 84530.1,
+      "profitPercent": "-1.22",
+      "roi": "-12.39"
+    },
+    "after8h": {
+      "price": 84390.7,
+      "profitPercent": "-1.06",
+      "roi": "-10.72"
+    },
+    "after12h": {
+      "price": 84505.4,
+      "profitPercent": "-1.19",
+      "roi": "-12.09"
+    },
+    "after24h": {
+      "price": 84108.3,
+      "profitPercent": "-0.73",
+      "roi": "-7.33"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-18T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 81814.2,
+    "after1h": {
+      "price": 81428.9,
+      "profitPercent": "0.47",
+      "roi": "4.71"
+    },
+    "after4h": {
+      "price": 82011.7,
+      "profitPercent": "-0.24",
+      "roi": "-2.41"
+    },
+    "after8h": {
+      "price": 83069.9,
+      "profitPercent": "-1.51",
+      "roi": "-15.35"
+    },
+    "after12h": {
+      "price": 82922.9,
+      "profitPercent": "-1.34",
+      "roi": "-13.55"
+    },
+    "after24h": {
+      "price": 84526.8,
+      "profitPercent": "-3.21",
+      "roi": "-33.16"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-19T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 83705.2,
+    "after1h": {
+      "price": 84050.1,
+      "profitPercent": "-0.41",
+      "roi": "-4.12"
+    },
+    "after4h": {
+      "price": 84526.8,
+      "profitPercent": "-0.97",
+      "roi": "-9.82"
+    },
+    "after8h": {
+      "price": 85321.2,
+      "profitPercent": "-1.89",
+      "roi": "-19.31"
+    },
+    "after12h": {
+      "price": 85979.8,
+      "profitPercent": "-2.65",
+      "roi": "-27.17"
+    },
+    "after24h": {
+      "price": 85318.8,
+      "profitPercent": "-1.89",
+      "roi": "-19.28"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-19T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 84188,
+    "after1h": {
+      "price": 85576,
+      "profitPercent": "-1.62",
+      "roi": "-16.49"
+    },
+    "after4h": {
+      "price": 85592.8,
+      "profitPercent": "-1.64",
+      "roi": "-16.69"
+    },
+    "after8h": {
+      "price": 85840.4,
+      "profitPercent": "-1.92",
+      "roi": "-19.63"
+    },
+    "after12h": {
+      "price": 85785,
+      "profitPercent": "-1.86",
+      "roi": "-18.97"
+    },
+    "after24h": {
+      "price": 84058.3,
+      "profitPercent": "0.15",
+      "roi": "1.54"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-20T00:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 85979.8,
+    "after1h": {
+      "price": 85840.4,
+      "profitPercent": "0.16",
+      "roi": "1.62"
+    },
+    "after4h": {
+      "price": 85640.6,
+      "profitPercent": "0.40",
+      "roi": "3.95"
+    },
+    "after8h": {
+      "price": 86193.4,
+      "profitPercent": "-0.25",
+      "roi": "-2.48"
+    },
+    "after12h": {
+      "price": 85318.8,
+      "profitPercent": "0.77",
+      "roi": "7.69"
+    },
+    "after24h": {
+      "price": 84468.8,
+      "profitPercent": "1.79",
+      "roi": "17.57"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-23T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 84973.2,
+    "after1h": {
+      "price": 84933.8,
+      "profitPercent": "0.05",
+      "roi": "0.46"
+    },
+    "after4h": {
+      "price": 85144.1,
+      "profitPercent": "-0.20",
+      "roi": "-2.01"
+    },
+    "after8h": {
+      "price": 85525,
+      "profitPercent": "-0.65",
+      "roi": "-6.49"
+    },
+    "after12h": {
+      "price": 86860.3,
+      "profitPercent": "-2.17",
+      "roi": "-22.21"
+    },
+    "after24h": {
+      "price": 88413.2,
+      "profitPercent": "-3.89",
+      "roi": "-40.48"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-24T01:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 85525,
+    "after1h": {
+      "price": 85836.4,
+      "profitPercent": "-0.36",
+      "roi": "-3.64"
+    },
+    "after4h": {
+      "price": 86860.3,
+      "profitPercent": "-1.54",
+      "roi": "-15.61"
+    },
+    "after8h": {
+      "price": 87111.4,
+      "profitPercent": "-1.82",
+      "roi": "-18.55"
+    },
+    "after12h": {
+      "price": 87652.3,
+      "profitPercent": "-2.43",
+      "roi": "-24.87"
+    },
+    "after24h": {
+      "price": 87043.5,
+      "profitPercent": "-1.74",
+      "roi": "-17.76"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-24T12:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 87286.4,
+    "after1h": {
+      "price": 87652.3,
+      "profitPercent": "-0.42",
+      "roi": "-4.19"
+    },
+    "after4h": {
+      "price": 88007.6,
+      "profitPercent": "-0.82",
+      "roi": "-8.26"
+    },
+    "after8h": {
+      "price": 87797.3,
+      "profitPercent": "-0.58",
+      "roi": "-5.85"
+    },
+    "after12h": {
+      "price": 87556.5,
+      "profitPercent": "-0.31",
+      "roi": "-3.09"
+    },
+    "after24h": {
+      "price": 87044,
+      "profitPercent": "0.28",
+      "roi": "2.78"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-24T16:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 88007.6,
+    "after1h": {
+      "price": 88413.2,
+      "profitPercent": "-0.46",
+      "roi": "-4.61"
+    },
+    "after4h": {
+      "price": 87797.3,
+      "profitPercent": "0.24",
+      "roi": "2.39"
+    },
+    "after8h": {
+      "price": 87556.5,
+      "profitPercent": "0.52",
+      "roi": "5.13"
+    },
+    "after12h": {
+      "price": 86510.1,
+      "profitPercent": "1.73",
+      "roi": "17.02"
+    },
+    "after24h": {
+      "price": 87747.5,
+      "profitPercent": "0.30",
+      "roi": "2.96"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-26T19:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 86525.3,
+    "after1h": {
+      "price": 87250,
+      "profitPercent": "-0.83",
+      "roi": "-8.38"
+    },
+    "after4h": {
+      "price": 86873.8,
+      "profitPercent": "-0.40",
+      "roi": "-4.03"
+    },
+    "after8h": {
+      "price": 87631.1,
+      "profitPercent": "-1.26",
+      "roi": "-12.78"
+    },
+    "after12h": {
+      "price": 87363.2,
+      "profitPercent": "-0.96",
+      "roi": "-9.68"
+    },
+    "after24h": {
+      "price": 87025.8,
+      "profitPercent": "-0.58",
+      "roi": "-5.78"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-28T11:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 85214,
+    "after1h": {
+      "price": 84997.5,
+      "profitPercent": "0.25",
+      "roi": "2.54"
+    },
+    "after4h": {
+      "price": 84011.1,
+      "profitPercent": "1.43",
+      "roi": "14.12"
+    },
+    "after8h": {
+      "price": 83760.7,
+      "profitPercent": "1.74",
+      "roi": "17.05"
+    },
+    "after12h": {
+      "price": 84380.8,
+      "profitPercent": "0.99",
+      "roi": "9.78"
+    },
+    "after24h": {
+      "price": 82255.1,
+      "profitPercent": "3.60",
+      "roi": "34.72"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-03-29T17:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 82293.3,
+    "after1h": {
+      "price": 82307.4,
+      "profitPercent": "-0.02",
+      "roi": "-0.17"
+    },
+    "after4h": {
+      "price": 82476.9,
+      "profitPercent": "-0.22",
+      "roi": "-2.23"
+    },
+    "after8h": {
+      "price": 82891.6,
+      "profitPercent": "-0.72",
+      "roi": "-7.27"
+    },
+    "after12h": {
+      "price": 82924.8,
+      "profitPercent": "-0.76",
+      "roi": "-7.67"
+    },
+    "after24h": {
+      "price": 82381.4,
+      "profitPercent": "-0.11",
+      "roi": "-1.07"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-04-01T11:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 83879.9,
+    "after1h": {
+      "price": 83569.7,
+      "profitPercent": "0.37",
+      "roi": "3.70"
+    },
+    "after4h": {
+      "price": 85245.4,
+      "profitPercent": "-1.60",
+      "roi": "-16.28"
+    },
+    "after8h": {
+      "price": 84911.7,
+      "profitPercent": "-1.22",
+      "roi": "-12.30"
+    },
+    "after12h": {
+      "price": 85120.9,
+      "profitPercent": "-1.46",
+      "roi": "-14.79"
+    },
+    "after24h": {
+      "price": 84528.4,
+      "profitPercent": "-0.77",
+      "roi": "-7.73"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-04-07T01:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 79093.9,
+    "after1h": {
+      "price": 78405.9,
+      "profitPercent": "0.88",
+      "roi": "8.70"
+    },
+    "after4h": {
+      "price": 76915.9,
+      "profitPercent": "2.83",
+      "roi": "27.54"
+    },
+    "after8h": {
+      "price": 76244.7,
+      "profitPercent": "3.74",
+      "roi": "36.02"
+    },
+    "after12h": {
+      "price": 78319.9,
+      "profitPercent": "0.99",
+      "roi": "9.79"
+    },
+    "after24h": {
+      "price": 80564,
+      "profitPercent": "-1.82",
+      "roi": "-18.59"
+    }
+  },
+  {
+    "symbol": "BTCUSDT",
+    "date": "2025-04-07T08:00:00.000Z",
+    "strategy": "bollingerBand",
+    "price": 76223.2,
+    "after1h": {
+      "price": 76244.7,
+      "profitPercent": "-0.03",
+      "roi": "-0.28"
+    },
+    "after4h": {
+      "price": 77300,
+      "profitPercent": "-1.39",
+      "roi": "-14.13"
+    },
+    "after8h": {
+      "price": 77394.8,
+      "profitPercent": "-1.51",
+      "roi": "-15.37"
+    },
+    "after12h": {
+      "price": 78908.1,
+      "profitPercent": "-3.40",
+      "roi": "-35.22"
+    },
+    "after24h": {
+      "price": 79129.8,
+      "profitPercent": "-3.67",
+      "roi": "-38.13"
+    }
+  }
+]

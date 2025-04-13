@@ -1,6 +1,153 @@
 {
-  "totalStrategies": 0,
-  "totalSignals": 0,
-  "totalSymbols": 0,
-  "strategies": {}
+  "totalStrategies": 1,
+  "totalSignals": 111,
+  "totalSymbols": 1,
+  "strategies": {
+    "bollingerBand": {
+      "totalSignals": 111,
+      "allPositiveSignals": 23,
+      "bestInterval": "12h",
+      "performanceByInterval": {
+        "1h": {
+          "signalCount": 111,
+          "profit": {
+            "max": "2.42",
+            "min": "-2.18",
+            "avg": "0.00"
+          },
+          "roi": {
+            "max": "23.66",
+            "min": "-22.24",
+            "avg": "-0.04"
+          }
+        },
+        "4h": {
+          "signalCount": 111,
+          "profit": {
+            "max": "5.35",
+            "min": "-3.29",
+            "avg": "0.04"
+          },
+          "roi": {
+            "max": "50.80",
+            "min": "-34.01",
+            "avg": "0.30"
+          }
+        },
+        "8h": {
+          "signalCount": 111,
+          "profit": {
+            "max": "4.97",
+            "min": "-3.32",
+            "avg": "0.19"
+          },
+          "roi": {
+            "max": "47.32",
+            "min": "-34.35",
+            "avg": "1.64"
+          }
+        },
+        "12h": {
+          "signalCount": 111,
+          "profit": {
+            "max": "7.18",
+            "min": "-3.63",
+            "avg": "0.27"
+          },
+          "roi": {
+            "max": "67.03",
+            "min": "-37.67",
+            "avg": "2.36"
+          }
+        },
+        "24h": {
+          "signalCount": 111,
+          "profit": {
+            "max": "5.77",
+            "min": "-8.07",
+            "avg": "0.22"
+          },
+          "roi": {
+            "max": "54.57",
+            "min": "-87.74",
+            "avg": "1.66"
+          }
+        }
+      },
+      "symbols": {
+        "BTCUSDT": {
+          "totalSignals": 111,
+          "allPositiveSignals": 23,
+          "bestInterval": "12h",
+          "performanceByInterval": {
+            "1h": {
+              "signalCount": 111,
+              "profit": {
+                "max": "2.42",
+                "min": "-2.18",
+                "avg": "0.00"
+              },
+              "roi": {
+                "max": "23.66",
+                "min": "-22.24",
+                "avg": "-0.04"
+              }
+            },
+            "4h": {
+              "signalCount": 111,
+              "profit": {
+                "max": "5.35",
+                "min": "-3.29",
+                "avg": "0.04"
+              },
+              "roi": {
+                "max": "50.80",
+                "min": "-34.01",
+                "avg": "0.30"
+              }
+            },
+            "8h": {
+              "signalCount": 111,
+              "profit": {
+                "max": "4.97",
+                "min": "-3.32",
+                "avg": "0.19"
+              },
+              "roi": {
+                "max": "47.32",
+                "min": "-34.35",
+                "avg": "1.64"
+              }
+            },
+            "12h": {
+              "signalCount": 111,
+              "profit": {
+                "max": "7.18",
+                "min": "-3.63",
+                "avg": "0.27"
+              },
+              "roi": {
+                "max": "67.03",
+                "min": "-37.67",
+                "avg": "2.36"
+              }
+            },
+            "24h": {
+              "signalCount": 111,
+              "profit": {
+                "max": "5.77",
+                "min": "-8.07",
+                "avg": "0.22"
+              },
+              "roi": {
+                "max": "54.57",
+                "min": "-87.74",
+                "avg": "1.66"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
