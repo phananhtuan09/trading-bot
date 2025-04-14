@@ -10,7 +10,6 @@ function createSignalEmbed(signal) {
     title: `Tín hiệu: ${signal.symbol}`,
     description:
       `**Hành động:** ${futures.direction}\n` +
-      `**Độ mạnh tín hiệu:** ${signal.strength}\n` +
       `**Giá hiện tại:** ${signal.price}\n` +
       `**Chiến lược:** ${signal.strategy}\n`,
     timestamp: new Date().toISOString(),

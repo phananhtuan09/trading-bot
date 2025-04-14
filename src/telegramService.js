@@ -4,10 +4,8 @@ const { telegramClient } = require('./clients')
 // Tạo nội dung tin nhắn cho tín hiệu (sử dụng Markdown)
 function createSignalMessage(signal) {
   const futures = signal.futuresDetails || {}
-  const strengthLabel = signal.strength
   const message = `*Tín hiệu:* ${signal.symbol}
 *Hành động:* ${futures.direction || 'N/A'}
-*Độ mạnh tín hiệu:* ${strengthLabel}
 *Giá hiện tại:* ${signal.price}
 *Chiến lược:* ${signal.strategy}
 `

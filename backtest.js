@@ -30,7 +30,7 @@ const BACKTEST_SETTINGS = {
 async function fetchHistoricalData(symbol) {
   let allCandles = []
   const endTime = Date.now()
-  const startTime = endTime - BACKTEST_SETTINGS.years * 365 * 24 * 60 * 60 * 1000
+  const startTime = endTime - 30 * 24 * 60 * 60 * 1000
 
   let currentStart = startTime
   while (true) {
@@ -133,18 +133,17 @@ async function processSymbol(symbol) {
 
       // Phát hiện tín hiệu
       const signals = [
-        // TradingStrategies.checkBreakout(highs, lows, closes, volumes, emaShort, emaLong, rsi[rsi.length - 1]),
-        TradingStrategies.checkBollingerBand(closes, volumes, rsiValues),
-        // TradingStrategies.checkMACD_RSI_Volume(closes, volumes, rsi),
+        TradingStrategies.checkBollingerBand(closes, highs, lows, volumes, rsiValues),
+        TradingStrategies.checkNadarayaUTBot(closes, volumes, rsiValues),
       ]
 
-      signals.forEach((signal) => {
+      signals.forEach((signal, index) => {
         if (!signal) return
 
         const result = {
           symbol, // Thêm symbol vào kết quả
           date: new Date(chunk[i].time).toISOString(),
-          strategy: 'bollingerBand',
+          strategy: ['bollingerBand', 'nadarayaUTBot'][index],
           action: signal.action,
           price: chunk[i].close,
           after1h: {},

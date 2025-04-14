@@ -6,15 +6,15 @@ const STRATEGY_CONFIG = {
 
   // Cấu hình cho đường EMA: chu kỳ ngắn và chu kỳ dài.
   emaPeriods: {
-    short: 35, // EMA ngắn: sử dụng 20 giá trị cuối.
-    long: 65, // EMA dài: sử dụng 50 giá trị cuối.
+    short: 20, // EMA ngắn: sử dụng 20 giá trị cuối.
+    long: 50, // EMA dài: sử dụng 50 giá trị cuối.
   },
 
   // Cấu hình cho chỉ báo RSI, sử dụng 14 giá trị cuối.
   rsiPeriod: 14,
 
   // Cấu hình cho Bollinger Bands: sử dụng 20 giá trị cuối.
-  bbPeriod: 20,
+  bbPeriod: 14,
 
   // Số lượng candle trong quá khứ được sử dụng để xác định mức breakout.
   breakoutPeriod: 14,
@@ -31,28 +31,24 @@ const STRATEGY_CONFIG = {
   // Giới hạn số lượng song song khi xử lý nhiều symbol cùng lúc.
   concurrencyLimit: 20,
 
-  // Cấu hình risk management
-  riskManagement: {
-    volumeMultiplier: 1.5, // Hệ số nhân cho volume để xác định tín hiệu breakout.
-  },
-
   // Tham số độ lệch chuẩn cho Bollinger Bands.
-  stdDev: 1.5,
+  stdDev: 1.8,
 
   // Số lượng candle được sử dụng để tính trung bình volume.
-  volumeLookback: 10,
+  volumeLookback: 14,
 
   // Cấu hình ngưỡng RSI để xác định vùng quá mua hoặc quá bán.
   rsiThresholds: {
     overbought: 60, // RSI trên 65 là vùng quá mua.
     oversold: 40, // RSI dưới 35 là vùng quá bán.
+    neutral: 50, // Add neutral threshold for the new strategy
   },
   bbSqueezeThreshold: 0.1, // Ngưỡng độ hẹp Bollinger Band
 
-  bbDynamic: true,
-  maxRiskPerTrade: 0.02,
-  atrPeriod: 14,
   volumeThreshold: 1.2,
+  // Thêm các param mới cho Nadaraya
+  nadarayaWindow: 40,
+  nadarayaBandwidth: 7,
 }
 
 module.exports = {

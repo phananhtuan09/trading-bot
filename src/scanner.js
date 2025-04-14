@@ -3,13 +3,10 @@ const path = require('path')
 const fs = require('fs')
 const { getSymbols } = require('./symbolManager')
 const { analyzeMarket } = require('./dataService')
-const { runBacktest } = require('../backtest')
 const { sendDiscordSignalMessage, sendDiscordMessage } = require('./discordService')
 const { sendTelegramSignalMessage, sendTelegramMessage } = require('./telegramService')
 const { STRATEGY_CONFIG } = require('./config')
 const { ensureLogFolders, getLogFileName, getStrengthLabel } = require('./utils')
-
-const sentSignalCache = new Set()
 
 async function performScan() {
   console.log(`\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
@@ -40,20 +37,15 @@ async function performScan() {
           signalCount++
           const signalDetail = {
             symbol,
-            strategy: strategyName.replace(/([A-Z])/g, ' $1').trim(),
+            strategy: strategyName.trim(),
             action: action?.action,
             price: analysis.price,
-            strength: getStrengthLabel(action.isStrong),
             futuresDetails: analysis.futuresDetails[strategyName],
           }
           allSignals.push(signalDetail)
           console.log('Tín hiệu:', JSON.stringify(signalDetail, null, 2))
-          const key = `${signalDetail.symbol}-${signalDetail.strategy}-${Math.floor(Date.now() / 60000)}`
-          if (!sentSignalCache.has(key)) {
-            sentSignalCache.add(key)
-            await sendDiscordSignalMessage(signalDetail)
-            await sendTelegramSignalMessage(signalDetail)
-          }
+          await sendDiscordSignalMessage(signalDetail)
+          await sendTelegramSignalMessage(signalDetail)
         }
       }
     }
@@ -84,7 +76,7 @@ async function performScan() {
 
 function startScanning() {
   performScan()
-  const interval = setInterval(performScan, 1800000)
+  const interval = setInterval(performScan, 180000)
   process.on('SIGINT', () => {
     clearInterval(interval)
     console.log('🛑 Bot đã dừng')

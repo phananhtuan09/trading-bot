@@ -1,6 +1,6 @@
 const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
-const { EMA, RSI } = require('technicalindicators')
+const { EMA, RSI, ATR, BollingerBands } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 async function getHistoricalData(symbol) {
@@ -29,29 +29,31 @@ async function analyzeMarket(symbol) {
     const data = await getHistoricalData(symbol)
     if (!data || data.closes.length < 100) return null
 
-    const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.short, values: data.closes })
-    const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: data.closes })
+    // Tính toán các chỉ báo
     const rsi = RSI.calculate({ values: data.closes, period: STRATEGY_CONFIG.rsiPeriod })
-    const lastRSI = rsi.at(-1)
+    // Tính toán các chỉ báo
+    const bb = BollingerBands.calculate({
+      period: STRATEGY_CONFIG.bbPeriod,
+      values: data.closes,
+      stdDev: STRATEGY_CONFIG.stdDev,
+    })
 
+    // Tính độ rộng Bollinger Bands
+    const bbWidth = bb.map((b) => (b.upper - b.lower) / b.middle)
+    const recentBBWidth = bbWidth.slice(-STRATEGY_CONFIG.breakoutPeriod)
+    const avgBBWidth = recentBBWidth.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.breakoutPeriod
+    const isVolatileMarket = avgBBWidth > STRATEGY_CONFIG.bbSqueezeThreshold
+
+    // Lọc tín hiệu theo market regime
     const signals = {
-      breakout: TradingStrategies.checkBreakout(
-        data.highs,
-        data.lows,
-        data.closes,
-        data.volumes,
-        emaShort,
-        emaLong,
-        lastRSI,
-      ),
-      bollingerBand: TradingStrategies.checkBollingerBand(data.closes, emaShort, emaLong, rsi, data.volumes),
-      macd_rsi_volume: TradingStrategies.checkMACD_RSI_Volume(data.closes, data.volumes, rsi),
+      BollingerBand: isVolatileMarket
+        ? TradingStrategies.checkBollingerBand(data.closes, data.highs, data.lows, data.volumes, rsi)
+        : null,
+      NadarayaUTbot: isVolatileMarket ? TradingStrategies.checkNadarayaUTBot(data.closes, data.volumes, rsi) : null,
     }
 
-    // Điều chỉnh đòn bẩy khi có nhiều tín hiệu
-    const price = data.closes.at(-1)
-
     const futuresDetails = {}
+
     for (const [strategyName, result] of Object.entries(signals)) {
       if (result) {
         futuresDetails[strategyName] = {
@@ -63,7 +65,7 @@ async function analyzeMarket(symbol) {
     return {
       symbol,
       signals,
-      price: parseFloat(price),
+      price: parseFloat(data.closes.at(-1)),
       futuresDetails,
     }
   } catch (error) {
