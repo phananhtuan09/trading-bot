@@ -5,16 +5,16 @@ const { getSymbols } = require('./symbolManager')
 const { analyzeMarket } = require('./dataService')
 const { sendDiscordSignalMessage, sendDiscordMessage } = require('./discordService')
 const { sendTelegramSignalMessage, sendTelegramMessage } = require('./telegramService')
-const { STRATEGY_CONFIG } = require('./config')
-const { ensureLogFolders, getLogFileName, getStrengthLabel } = require('./utils')
+const { STRATEGY_CONFIG, CONFIG } = require('./config')
+const { ensureFoldersExist, getFileNameTimestamp } = require('./utils')
 
 async function performScan() {
   console.log(`\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
 
   try {
     const symbols = await getSymbols()
-    const scanLimiter = pLimit(STRATEGY_CONFIG.concurrencyLimit)
-    const scanPromises = symbols.map((symbol) => scanLimiter(() => analyzeMarket(symbol, 1000)))
+    const scanLimiter = pLimit(STRATEGY_CONFIG.CONCURRENCY_LIMIT)
+    const scanPromises = symbols.map((symbol) => scanLimiter(() => analyzeMarket(symbol)))
     const results = await Promise.allSettled(scanPromises)
 
     let signalCount = 0
@@ -50,9 +50,9 @@ async function performScan() {
       }
     }
 
-    if (process.env.LOG_TO_FILE === 'true') {
-      ensureLogFolders()
-      const signalFile = path.join('logs/signal', getLogFileName('signal'))
+    if (CONFIG.IS_LOG_ENABLED) {
+      ensureFoldersExist(['logs/signals'])
+      const signalFile = path.join('logs/signals', getFileNameTimestamp('signal'))
       fs.writeFileSync(signalFile, JSON.stringify(allSignals, null, 2))
       console.log(`📝 Đã ghi tín hiệu vào ${signalFile}`)
     }
@@ -76,7 +76,7 @@ async function performScan() {
 
 function startScanning() {
   performScan()
-  const interval = setInterval(performScan, 180000)
+  const interval = setInterval(performScan, CONFIG.SCAN_INTERVAL)
   process.on('SIGINT', () => {
     clearInterval(interval)
     console.log('🛑 Bot đã dừng')

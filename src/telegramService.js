@@ -1,4 +1,4 @@
-const { TELEGRAM_CHAT_ID, IS_TELEGRAM_ENABLED } = require('./config')
+const { TELEGRAM } = require('./config')
 const { telegramClient } = require('./clients')
 
 // Tạo nội dung tin nhắn cho tín hiệu (sử dụng Markdown)
@@ -14,10 +14,10 @@ function createSignalMessage(signal) {
 
 // Gửi tín hiệu dưới dạng tin nhắn có format Markdown
 async function sendTelegramSignalMessage(signal) {
-  if (IS_TELEGRAM_ENABLED === 'true') {
+  if (TELEGRAM.IS_ENABLED) {
     try {
       const message = createSignalMessage(signal)
-      await telegramClient.sendMessage(TELEGRAM_CHAT_ID, message, { parse_mode: 'Markdown' })
+      await telegramClient.sendMessage(TELEGRAM.CHAT_ID, message, { parse_mode: 'Markdown' })
     } catch (error) {
       console.error('Lỗi gửi Telegram signal:', error.message)
     }
@@ -26,9 +26,9 @@ async function sendTelegramSignalMessage(signal) {
 
 // Gửi tin nhắn text thông thường qua Telegram
 async function sendTelegramMessage(message) {
-  if (IS_TELEGRAM_ENABLED === 'true') {
+  if (TELEGRAM.IS_ENABLED) {
     try {
-      await telegramClient.sendMessage(TELEGRAM_CHAT_ID, message)
+      await telegramClient.sendMessage(TELEGRAM.CHAT_ID, message)
     } catch (error) {
       console.error('Lỗi gửi Telegram:', error.message)
     }
@@ -37,12 +37,12 @@ async function sendTelegramMessage(message) {
 
 // Kiểm tra kết nối tới Telegram bằng cách gọi API getMe()
 async function checkTelegramConnection() {
-  if (IS_TELEGRAM_ENABLED !== 'true') {
+  if (!TELEGRAM.IS_ENABLED) {
     return false
   }
   try {
     const botInfo = await telegramClient.getMe()
-    if (botInfo && botInfo.username) {
+    if (botInfo?.username) {
       console.log(`✅ Đã kết nối Telegram với bot: @${botInfo.username}`)
       return true
     } else {

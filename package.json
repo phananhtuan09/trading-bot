@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "clean": "node clean-logs.js",
-    "backtest": "env-cmd -f .env node backtest2.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "node src/cleanLogs.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backtest": "node test/backtest.js && node test/backtestSummary.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,10 +14,7 @@
   "dependencies": {
     "axios": "^1.8.4",
     "binance-api-node": "^0.12.9",
-    "date-fns": "^4.1.0",
-    "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
-    "env-cmd": "^10.1.0",
     "node-telegram-bot-api": "^0.66.0",
     "p-limit": "^2.3.0",
     "technicalindicators": "^3.1.0"

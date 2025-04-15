@@ -2,10 +2,10 @@ const { getSymbols } = require('./symbolManager')
 const { startScanning } = require('./scanner')
 const { checkDiscordConnection } = require('./discordService')
 const { checkTelegramConnection } = require('./telegramService')
-const { IS_TELEGRAM_ENABLED, IS_DISCORD_ENABLED } = require('./config')
+const { DISCORD, TELEGRAM } = require('./config')
+const { binanceClient } = require('./clients')
 
 async function checkBinanceConnection() {
-  const { binanceClient } = require('./clients')
   try {
     const time = await binanceClient.time()
     console.log(`✅ Binance: ${new Date(time).toLocaleString()}`)
@@ -30,7 +30,7 @@ async function initializeBot() {
     process.exit(1)
   }
 
-  if (IS_DISCORD_ENABLED === 'true') {
+  if (DISCORD.IS_ENABLED) {
     try {
       // Kết nối tới discord
       const isDiscordConnected = await checkDiscordConnection()
@@ -44,12 +44,12 @@ async function initializeBot() {
     }
   }
 
-  if (IS_TELEGRAM_ENABLED === 'true') {
+  if (TELEGRAM.IS_ENABLED) {
     try {
       // Kết nối tới telegram
       const isTelegramConnected = await checkTelegramConnection()
       if (!isTelegramConnected) {
-        throw new Error('Kết nối Telegram không thành công')
+        console.error('❌ Kết nối Telegram không thành công')
       }
       console.log('✅ Đã kết nối Telegram')
     } catch (error) {

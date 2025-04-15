@@ -1,15 +1,16 @@
-// backtest.js
-const { binanceClient } = require('./src/clients')
-const { BollingerBands, MACD, EMA, RSI } = require('technicalindicators')
-const { STRATEGY_CONFIG } = require('./src/config')
+const { binanceClient } = require('../src/clients')
+const { BollingerBands, RSI } = require('technicalindicators')
+const { STRATEGY_CONFIG } = require('../src/config')
 const fs = require('fs')
 const path = require('path')
-const TradingStrategies = require('./src/tradingStrategies')
+const TradingStrategies = require('../src/tradingStrategies')
 const pLimit = require('p-limit')
+const { getSymbols } = require('../src/symbolManager')
+const { getFileNameTimestamp, ensureFoldersExist } = require('../src/utils')
 
 const BACKTEST_SETTINGS = {
   symbols: [
-    // Thêm danh sách 10 coin
+    // Danh sách coin test
     'BTCUSDT',
     'ETHUSDT',
     'BNBUSDT',
@@ -23,14 +24,14 @@ const BACKTEST_SETTINGS = {
   ],
   interval: '1h',
   years: 1,
-  resultFile: 'backtest_results.json',
-  concurrency: 2, // Giới hạn request đồng thời
+  resultFile: 'backtest_results',
+  concurrency: 100, // Giới hạn request đồng thời
 }
 
 async function fetchHistoricalData(symbol) {
   let allCandles = []
   const endTime = Date.now()
-  const startTime = endTime - 30 * 24 * 60 * 60 * 1000
+  const startTime = endTime - 30 * 24 * 60 * 60 * 1000 // Test trong 30 ngày
 
   let currentStart = startTime
   while (true) {
@@ -100,7 +101,7 @@ async function processSymbol(symbol) {
     console.log(`🔄 Đang xử lý ${symbol}`)
     const historicalData = await fetchHistoricalData(symbol)
     // Thêm điều kiện kiểm tra
-    if (historicalData.length < 250) {
+    if (historicalData.length < 100) {
       console.log(`⚠️ Không đủ dữ liệu cho ${symbol} (${historicalData.length} candles)`)
       return []
     }
@@ -114,27 +115,29 @@ async function processSymbol(symbol) {
       const lows = chunk.map((c) => c.low)
       const volumes = chunk.map((c) => c.volume)
 
-      // Tính EMA với dữ liệu đủ độ dài
-      const emaShort = EMA.calculate({
-        period: STRATEGY_CONFIG.emaPeriods.short,
-        values: closes,
-      })
-      const emaLong = EMA.calculate({
-        period: STRATEGY_CONFIG.emaPeriods.long,
-        values: closes,
-      })
-
       // Tính RSI và kiểm tra độ dài
       const rsiValues = RSI.calculate({
         values: closes,
-        period: STRATEGY_CONFIG.rsiPeriod,
+        period: STRATEGY_CONFIG.RSI_PERIOD,
       })
-      const lastRSI = rsiValues.length > 0 ? rsiValues.at(-1) : NaN // Tránh undefined
+
+      const bb = BollingerBands.calculate({
+        period: STRATEGY_CONFIG.BB_PERIOD,
+        values: closes,
+        stdDev: STRATEGY_CONFIG.STD_DEV,
+      })
+
+      // Tính độ rộng Bollinger Bands
+      const bbWidth = bb.map((b) => (b.upper - b.lower) / b.middle)
+      const recentBBWidth = bbWidth.slice(-STRATEGY_CONFIG.BREAKOUT_PERIOD)
+      const avgBBWidth = recentBBWidth.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.BREAKOUT_PERIOD
+      // Sửa điều kiện kiểm tra volatility
+      const isVolatileMarket = avgBBWidth > STRATEGY_CONFIG.BB_SQUEEZE_THRESHOLD
 
       // Phát hiện tín hiệu
       const signals = [
-        TradingStrategies.checkBollingerBand(closes, highs, lows, volumes, rsiValues),
-        TradingStrategies.checkNadarayaUTBot(closes, volumes, rsiValues),
+        isVolatileMarket ? TradingStrategies.checkBollingerBand(closes, highs, lows, volumes, rsiValues, bb) : null,
+        isVolatileMarket ? TradingStrategies.checkNadarayaUTBot(closes, volumes, rsiValues, highs) : null,
       ]
 
       signals.forEach((signal, index) => {
@@ -188,15 +191,32 @@ async function processSymbol(symbol) {
 
 async function runBacktest() {
   try {
-    const validSymbols = await validateSymbols()
+    const symbols = await getSymbols()
     const limit = pLimit(BACKTEST_SETTINGS.concurrency)
-    const allResults = await Promise.all(BACKTEST_SETTINGS.symbols.map((symbol) => limit(() => processSymbol(symbol))))
+    if (symbols.length === 0) {
+      console.log('⚠️ Không có symbol nào để xử lý.')
+      return
+    }
+
+    console.log('Xử lý tông cộng ' + symbols.length + ' symbol')
+
+    const allResults = await Promise.all(symbols.map((symbol) => limit(() => processSymbol(symbol))))
 
     const mergedResults = allResults.flat()
-
-    const outputPath = path.join(__dirname, 'test', BACKTEST_SETTINGS.resultFile)
+    if (mergedResults.length === 0) {
+      console.log('⚠️ Không có kết quả nào để ghi lại.')
+      return
+    }
+    ensureFoldersExist(['logs/backtest'])
+    const outputPath = path.join(
+      __dirname,
+      '..',
+      'logs',
+      'backtest',
+      getFileNameTimestamp(BACKTEST_SETTINGS.resultFile),
+    )
     fs.writeFileSync(outputPath, JSON.stringify(mergedResults, null, 2))
-    console.log(`✅ Đã xử lý ${BACKTEST_SETTINGS.symbols.length} coins. Kết quả lưu tại: ${outputPath}`)
+    console.log(`✅ Đã xử lý ${symbols.length} coins. Kết quả lưu tại: ${outputPath}`)
   } catch (error) {
     console.error('❌ Lỗi tổng:', error)
   }

@@ -34,7 +34,7 @@ async function fetchAllSymbols() {
 }
 
 async function getSymbols() {
-  if (Date.now() - symbolCache.lastUpdated > STRATEGY_CONFIG.exchangeInfoCacheTime) {
+  if (Date.now() - symbolCache.lastUpdated > STRATEGY_CONFIG.EXCHANGE_INFO_CACHE_TIME) {
     return await fetchAllSymbols()
   }
   return symbolCache.symbols

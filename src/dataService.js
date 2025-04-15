@@ -1,13 +1,13 @@
 const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
-const { EMA, RSI, ATR, BollingerBands } = require('technicalindicators')
+const { RSI, BollingerBands } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 async function getHistoricalData(symbol) {
   try {
     const candles = await binanceClient.futuresCandles({
       symbol: symbol,
-      interval: STRATEGY_CONFIG.interval,
+      interval: STRATEGY_CONFIG.INTERVAL,
       limit: 100,
     })
 
@@ -30,19 +30,18 @@ async function analyzeMarket(symbol) {
     if (!data || data.closes.length < 100) return null
 
     // Tính toán các chỉ báo
-    const rsi = RSI.calculate({ values: data.closes, period: STRATEGY_CONFIG.rsiPeriod })
-    // Tính toán các chỉ báo
+    const rsi = RSI.calculate({ values: data.closes, period: STRATEGY_CONFIG.RSI_PERIOD })
     const bb = BollingerBands.calculate({
-      period: STRATEGY_CONFIG.bbPeriod,
+      period: STRATEGY_CONFIG.BB_PERIOD,
       values: data.closes,
-      stdDev: STRATEGY_CONFIG.stdDev,
+      stdDev: STRATEGY_CONFIG.STD_DEV,
     })
 
     // Tính độ rộng Bollinger Bands
     const bbWidth = bb.map((b) => (b.upper - b.lower) / b.middle)
-    const recentBBWidth = bbWidth.slice(-STRATEGY_CONFIG.breakoutPeriod)
-    const avgBBWidth = recentBBWidth.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.breakoutPeriod
-    const isVolatileMarket = avgBBWidth > STRATEGY_CONFIG.bbSqueezeThreshold
+    const recentBBWidth = bbWidth.slice(-STRATEGY_CONFIG.BREAKOUT_PERIOD)
+    const avgBBWidth = recentBBWidth.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.BREAKOUT_PERIOD
+    const isVolatileMarket = avgBBWidth > STRATEGY_CONFIG.BB_SQUEEZE_THRESHOLD
 
     // Lọc tín hiệu theo market regime
     const signals = {

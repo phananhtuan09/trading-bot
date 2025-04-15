@@ -1,4 +1,4 @@
-const { BollingerBands, EMA, ATR, MACD, ADX } = require('technicalindicators')
+const { BollingerBands, EMA } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 class TradingStrategies {
@@ -28,8 +28,8 @@ class TradingStrategies {
   static checkNadarayaUTBot(closes, volumes, rsiValues) {
     const smoothed = this.nadarayaWatsonSmoothing(
       closes,
-      STRATEGY_CONFIG.nadarayaWindow,
-      STRATEGY_CONFIG.nadarayaBandwidth,
+      STRATEGY_CONFIG.NADARAYA_WINDOW,
+      STRATEGY_CONFIG.NADARAYA_BANDWIDTH,
     )
 
     if (smoothed.length < 2) return null
@@ -40,12 +40,12 @@ class TradingStrategies {
     const prevSmoothed = smoothed[i - 1]
     const currentSmoothed = smoothed[i]
 
-    if (i < STRATEGY_CONFIG.volumeLookback) return null
-    const recentVolumes = volumes.slice(i - STRATEGY_CONFIG.volumeLookback, i)
-    const avgVolume = recentVolumes.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.volumeLookback
+    if (i < STRATEGY_CONFIG.VOLUME_LOOKBACK) return null
+    const recentVolumes = volumes.slice(i - STRATEGY_CONFIG.VOLUME_LOOKBACK, i)
+    const avgVolume = recentVolumes.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.VOLUME_LOOKBACK
 
     const currentVolume = volumes[i]
-    const volumeThreshold = STRATEGY_CONFIG.volumeThreshold
+    const volumeThreshold = STRATEGY_CONFIG.VOLUME_THRESHOLD
 
     const lastRSI = rsiValues.at(-1)
 
@@ -54,7 +54,7 @@ class TradingStrategies {
       prevClose < prevSmoothed &&
       currentClose > currentSmoothed &&
       currentVolume > avgVolume * volumeThreshold &&
-      lastRSI < STRATEGY_CONFIG.rsiThresholds.oversold // Điều kiện RSI
+      lastRSI < STRATEGY_CONFIG.RSI_THRESHOLDS.OVERSOLD
     ) {
       return {
         action: 'BUY',
@@ -66,7 +66,7 @@ class TradingStrategies {
       prevClose > prevSmoothed &&
       currentClose < currentSmoothed &&
       currentVolume > avgVolume * volumeThreshold &&
-      lastRSI > STRATEGY_CONFIG.rsiThresholds.overbought // Điều kiện RSI
+      lastRSI > STRATEGY_CONFIG.RSI_THRESHOLDS.OVERBOUGHT
     ) {
       return {
         action: 'SELL',
@@ -78,9 +78,9 @@ class TradingStrategies {
 
   static checkBollingerBand(closes, highs, lows, volumes, rsiValues) {
     const bb = BollingerBands.calculate({
-      period: STRATEGY_CONFIG.bbPeriod,
+      period: STRATEGY_CONFIG.BB_PERIOD,
       values: closes,
-      stdDev: STRATEGY_CONFIG.stdDev,
+      stdDev: STRATEGY_CONFIG.STD_DEV,
     })
 
     if (bb.length < 3) return null
@@ -97,23 +97,23 @@ class TradingStrategies {
 
     // Các chỉ báo bổ sung
     const avgVolume =
-      volumes.slice(-STRATEGY_CONFIG.volumeLookback).reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.volumeLookback
+      volumes.slice(-STRATEGY_CONFIG.VOLUME_LOOKBACK).reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.VOLUME_LOOKBACK
     const lastRSI = rsiValues.at(-1)
     const prevRSI = rsiValues.at(-2) || lastRSI
 
     // Điều kiện trend
     const ema20 = EMA.calculate({
-      period: STRATEGY_CONFIG.emaPeriods.short,
+      period: STRATEGY_CONFIG.EMA_PERIODS.SHORT,
       values: closes,
     })
     const ema50 = EMA.calculate({
-      period: STRATEGY_CONFIG.emaPeriods.long,
+      period: STRATEGY_CONFIG.EMA_PERIODS.LONG,
       values: closes,
     })
     const isBullTrend = ema20.at(-1) > ema50.at(-1)
     const isBearTrend = ema20.at(-1) < ema50.at(-1)
 
-    // Pattern xác nhận (đã bỏ biến thừa)
+    // Pattern xác nhận
     const bullishReversal = current > prev1 && currentHigh > currentUpper && current > (currentHigh + currentLow) / 2
 
     const bearishReversal = current < prev1 && currentLow < currentLower && current < (currentHigh + currentLow) / 2
@@ -123,8 +123,8 @@ class TradingStrategies {
       prev1 < prevLower &&
       current > currentLower &&
       bullishReversal &&
-      volumes.at(-1) > avgVolume * STRATEGY_CONFIG.volumeThreshold &&
-      lastRSI > STRATEGY_CONFIG.rsiThresholds.oversold &&
+      volumes.at(-1) > avgVolume * STRATEGY_CONFIG.VOLUME_THRESHOLD &&
+      lastRSI > STRATEGY_CONFIG.RSI_THRESHOLDS.OVERSOLD &&
       lastRSI > prevRSI &&
       isBullTrend
     ) {
@@ -138,8 +138,8 @@ class TradingStrategies {
       prev1 > prevUpper &&
       current < currentUpper &&
       bearishReversal &&
-      volumes.at(-1) > avgVolume * STRATEGY_CONFIG.volumeThreshold &&
-      lastRSI < STRATEGY_CONFIG.rsiThresholds.overbought &&
+      volumes.at(-1) > avgVolume * STRATEGY_CONFIG.VOLUME_THRESHOLD &&
+      lastRSI < STRATEGY_CONFIG.RSI_THRESHOLDS.OVERBOUGHT &&
       lastRSI < prevRSI &&
       isBearTrend
     ) {

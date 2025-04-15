@@ -1,23 +1,17 @@
 const fs = require('fs')
 
-function ensureLogFolders() {
-  const logDirs = ['logs/signal']
-  logDirs.forEach((dir) => {
+function ensureFoldersExist(folders = []) {
+  folders.forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true })
     }
   })
 }
 
-function getLogFileName(prefix) {
+function getFileNameTimestamp(prefix) {
   const now = new Date()
   const timestamp = now.toISOString().replace(/[:.-]/g, '_')
   return `${prefix}_${timestamp}.json`
 }
 
-// Hàm xác định mức độ tín hiệu
-function getStrengthLabel(isStrong) {
-  return isStrong ? '🔴 Strong' : '🟡 Weak'
-}
-
-module.exports = { ensureLogFolders, getLogFileName, getStrengthLabel }
+module.exports = { ensureFoldersExist, getFileNameTimestamp }

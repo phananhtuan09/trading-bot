@@ -1,11 +1,29 @@
 const fs = require('fs')
 const path = require('path')
+const { getFileNameTimestamp, ensureFoldersExist } = require('../src/utils')
 
-const INPUT_FILE = path.join(__dirname, 'test', 'backtest_results.json')
-const OUTPUT_FILE = path.join(__dirname, 'test', 'backtest_summary.json')
+const outputDir = path.join(__dirname, '..', 'logs', 'backtest')
+// Get the most recent backtest results file
+const getLatestBacktestFile = () => {
+  const files = fs
+    .readdirSync(outputDir)
+    .filter((file) => file.startsWith('backtest_results') && file.endsWith('.json'))
+    .sort()
+    .reverse()
+  return files.length ? path.join(outputDir, files[0]) : null
+}
+
+const INPUT_FILE = getLatestBacktestFile()
+if (!INPUT_FILE) {
+  console.error('❌ Không tìm thấy file backtest results')
+  process.exit(1)
+}
+
+const OUTPUT_FILE = path.join(outputDir, getFileNameTimestamp('backtest_summary'))
 
 function generateSummary() {
   try {
+    ensureFoldersExist(['logs/backtest'])
     const rawData = fs.readFileSync(INPUT_FILE)
     const results = JSON.parse(rawData)
 
