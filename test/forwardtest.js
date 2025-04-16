@@ -190,14 +190,15 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
       console.log('=== BẮT ĐẦU FORWARD TEST ===')
       await this.logBalance()
 
-      const { allSignals = null } = await performScan()
+      const results = await performScan()
 
-      if (!allSignals || allSignals?.length === 0) {
+      if (!results.allSignals || results.allSignals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
         console.log(noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
+      const { allSignals } = results
       for (const signal of allSignals) {
         await this.placeOrder(signal)
       }
