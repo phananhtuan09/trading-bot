@@ -6,7 +6,8 @@
     "start": "node src/index.js",
     "clean": "node src/cleanLogs.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "backtest": "node test/backtest.js && node test/backtestSummary.js"
+    "backtest": "node test/backtest.js && node test/backtestSummary.js",
+    "forwardtest": "node test/forwardtest.js"
   },
   "author": "",
   "license": "ISC",

@@ -2,12 +2,12 @@ const { BollingerBands, EMA } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 class TradingStrategies {
-  // Hàm kernel Gaussian
+  // Hàm kernel Gaussian dùng để tính trọng số theo phân phối chuẩn
   static gaussianKernel(u) {
     return Math.exp(-0.5 * u * u)
   }
 
-  // Hàm tính Nadaraya-Watson smoothing
+  // Làm mượt dữ liệu chuỗi giá đóng cửa bằng phương pháp Nadaraya-Watson với kernel Gaussian
   static nadarayaWatsonSmoothing(closes, window = 50, h = 10) {
     const smoothed = []
     for (let i = 0; i < closes.length; i++) {
@@ -25,6 +25,7 @@ class TradingStrategies {
     return smoothed
   }
 
+  // Kiểm tra tín hiệu giao dịch dựa trên phương pháp Nadaraya-Watson kết hợp UTBot
   static checkNadarayaUTBot(closes, volumes, rsiValues) {
     const smoothed = this.nadarayaWatsonSmoothing(
       closes,
@@ -41,6 +42,7 @@ class TradingStrategies {
     const currentSmoothed = smoothed[i]
 
     if (i < STRATEGY_CONFIG.VOLUME_LOOKBACK) return null
+    // Tính trung bình khối lượng gần nhất
     const recentVolumes = volumes.slice(i - STRATEGY_CONFIG.VOLUME_LOOKBACK, i)
     const avgVolume = recentVolumes.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.VOLUME_LOOKBACK
 
@@ -49,7 +51,7 @@ class TradingStrategies {
 
     const lastRSI = rsiValues.at(-1)
 
-    // Tín hiệu mua
+    // Tín hiệu BUY khi: giá vượt lên đường smoothed + volume tăng + RSI đang quá bán
     if (
       prevClose < prevSmoothed &&
       currentClose > currentSmoothed &&
@@ -61,7 +63,7 @@ class TradingStrategies {
       }
     }
 
-    // Tín hiệu bán
+    // Tín hiệu SELL khi: giá rơi xuống dưới đường smoothed + volume tăng + RSI đang quá mua
     if (
       prevClose > prevSmoothed &&
       currentClose < currentSmoothed &&
@@ -76,6 +78,7 @@ class TradingStrategies {
     return null
   }
 
+  // Kiểm tra tín hiệu giao dịch dựa vào Bollinger Bands, EMA và RSI
   static checkBollingerBand(closes, highs, lows, volumes, rsiValues) {
     const bb = BollingerBands.calculate({
       period: STRATEGY_CONFIG.BB_PERIOD,
@@ -95,13 +98,13 @@ class TradingStrategies {
     const { upper: currentUpper, lower: currentLower } = bb.at(-1)
     const { upper: prevUpper, lower: prevLower } = bb.at(-2)
 
-    // Các chỉ báo bổ sung
+    // Tính khối lượng trung bình gần đây
     const avgVolume =
       volumes.slice(-STRATEGY_CONFIG.VOLUME_LOOKBACK).reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.VOLUME_LOOKBACK
     const lastRSI = rsiValues.at(-1)
     const prevRSI = rsiValues.at(-2) || lastRSI
 
-    // Điều kiện trend
+    // Tính các đường EMA ngắn hạn và dài hạn để xác định xu hướng
     const ema20 = EMA.calculate({
       period: STRATEGY_CONFIG.EMA_PERIODS.SHORT,
       values: closes,
@@ -113,12 +116,12 @@ class TradingStrategies {
     const isBullTrend = ema20.at(-1) > ema50.at(-1)
     const isBearTrend = ema20.at(-1) < ema50.at(-1)
 
-    // Pattern xác nhận
+    // Mô hình đảo chiều tăng giá (bullish reversal)
     const bullishReversal = current > prev1 && currentHigh > currentUpper && current > (currentHigh + currentLow) / 2
-
+    // Mô hình đảo chiều giảm giá (bearish reversal)
     const bearishReversal = current < prev1 && currentLow < currentLower && current < (currentHigh + currentLow) / 2
 
-    // Điều kiện BUY
+    // Tín hiệu BUY khi giá vượt qua dải dưới Bollinger và có bullish reversal trong xu hướng tăng
     if (
       prev1 < prevLower &&
       current > currentLower &&
@@ -133,7 +136,7 @@ class TradingStrategies {
       }
     }
 
-    // Điều kiện SELL
+    // Tín hiệu SELL khi giá rơi xuống dưới dải trên Bollinger và có bearish reversal trong xu hướng giảm
     if (
       prev1 > prevUpper &&
       current < currentUpper &&

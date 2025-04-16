@@ -44,6 +44,8 @@ module.exports = {
   BINANCE: {
     API_KEY: process.env.BINANCE_API_KEY,
     API_SECRET: process.env.BINANCE_API_SECRET,
+    TEST_API_KEY: process.env.BINANCE_TEST_API_KEY,
+    TEST_API_SECRET: process.env.BINANCE_TEST_API_SECRET,
   },
   DISCORD: {
     WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,

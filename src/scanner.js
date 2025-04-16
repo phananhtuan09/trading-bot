@@ -66,11 +66,16 @@ async function performScan() {
     ].join('\n')
 
     console.log(summary)
-    if (errors.length > 0) console.error('Chi tiết lỗi:', errors)
+    if (errors.length > 0) {
+      console.error('Chi tiết lỗi:', errors)
+      return null
+    }
     await sendDiscordMessage(summary)
     await sendTelegramMessage(summary)
+    return allSignals
   } catch (error) {
     console.error('Lỗi quét tổng:', error)
+    return null
   }
 }
 
@@ -84,4 +89,4 @@ function startScanning() {
   })
 }
 
-module.exports = { startScanning }
+module.exports = { startScanning, performScan }
