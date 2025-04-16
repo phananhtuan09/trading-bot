@@ -35,7 +35,9 @@ class ForwardTester {
 
       const profitMessage = `
 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
-Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đầu ${this.initialCapital.toFixed(2)} USDT).
+Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với số vốn ban đầu ${this.initialCapital.toFixed(
+        2,
+      )} USDT).
       `
 
       console.log(profitMessage)
@@ -80,7 +82,6 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
         actualNotional = quantity * price
       }
 
-      console.log(`🔢 Quantity: ${quantity}, Notional: ${actualNotional}`)
       return quantity
     } catch (error) {
       console.error('Lỗi tính số lượng:', error)
@@ -88,8 +89,25 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
     }
   }
 
+  calculateTpSlPrices({ entryPrice, tpRoiPercent, slRoiPercent, direction, leverage }) {
+    const tpChange = tpRoiPercent / leverage / 100
+    const slChange = slRoiPercent / leverage / 100
+
+    if (direction === 'BUY') {
+      return {
+        tp: entryPrice * (1 + tpChange),
+        sl: entryPrice * (1 - slChange),
+      }
+    } else {
+      return {
+        tp: entryPrice * (1 - tpChange),
+        sl: entryPrice * (1 + slChange),
+      }
+    }
+  }
   async placeOrder(signal) {
     const { symbol, price, futuresDetails } = signal
+
     try {
       if (await this.checkExistingPosition(symbol)) {
         const existMessage = `🟡 Bỏ qua ${symbol} - Đang có vị thế mở`
@@ -116,34 +134,31 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
       const quantity = await this.calculateQuantity(symbol, price)
       if (quantity <= 0) return
 
-      console.log('Đã tính toán số lượng:', quantity)
-
       const side = futuresDetails.direction === 'Long' ? 'BUY' : 'SELL'
-      const order = await binanceTestClient.futuresOrder({
+      await binanceTestClient.futuresOrder({
         symbol,
         side,
         type: 'MARKET',
         quantity,
       })
 
-      const entryPrice = parseFloat(order.avgPrice) || price
+      const entryPrice = price
       if (entryPrice <= 0) {
         console.error(`🔴 Lỗi: entryPrice không hợp lệ, sử dụng giá trị price: ${price}`)
         return
       }
       const symbolInfo = (await binanceTestClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
 
-      const tpPercent = ORDER_SETTINGS.TP_ROI_PERCENTAGE / ORDER_SETTINGS.LEVERAGE
-      const slPercent = ORDER_SETTINGS.SL_ROI_PERCENTAGE_LONG / ORDER_SETTINGS.LEVERAGE
+      const { tp: tpPriceRaw, sl: slPriceRaw } = this.calculateTpSlPrices({
+        entryPrice,
+        tpRoiPercent: ORDER_SETTINGS.TP_ROI_PERCENTAGE,
+        slRoiPercent: ORDER_SETTINGS.SL_ROI_PERCENTAGE,
+        direction: side,
+        leverage: ORDER_SETTINGS.LEVERAGE,
+      })
 
-      let tpPrice, slPrice
-      if (side === 'BUY') {
-        tpPrice = entryPrice * (1 + tpPercent / 100)
-        slPrice = entryPrice * (1 - slPercent / 100)
-      } else {
-        tpPrice = entryPrice * (1 - tpPercent / 100)
-        slPrice = entryPrice * (1 + slPercent / 100)
-      }
+      let tpPrice = tpPriceRaw
+      let slPrice = slPriceRaw
 
       const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
       const tickSize = parseFloat(priceFilter.tickSize)
@@ -154,7 +169,7 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
         symbol,
         side: side === 'BUY' ? 'SELL' : 'BUY',
         type: 'TAKE_PROFIT_MARKET',
-        stopPrice: tpPrice.toFixed(2),
+        stopPrice: tpPrice.toFixed(4),
         closePosition: true,
       })
 
@@ -162,7 +177,7 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
         symbol,
         side: side === 'BUY' ? 'SELL' : 'BUY',
         type: 'STOP_MARKET',
-        stopPrice: slPrice.toFixed(2),
+        stopPrice: slPrice.toFixed(4),
         closePosition: true,
       })
       const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${entryPrice.toFixed(4)} | SL: ${slPrice.toFixed(
@@ -190,20 +205,18 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
       console.log('=== BẮT ĐẦU FORWARD TEST ===')
       await this.logBalance()
 
-      const results = await performScan()
+      const allSignals = await performScan()
 
-      if (!results.allSignals || results.allSignals?.length === 0) {
+      if (!allSignals || allSignals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
         console.log(noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
-      const { allSignals } = results
       for (const signal of allSignals) {
         await this.placeOrder(signal)
       }
 
-      await this.logBalance()
       console.log('=== KẾT THÚC FORWARD TEST ===')
     } catch (error) {
       console.error('Lỗi trong executeTest:', error)
@@ -222,10 +235,10 @@ Lợi nhuận đang có: ${profit.toFixed(2)} USDT (so với số vốn ban đ�
 }
 
 const mockSignal = {
-  symbol: 'BTCUSDT',
-  price: 83483.8, // giá giả lập
+  symbol: 'SPXUSDT',
+  price: 0.4475, // giá giả lập
   futuresDetails: {
-    direction: 'Short', // hoặc 'Short'
+    direction: 'Long',
   },
 }
 

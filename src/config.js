@@ -64,6 +64,6 @@ module.exports = {
     LEVERAGE: Number(process.env.ORDER_LEVERAGE),
     QUANTITY: Number(process.env.ORDER_QUANTITY),
     TP_ROI_PERCENTAGE: Number(process.env.TP_ROI_PERCENTAGE),
-    SL_ROI_PERCENTAGE_LONG: Number(process.env.SL_ROI_PERCENTAGE),
+    SL_ROI_PERCENTAGE: Number(process.env.SL_ROI_PERCENTAGE),
   },
 }
