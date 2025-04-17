@@ -21,41 +21,41 @@ function createSignalEmbed(signal) {
 
 // Gửi tín hiệu dưới dạng Embed message qua Webhook
 async function sendDiscordSignalMessage(signal) {
-  if (DISCORD.IS_ENABLED) return
+  if (DISCORD.IS_ENABLED) {
+    try {
+      const embed = createSignalEmbed(signal)
 
-  try {
-    const embed = createSignalEmbed(signal)
+      const payload = {
+        username,
+        embeds: [embed],
+      }
 
-    const payload = {
-      username,
-      embeds: [embed],
+      await axios.post(DISCORD.WEBHOOK_URL, payload)
+    } catch (error) {
+      console.error('🚨 Lỗi gửi tín hiệu Discord:', error.message)
     }
-
-    await axios.post(DISCORD.WEBHOOK_URL, payload)
-  } catch (error) {
-    console.error('🚨 Lỗi gửi tín hiệu Discord:', error.message)
   }
 }
 
 // Gửi tin nhắn text thông thường qua Webhook
 async function sendDiscordMessage(message) {
-  if (DISCORD.IS_ENABLED) return
+  if (DISCORD.IS_ENABLED) {
+    try {
+      const payload = {
+        username,
+        content: message,
+      }
 
-  try {
-    const payload = {
-      username,
-      content: message,
+      await axios.post(DISCORD.WEBHOOK_URL, payload)
+    } catch (error) {
+      console.error('🚨 Lỗi gửi tin nhắn Discord:', error.message)
     }
-
-    await axios.post(DISCORD.WEBHOOK_URL, payload)
-  } catch (error) {
-    console.error('🚨 Lỗi gửi tin nhắn Discord:', error.message)
   }
 }
 
 // Webhook không cần "check connection" như bot client nên ta có thể đơn giản hóa
 async function checkDiscordConnection() {
-  if (DISCORD.IS_ENABLED) return false
+  if (!DISCORD.IS_ENABLED) return false
 
   try {
     await axios.post(DISCORD.WEBHOOK_URL, {
