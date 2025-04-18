@@ -27,27 +27,13 @@ async function performScan() {
         continue
       }
 
-      const analysis = result.value
-      if (!analysis) continue
-
-      const symbol = analysis.symbol
-
-      for (const [strategyName, action] of Object.entries(analysis.signals)) {
-        if (action) {
-          signalCount++
-          const signalDetail = {
-            symbol,
-            strategy: strategyName.trim(),
-            action: action?.action,
-            price: analysis.price,
-            futuresDetails: analysis.futuresDetails[strategyName],
-          }
-          allSignals.push(signalDetail)
-          console.log('Tín hiệu:', JSON.stringify(signalDetail, null, 2))
-          await sendDiscordSignalMessage(signalDetail)
-          await sendTelegramSignalMessage(signalDetail)
-        }
-      }
+      const signal = result.value
+      if (!signal) continue
+      signalCount++
+      console.log('Tín hiệu:', JSON.stringify(signal, null, 2))
+      allSignals.push(signal)
+      await sendDiscordSignalMessage(signal)
+      await sendTelegramSignalMessage(signal)
     }
 
     if (CONFIG.IS_LOG_ENABLED) {

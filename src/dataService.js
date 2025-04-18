@@ -1,6 +1,6 @@
 const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
-const { RSI, BollingerBands } = require('technicalindicators')
+const { RSI, BollingerBands, MACD } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 async function getHistoricalData(symbol) {
@@ -24,53 +24,135 @@ async function getHistoricalData(symbol) {
   }
 }
 
+// Hàm xử lý chính
+function processSignals(signals) {
+  const signalGroups = {
+    BUY: { strategies: [], count: 0 },
+    SELL: { strategies: [], count: 0 },
+  }
+
+  // Nhóm các tín hiệu
+  for (const [strategy, signal] of Object.entries(signals)) {
+    if (signal === 'BUY') {
+      signalGroups.BUY.strategies.push(strategy)
+      signalGroups.BUY.count++
+    } else if (signal === 'SELL') {
+      signalGroups.SELL.strategies.push(strategy)
+      signalGroups.SELL.count++
+    }
+  }
+
+  // Tạo futuresDetails
+  const futuresDetails = {}
+  for (const [action, group] of Object.entries(signalGroups)) {
+    if (group.count > 0) {
+      const key = group.strategies.join('_') || action
+      futuresDetails[key] = {
+        direction: action === 'BUY' ? 'Long' : 'Short',
+        strength: `${group.count}/${Object.keys(signals).length}`,
+        contributors: group.strategies,
+      }
+    }
+  }
+
+  // Quyết định cuối cùng
+  let decision = 'Wait' // Nếu tín hiệu buy và sell bằn nhau
+  if (signalGroups.BUY.count > signalGroups.SELL.count) {
+    decision = 'Long'
+  } else if (signalGroups.SELL.count > signalGroups.BUY.count) {
+    decision = 'Short'
+  }
+
+  return { decision, futuresDetails }
+}
+
+// Format tín hiệu thay null -> NONE
+function formatSignals(signals) {
+  return Object.fromEntries(Object.entries(signals).map(([k, v]) => [k, v || '']))
+}
+
 async function analyzeMarket(symbol) {
   try {
     const data = await getHistoricalData(symbol)
     if (!data || data.closes.length < 100) return null
 
-    // Tính toán các chỉ báo
-    const rsi = RSI.calculate({ values: data.closes, period: STRATEGY_CONFIG.RSI_PERIOD })
-    const bb = BollingerBands.calculate({
-      period: STRATEGY_CONFIG.BB_PERIOD,
-      values: data.closes,
-      stdDev: STRATEGY_CONFIG.STD_DEV,
-    })
-
-    // Tính độ rộng Bollinger Bands
-    const bbWidth = bb.map((b) => (b.upper - b.lower) / b.middle)
-    const recentBBWidth = bbWidth.slice(-STRATEGY_CONFIG.BREAKOUT_PERIOD)
-    const avgBBWidth = recentBBWidth.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.BREAKOUT_PERIOD
-    const isVolatileMarket = avgBBWidth > STRATEGY_CONFIG.BB_SQUEEZE_THRESHOLD
-
-    // Lọc tín hiệu theo market regime
-    const signals = {
-      BollingerBand: isVolatileMarket
-        ? TradingStrategies.checkBollingerBand(data.closes, data.highs, data.lows, data.volumes, rsi)
-        : null,
-      NadarayaUTbot: isVolatileMarket ? TradingStrategies.checkNadarayaUTBot(data.closes, data.volumes, rsi) : null,
+    // Tính toán chỉ báo
+    const indicators = {
+      bb: BollingerBands.calculate({
+        period: STRATEGY_CONFIG.BOLLINGER_BAND.PERIOD,
+        values: data.closes,
+        stdDev: STRATEGY_CONFIG.BOLLINGER_BAND.STD_DEV,
+      }),
+      rsi: RSI.calculate({
+        values: data.closes,
+        period: STRATEGY_CONFIG.RSI.PERIOD,
+      }),
+      macd: MACD.calculate({
+        values: data.closes,
+        fastPeriod: STRATEGY_CONFIG.MACD.FAST_PERIOD,
+        slowPeriod: STRATEGY_CONFIG.MACD.SLOW_PERIOD,
+        signalPeriod: STRATEGY_CONFIG.MACD.SIGNAL_PERIOD,
+      }),
+      ichimoku: {
+        highs: data.highs,
+        lows: data.lows,
+        closes: data.closes,
+      },
+      stochastic: {
+        highs: data.highs,
+        lows: data.lows,
+        closes: data.closes,
+      },
+      adx: {
+        highs: data.highs,
+        lows: data.lows,
+        closes: data.closes,
+      },
+      psar: {
+        highs: data.highs,
+        lows: data.lows,
+      },
     }
 
-    const futuresDetails = {}
-
-    for (const [strategyName, result] of Object.entries(signals)) {
-      if (result) {
-        futuresDetails[strategyName] = {
-          direction: result.action === 'BUY' ? 'Long' : 'Short',
-        }
-      }
+    // Thu thập tín hiệu
+    const allStrategies = {
+      NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(data.closes),
+      BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, data.closes),
+      RSI: TradingStrategies.checkRSI(indicators.rsi),
+      MACD: TradingStrategies.checkMACD(indicators.macd),
+      VolumeSpike: TradingStrategies.checkVolumeSpike(data.closes, data.volumes),
+      Ichimoku: TradingStrategies.checkIchimokuCloud(
+        indicators.ichimoku.highs,
+        indicators.ichimoku.lows,
+        indicators.ichimoku.closes,
+      ),
+      Stochastic: TradingStrategies.checkStochastic(
+        indicators.stochastic.highs,
+        indicators.stochastic.lows,
+        indicators.stochastic.closes,
+      ),
+      ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
+      ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
+      Fibonacci: TradingStrategies.checkFibonacci(data.closes),
     }
+
+    // Kiểm tra nếu tất cả đều null
+    if (Object.values(allStrategies).every((s) => s === null)) return null
+
+    // Xử lý tín hiệu và tạo output
+    const processed = processSignals(allStrategies)
 
     return {
       symbol,
-      signals,
-      price: parseFloat(data.closes.at(-1)),
-      futuresDetails,
+      signals: formatSignals(allStrategies),
+      decision: processed.decision,
+      futuresDetails: processed.futuresDetails,
+      price: data.closes.at(-1),
     }
   } catch (error) {
-    console.error(`Lỗi phân tích ${symbol}:`, error)
+    console.error(`Error analyzing ${symbol}:`, error)
     return null
   }
 }
 
-module.exports = { getHistoricalData, analyzeMarket }
+module.exports = { getHistoricalData, analyzeMarket, processSignals }

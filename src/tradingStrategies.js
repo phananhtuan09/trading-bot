@@ -1,4 +1,4 @@
-const { BollingerBands, EMA } = require('technicalindicators')
+const { IchimokuCloud, Stochastic, ADX, PSAR } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 class TradingStrategies {
@@ -8,7 +8,7 @@ class TradingStrategies {
   }
 
   // Làm mượt dữ liệu chuỗi giá đóng cửa bằng phương pháp Nadaraya-Watson với kernel Gaussian
-  static nadarayaWatsonSmoothing(closes, window = 50, h = 10) {
+  static nadarayaWatsonSmoothing(closes, window, h) {
     const smoothed = []
     for (let i = 0; i < closes.length; i++) {
       let sumWeights = 0
@@ -25,129 +25,195 @@ class TradingStrategies {
     return smoothed
   }
 
-  // Kiểm tra tín hiệu giao dịch dựa trên phương pháp Nadaraya-Watson kết hợp UTBot
-  static checkNadarayaUTBot(closes, volumes, rsiValues) {
+  // Chiến lược Nadaraya-Watson
+  static checkNadarayaUTBot(closes) {
     const smoothed = this.nadarayaWatsonSmoothing(
       closes,
-      STRATEGY_CONFIG.NADARAYA_WINDOW,
-      STRATEGY_CONFIG.NADARAYA_BANDWIDTH,
+      STRATEGY_CONFIG.NADARAYA.WINDOW,
+      STRATEGY_CONFIG.NADARAYA.BANDWIDTH,
     )
 
-    if (smoothed.length < 2) return null
+    if (closes.length < 2 || smoothed.length < 2) return null
 
-    const i = closes.length - 1
-    const prevClose = closes[i - 1]
-    const currentClose = closes[i]
-    const prevSmoothed = smoothed[i - 1]
-    const currentSmoothed = smoothed[i]
+    const [prevClose, currentClose] = closes.slice(-2)
+    const [prevSmoothed, currentSmoothed] = smoothed.slice(-2)
 
-    if (i < STRATEGY_CONFIG.VOLUME_LOOKBACK) return null
-    // Tính trung bình khối lượng gần nhất
-    const recentVolumes = volumes.slice(i - STRATEGY_CONFIG.VOLUME_LOOKBACK, i)
-    const avgVolume = recentVolumes.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.VOLUME_LOOKBACK
+    if (prevClose < prevSmoothed && currentClose > currentSmoothed) return 'BUY'
+    if (prevClose > prevSmoothed && currentClose < currentSmoothed) return 'SELL'
+    return null
+  }
 
-    const currentVolume = volumes[i]
-    const volumeThreshold = STRATEGY_CONFIG.VOLUME_THRESHOLD
+  // Chiến lược Bollinger Bands
+  static checkBollingerBand(bbData, closes) {
+    if (!bbData || bbData.length < 1 || closes.length < 1) return null
 
-    const lastRSI = rsiValues.at(-1)
+    const currentClose = closes.at(-1)
+    const { upper, lower } = bbData.at(-1)
 
-    // Tín hiệu BUY khi: giá vượt lên đường smoothed + volume tăng + RSI đang quá bán
-    if (
-      prevClose < prevSmoothed &&
-      currentClose > currentSmoothed &&
-      currentVolume > avgVolume * volumeThreshold &&
-      lastRSI < STRATEGY_CONFIG.RSI_THRESHOLDS.OVERSOLD
-    ) {
-      return {
-        action: 'BUY',
-      }
+    if (currentClose > upper) return 'SELL'
+    if (currentClose < lower) return 'BUY'
+    return null
+  }
+
+  // Chiến lược RSI
+  static checkRSI(rsiValues) {
+    if (!rsiValues || rsiValues.length < 1) return null
+
+    const currentRSI = rsiValues.at(-1)
+
+    if (currentRSI < STRATEGY_CONFIG.RSI.OVERSOLD) return 'BUY'
+    if (currentRSI > STRATEGY_CONFIG.RSI.OVERBOUGHT) return 'SELL'
+    return null
+  }
+
+  // Chiến lược MACD
+  static checkMACD(macdOutput) {
+    if (!macdOutput || macdOutput.length < 2) return null
+
+    const [prev, current] = macdOutput.slice(-2)
+
+    if (current.MACD > current.signal && prev.MACD <= prev.signal) return 'BUY'
+    if (current.MACD < current.signal && prev.MACD >= prev.signal) return 'SELL'
+    return null
+  }
+
+  // Chiến lược Volume Spike
+  static checkVolumeSpike(closes, volumes) {
+    if (volumes.length < STRATEGY_CONFIG.VOLUME || closes.length < 2) return null
+
+    const recentVolumes = volumes.slice(-STRATEGY_CONFIG.VOLUME.PERIOD)
+    const avgVolume = recentVolumes.reduce((a, b) => a + b) / recentVolumes.length
+    const currentVolume = volumes.at(-1)
+
+    if (currentVolume > avgVolume * STRATEGY_CONFIG.VOLUME.THRESHOLD) {
+      return closes.at(-1) > closes.at(-2) ? 'BUY' : 'SELL'
+    }
+    return null
+  }
+  // Ichimoku Cloud Strategy
+  static checkIchimokuCloud(highs, lows, closes) {
+    const ichimoku = IchimokuCloud.calculate({
+      high: highs,
+      low: lows,
+      conversionPeriod: STRATEGY_CONFIG.ICHIMOKU.conversionPeriod,
+      basePeriod: STRATEGY_CONFIG.ICHIMOKU.basePeriod,
+      spanPeriod: STRATEGY_CONFIG.ICHIMOKU.spanPeriod,
+      displacement: STRATEGY_CONFIG.ICHIMOKU.displacement,
+    })
+
+    if (ichimoku.length < 1) return null
+    const current = closes.at(-1)
+    const lastIchi = ichimoku.at(-1)
+
+    // Tín hiệu khi giá nằm trên đám mây và Tenkan-sen > Kijun-sen
+    if (current > lastIchi.senkouSpanA && current > lastIchi.senkouSpanB && lastIchi.tenkanSen > lastIchi.kijunSen) {
+      return 'BUY'
     }
 
-    // Tín hiệu SELL khi: giá rơi xuống dưới đường smoothed + volume tăng + RSI đang quá mua
-    if (
-      prevClose > prevSmoothed &&
-      currentClose < currentSmoothed &&
-      currentVolume > avgVolume * volumeThreshold &&
-      lastRSI > STRATEGY_CONFIG.RSI_THRESHOLDS.OVERBOUGHT
-    ) {
-      return {
-        action: 'SELL',
-      }
+    // Tín hiệu khi giá nằm dưới đám mây và Tenkan-sen < Kijun-sen
+    if (current < lastIchi.senkouSpanA && current < lastIchi.senkouSpanB && lastIchi.tenkanSen < lastIchi.kijunSen) {
+      return 'SELL'
     }
 
     return null
   }
 
-  // Kiểm tra tín hiệu giao dịch dựa vào Bollinger Bands, EMA và RSI
-  static checkBollingerBand(closes, highs, lows, volumes, rsiValues) {
-    const bb = BollingerBands.calculate({
-      period: STRATEGY_CONFIG.BB_PERIOD,
-      values: closes,
-      stdDev: STRATEGY_CONFIG.STD_DEV,
+  // Stochastic Oscillator Strategy
+  static checkStochastic(highs, lows, closes) {
+    const stochastic = Stochastic.calculate({
+      high: highs,
+      low: lows,
+      close: closes,
+      period: STRATEGY_CONFIG.STOCHASTIC.period,
+      signalPeriod: STRATEGY_CONFIG.STOCHASTIC.signalPeriod,
     })
 
-    if (bb.length < 3) return null
+    if (stochastic.length < 2) return null
+    const [prev, current] = stochastic.slice(-2)
 
-    // Chỉ lấy các giá trị thực sự cần dùng
-    const prev1 = closes.at(-2)
-    const current = closes.at(-1)
-    const currentHigh = highs.at(-1)
-    const currentLow = lows.at(-1)
-
-    // Chỉ lấy các thành phần BB cần thiết
-    const { upper: currentUpper, lower: currentLower } = bb.at(-1)
-    const { upper: prevUpper, lower: prevLower } = bb.at(-2)
-
-    // Tính khối lượng trung bình gần đây
-    const avgVolume =
-      volumes.slice(-STRATEGY_CONFIG.VOLUME_LOOKBACK).reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.VOLUME_LOOKBACK
-    const lastRSI = rsiValues.at(-1)
-    const prevRSI = rsiValues.at(-2) || lastRSI
-
-    // Tính các đường EMA ngắn hạn và dài hạn để xác định xu hướng
-    const ema20 = EMA.calculate({
-      period: STRATEGY_CONFIG.EMA_PERIODS.SHORT,
-      values: closes,
-    })
-    const ema50 = EMA.calculate({
-      period: STRATEGY_CONFIG.EMA_PERIODS.LONG,
-      values: closes,
-    })
-    const isBullTrend = ema20.at(-1) > ema50.at(-1)
-    const isBearTrend = ema20.at(-1) < ema50.at(-1)
-
-    // Mô hình đảo chiều tăng giá (bullish reversal)
-    const bullishReversal = current > prev1 && currentHigh > currentUpper && current > (currentHigh + currentLow) / 2
-    // Mô hình đảo chiều giảm giá (bearish reversal)
-    const bearishReversal = current < prev1 && currentLow < currentLower && current < (currentHigh + currentLow) / 2
-
-    // Tín hiệu BUY khi giá vượt qua dải dưới Bollinger và có bullish reversal trong xu hướng tăng
-    if (
-      prev1 < prevLower &&
-      current > currentLower &&
-      bullishReversal &&
-      volumes.at(-1) > avgVolume * STRATEGY_CONFIG.VOLUME_THRESHOLD &&
-      lastRSI > STRATEGY_CONFIG.RSI_THRESHOLDS.OVERSOLD &&
-      lastRSI > prevRSI &&
-      isBullTrend
-    ) {
-      return {
-        action: 'BUY',
-      }
+    // Tín hiệu khi %K cắt lên trên %D từ vùng quá bán
+    if (prev.k < prev.d && current.k > current.d && current.k < 20) {
+      return 'BUY'
     }
 
-    // Tín hiệu SELL khi giá rơi xuống dưới dải trên Bollinger và có bearish reversal trong xu hướng giảm
-    if (
-      prev1 > prevUpper &&
-      current < currentUpper &&
-      bearishReversal &&
-      volumes.at(-1) > avgVolume * STRATEGY_CONFIG.VOLUME_THRESHOLD &&
-      lastRSI < STRATEGY_CONFIG.RSI_THRESHOLDS.OVERBOUGHT &&
-      lastRSI < prevRSI &&
-      isBearTrend
-    ) {
-      return {
-        action: 'SELL',
+    // Tín hiệu khi %K cắt xuống dưới %D từ vùng quá mua
+    if (prev.k > prev.d && current.k < current.d && current.k > 80) {
+      return 'SELL'
+    }
+
+    return null
+  }
+
+  // ADX Strategy
+  static checkADX(highs, lows, closes) {
+    const adx = ADX.calculate({
+      high: highs,
+      low: lows,
+      close: closes,
+      period: STRATEGY_CONFIG.ADX.period,
+    })
+
+    if (adx.length < 1) return null
+    const currentADX = adx.at(-1)
+
+    // Xu hướng mạnh khi ADX > 25 và +DI > -DI
+    if (currentADX.adx > STRATEGY_CONFIG.ADX.strongTrendThreshold && currentADX.pdi > currentADX.mdi) {
+      return 'BUY'
+    }
+
+    // Xu hướng mạnh khi ADX > 25 và -DI > +DI
+    if (currentADX.adx > STRATEGY_CONFIG.ADX.strongTrendThreshold && currentADX.mdi > currentADX.pdi) {
+      return 'SELL'
+    }
+
+    return null
+  }
+
+  // Parabolic SAR Strategy
+  static checkParabolicSAR(highs, lows) {
+    const psar = PSAR.calculate({
+      high: highs,
+      low: lows,
+      step: STRATEGY_CONFIG.PARABOLIC_SAR.step,
+      max: STRATEGY_CONFIG.PARABOLIC_SAR.max,
+    })
+
+    if (psar.length < 2) return null
+    const [prev, current] = psar.slice(-2)
+
+    // Tín hiệu đảo chiều tăng khi SAR nằm dưới giá
+    if (current > prev) return 'BUY'
+
+    // Tín hiệu đảo chiều giảm khi SAR nằm trên giá
+    if (current < prev) return 'SELL'
+
+    return null
+  }
+
+  // Fibonacci Retracement Strategy
+  static checkFibonacci(closes) {
+    if (closes.length < STRATEGY_CONFIG.FIBONACCI.lookbackPeriod) return null
+
+    // Tìm swing high và swing low
+    const lookback = closes.slice(-STRATEGY_CONFIG.FIBONACCI.lookbackPeriod)
+    const swingHigh = Math.max(...lookback)
+    const swingLow = Math.min(...lookback)
+    const diff = swingHigh - swingLow
+
+    // Tính các mức retracement
+    const levels = STRATEGY_CONFIG.FIBONACCI.retracementLevels.map((l) => ({
+      level: l,
+      price: swingHigh - diff * l,
+    }))
+
+    const currentPrice = closes.at(-1)
+
+    // Kiểm tra các mức hỗ trợ/kháng cự
+    for (const { level, price } of levels) {
+      if (Math.abs(currentPrice - price) < price * 0.005) {
+        // Trong phạm vi 0.5%
+        if (level >= 0.618 && currentPrice > price) return 'BUY'
+        if (level >= 0.618 && currentPrice < price) return 'SELL'
       }
     }
 

@@ -3,17 +3,6 @@ require('dotenv').config()
 const STRATEGY_CONFIG = {
   INTERVAL: '1h', // Khoảng thời gian của mỗi nến (candle), ví dụ '1h' là 1 giờ.
 
-  EMA_PERIODS: {
-    SHORT: 20, // EMA ngắn: sử dụng 20 giá trị gần nhất.
-    LONG: 50, // EMA dài: sử dụng 50 giá trị gần nhất.
-  },
-
-  RSI_PERIOD: 14, // Cấu hình cho chỉ báo RSI: sử dụng 14 giá trị gần nhất.
-
-  BB_PERIOD: 14, // Cấu hình cho Bollinger Bands: sử dụng 14 giá trị gần nhất.
-
-  BREAKOUT_PERIOD: 14, // Số lượng nến được dùng để xác định breakout.
-
   QUOTE_ASSET: 'USDT', // Loại tiền tệ cơ sở được giao dịch.
 
   MAX_SYMBOLS: 500, // Số lượng symbol tối đa được xử lý cùng lúc.
@@ -22,21 +11,67 @@ const STRATEGY_CONFIG = {
 
   CONCURRENCY_LIMIT: 20, // Giới hạn xử lý song song.
 
-  STD_DEV: 1.8, // Độ lệch chuẩn cho Bollinger Bands.
-
-  VOLUME_LOOKBACK: 14, // Số nến để tính trung bình khối lượng.
-
-  RSI_THRESHOLDS: {
-    OVERBOUGHT: 60, // RSI > 60: quá mua.
-    OVERSOLD: 40, // RSI < 40: quá bán.
+  // Nadaraya-Watson
+  NADARAYA: {
+    WINDOW: 50, // Số điểm dùng cho hồi quy Nadaraya-Watson.
+    BANDWIDTH: 10, // Bandwidth cho hàm Gaussian.
   },
 
-  BB_SQUEEZE_THRESHOLD: 0.1, // Ngưỡng siết BB.
+  // Bollinger Bands
+  BOLLINGER_BAND: {
+    PERIOD: 20, // Số nến để tính toán Bollinger Bands.
+    STD_DEV: 2, // Độ lệch chuẩn cho Bollinger Bands.
+  },
 
-  VOLUME_THRESHOLD: 1.2, // Ngưỡng volume vượt trung bình.
+  // RSI
+  RSI: {
+    PERIOD: 14, // Số nến để tính toán RSI.
+    OVERSOLD: 30, // Ngưỡng RSI quá bán.
+    OVERBOUGHT: 70, // Ngưỡng RSI quá mua.
+  },
 
-  NADARAYA_WINDOW: 40, // Số điểm dùng cho hồi quy Nadaraya-Watson.
-  NADARAYA_BANDWIDTH: 7, // Bandwidth cho hàm Gaussian.
+  // MACD
+  MACD: {
+    FAST_PERIOD: 12, // Số nến nhanh cho MACD.
+    SLOW_PERIOD: 26, // Số nến chậm cho MACD.
+    SIGNAL_PERIOD: 9, // Số nến tín hiệu cho MACD.
+  },
+
+  // Volume
+  VOLUME: {
+    PERIOD: 20, // Số nến để tính toán khối lượng trung bình.
+    THRESHOLD: 2, // Ngưỡng khối lượng vượt trung bình.
+  },
+
+  // Strength Levels
+  STRENGTH_LEVELS: {
+    STRONG: 3,
+    MEDIUM: 2,
+    WEAK: 1,
+  },
+
+  ICHIMOKU: {
+    conversionPeriod: 9,
+    basePeriod: 26,
+    spanPeriod: 52,
+    displacement: 26,
+  },
+  STOCHASTIC: {
+    period: 14,
+    signalPeriod: 3,
+  },
+  ADX: {
+    period: 14,
+    strongTrendThreshold: 25,
+  },
+  PARABOLIC_SAR: {
+    step: 0.02,
+    max: 0.2,
+  },
+  FIBONACCI: {
+    retracementLevels: [0.236, 0.382, 0.5, 0.618, 0.786],
+    lookbackPeriod: 50,
+  },
 }
 
 module.exports = {
