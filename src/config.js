@@ -45,9 +45,9 @@ const STRATEGY_CONFIG = {
 
   // Strength Levels
   STRENGTH_LEVELS: {
-    STRONG: 3,
-    MEDIUM: 2,
-    WEAK: 1,
+    STRONG: 6,
+    MEDIUM: 5,
+    WEAK: 3,
   },
 
   ICHIMOKU: {
@@ -72,6 +72,17 @@ const STRATEGY_CONFIG = {
     retracementLevels: [0.236, 0.382, 0.5, 0.618, 0.786],
     lookbackPeriod: 50,
   },
+  FILTER: {
+    VOLUME_THRESHOLD: 0.8,
+    RSI_STRENGTH_BUFFER: 5,
+    MACD_STRENGTH_RATIO: 0.5,
+    TREND_MA_PERIOD: 200,
+    ENABLE_VOLUME_FILTER: true,
+    ENABLE_TREND_FILTER: true
+  },
+  ATR: {
+    period: 14,
+  }
 }
 
 module.exports = {

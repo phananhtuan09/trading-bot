@@ -45,14 +45,22 @@ class TradingStrategies {
 
   // Chiến lược Bollinger Bands
   static checkBollingerBand(bbData, closes) {
-    if (!bbData || bbData.length < 1 || closes.length < 1) return null
-
-    const currentClose = closes.at(-1)
-    const { upper, lower } = bbData.at(-1)
-
-    if (currentClose > upper) return 'SELL'
-    if (currentClose < lower) return 'BUY'
-    return null
+    if (!bbData || bbData.length < 1 || closes.length < 1) return null;
+  
+    const currentClose = closes.at(-1);
+    const { upper, lower, middle } = bbData.at(-1);
+    
+    // Thêm điều kiện xác nhận xu hướng
+    const isVolatile = (upper - lower) > (middle * 0.05); // Độ rộng dải > 5%
+    const isStrongSignal = 
+      (currentClose > upper && currentClose > upper * 1.005) || // Vượt quá 0.5%
+      (currentClose < lower && currentClose < lower * 0.995);
+  
+    if (!isVolatile || !isStrongSignal) return null;
+  
+    if (currentClose > upper) return 'SELL';
+    if (currentClose < lower) return 'BUY';
+    return null;
   }
 
   // Chiến lược RSI

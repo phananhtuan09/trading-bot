@@ -1,16 +1,16 @@
 const { binanceClient } = require('../src/clients')
-const { BollingerBands, RSI } = require('technicalindicators')
+const { getHistoricalData, processSignals, filterSignals, calculateTPAndSL } = require('../src/dataService')
+const TradingStrategies = require('../src/tradingStrategies')
+const { RSI, BollingerBands, MACD } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('../src/config')
 const fs = require('fs')
 const path = require('path')
-const TradingStrategies = require('../src/tradingStrategies')
 const pLimit = require('p-limit')
 const { getSymbols } = require('../src/symbolManager')
 const { getFileNameTimestamp, ensureFoldersExist } = require('../src/utils')
 
 const BACKTEST_SETTINGS = {
   symbols: [
-    // Danh sách coin test
     'BTCUSDT',
     'ETHUSDT',
     'BNBUSDT',
@@ -25,7 +25,7 @@ const BACKTEST_SETTINGS = {
   interval: '1h',
   years: 1,
   resultFile: 'backtest_results',
-  concurrency: 100, // Giới hạn request đồng thời
+  concurrency: 20,
 }
 
 async function fetchHistoricalData(symbol) {
@@ -51,7 +51,7 @@ async function fetchHistoricalData(symbol) {
       } catch (error) {
         attempts++
         console.log(`Retry ${attempts}/3 cho ${symbol}`)
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 3000))
       }
     }
 
@@ -76,117 +76,159 @@ async function fetchHistoricalData(symbol) {
   }))
 }
 
-function calculateProfit(entryPrice, exitPrice, action) {
-  return action === 'BUY'
-    ? (((exitPrice - entryPrice) / entryPrice) * 100).toFixed(2)
-    : (((entryPrice - exitPrice) / exitPrice) * 100).toFixed(2)
-}
-
-// Thêm trước khi chạy backtest
-async function validateSymbols() {
-  const exchangeInfo = await binanceClient.futuresExchangeInfo()
-  const validSymbols = exchangeInfo.symbols.map((s) => s.symbol)
-
-  return BACKTEST_SETTINGS.symbols.filter((symbol) => {
-    if (!validSymbols.includes(symbol)) {
-      console.warn(`⚠️ Loại bỏ symbol không hợp lệ: ${symbol}`)
-      return false
-    }
-    return true
-  })
-}
-
 async function processSymbol(symbol) {
   try {
     console.log(`🔄 Đang xử lý ${symbol}`)
     const historicalData = await fetchHistoricalData(symbol)
-    // Thêm điều kiện kiểm tra
-    if (historicalData.length < 100) {
+    if (!historicalData || historicalData.length < 100) {
       console.log(`⚠️ Không đủ dữ liệu cho ${symbol} (${historicalData.length} candles)`)
       return []
     }
     const results = []
 
     for (let i = 200; i < historicalData.length; i++) {
-      // Đảm bảo đủ dữ liệu tính EMA
       const chunk = historicalData.slice(0, i + 1)
       const closes = chunk.map((c) => c.close)
       const highs = chunk.map((c) => c.high)
       const lows = chunk.map((c) => c.low)
       const volumes = chunk.map((c) => c.volume)
 
-      // Tính RSI và kiểm tra độ dài
-      const rsiValues = RSI.calculate({
-        values: closes,
-        period: STRATEGY_CONFIG.RSI_PERIOD,
-      })
+      // Tính toán chỉ báo
+      const indicators = {
+        bb: BollingerBands.calculate({
+          period: STRATEGY_CONFIG.BOLLINGER_BAND.PERIOD,
+          values: closes,
+          stdDev: STRATEGY_CONFIG.BOLLINGER_BAND.STD_DEV,
+        }),
+        rsi: RSI.calculate({
+          values: closes,
+          period: STRATEGY_CONFIG.RSI.PERIOD,
+        }),
+        macd: MACD.calculate({
+          values: closes,
+          fastPeriod: STRATEGY_CONFIG.MACD.FAST_PERIOD,
+          slowPeriod: STRATEGY_CONFIG.MACD.SLOW_PERIOD,
+          signalPeriod: STRATEGY_CONFIG.MACD.SIGNAL_PERIOD,
+        }),
+        ichimoku: {
+          highs: highs,
+          lows: lows,
+          closes: closes,
+        },
+        stochastic: {
+          highs: highs,
+          lows: lows,
+          closes: closes,
+        },
+        adx: {
+          highs: highs,
+          lows: lows,
+          closes: closes,
+        },
+        psar: {
+          highs: highs,
+          lows: lows,
+        },
+      }
 
-      const bb = BollingerBands.calculate({
-        period: STRATEGY_CONFIG.BB_PERIOD,
-        values: closes,
-        stdDev: STRATEGY_CONFIG.STD_DEV,
-      })
+      // Thu thập tín hiệu
+      const allStrategies = {
+        NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes),
+        BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes),
+        RSI: TradingStrategies.checkRSI(indicators.rsi),
+        MACD: TradingStrategies.checkMACD(indicators.macd),
+        VolumeSpike: TradingStrategies.checkVolumeSpike(closes, volumes),
+        Ichimoku: TradingStrategies.checkIchimokuCloud(
+          indicators.ichimoku.highs,
+          indicators.ichimoku.lows,
+          indicators.ichimoku.closes,
+        ),
+        Stochastic: TradingStrategies.checkStochastic(
+          indicators.stochastic.highs,
+          indicators.stochastic.lows,
+          indicators.stochastic.closes,
+        ),
+        ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
+        ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
+        Fibonacci: TradingStrategies.checkFibonacci(closes),
+      }
 
-      // Tính độ rộng Bollinger Bands
-      const bbWidth = bb.map((b) => (b.upper - b.lower) / b.middle)
-      const recentBBWidth = bbWidth.slice(-STRATEGY_CONFIG.BREAKOUT_PERIOD)
-      const avgBBWidth = recentBBWidth.reduce((a, b) => a + b, 0) / STRATEGY_CONFIG.BREAKOUT_PERIOD
-      // Sửa điều kiện kiểm tra volatility
-      const isVolatileMarket = avgBBWidth > STRATEGY_CONFIG.BB_SQUEEZE_THRESHOLD
+      // Lọc tín hiệu
+      const filteredStrategies = filterSignals(
+        allStrategies,
+        {
+          closes,
+          volumes,
+        },
+        indicators,
+      )
+      if (filteredStrategies === null) continue
 
-      // Phát hiện tín hiệu
-      const signals = [
-        isVolatileMarket ? TradingStrategies.checkBollingerBand(closes, highs, lows, volumes, rsiValues, bb) : null,
-        isVolatileMarket ? TradingStrategies.checkNadarayaUTBot(closes, volumes, rsiValues, highs) : null,
-      ]
+      // Xử lý tín hiệu và tạo output
+      const processed = processSignals(filteredStrategies)
+      if (processed === null) continue
 
-      signals.forEach((signal, index) => {
-        if (!signal) return
+      const currentPrice = closes.at(-1)
+      const { TP, SL, TP_ROI, SL_ROI } = calculateTPAndSL(
+        processed.decision,
+        processed.strengthCount,
+        currentPrice,
+        highs,
+        lows,
+        closes,
+      )
 
-        const result = {
-          symbol, // Thêm symbol vào kết quả
-          date: new Date(chunk[i].time).toISOString(),
-          strategy: ['bollingerBand', 'nadarayaUTBot'][index],
-          action: signal.action,
-          price: chunk[i].close,
-          after1h: {},
-          after4h: {},
-          after8h: {},
-          after12h: {},
-          after24h: {},
+      const result = {
+        symbol,
+        date: new Date(chunk[i].time).toISOString(), // Cần điều chỉnh để lấy thời gian từ dữ liệu lịch sử nếu có
+        action: processed.decision,
+        price: currentPrice,
+        strategy: 'all',
+        TP_ROI,
+        SL_ROI,
+        after1h: {},
+        after4h: {},
+        after8h: {},
+        after12h: {},
+        after24h: {},
+      }
+
+      // Tính ROI cho các khung thời gian
+      const intervals = [1, 4, 8, 12, 24]
+      intervals.forEach((hours) => {
+        const targetIndex = i + hours
+        if (targetIndex >= historicalData.length) return
+
+        const targetPrice = historicalData[targetIndex].close
+        const entryPrice = result.price
+        const exitPrice = targetPrice
+        const initialMargin = 1 // USD
+        const leverage = 10
+        const direction = processed.decision === 'Long' ? 1 : -1
+
+        const quantity = (initialMargin * leverage) / entryPrice
+        const pnl = (exitPrice - entryPrice) * quantity * direction
+        const roi = (pnl / initialMargin) * 100
+        result[`after${hours}h`] = {
+          price: targetPrice,
+          profitPercent: calculateProfit(result.price, targetPrice, processed.decision),
+          roi: roi.toFixed(2),
         }
-
-        // Tính ROI cho các khung thời gian
-        const intervals = [1, 4, 8, 12, 24]
-        intervals.forEach((hours) => {
-          const targetIndex = i + hours
-          if (targetIndex >= historicalData.length) return
-
-          const targetPrice = historicalData[targetIndex].close
-          const entryPrice = result.price
-          const exitPrice = targetPrice
-          const initialMargin = 1 // USD
-          const leverage = 10
-          const direction = signal.action === 'BUY' ? 1 : -1
-
-          const quantity = (initialMargin * leverage) / entryPrice
-          const pnl = (exitPrice - entryPrice) * quantity * direction
-          const roi = (pnl / initialMargin) * 100
-          result[`after${hours}h`] = {
-            price: targetPrice,
-            profitPercent: calculateProfit(result.price, targetPrice, signal.action),
-            roi: roi.toFixed(2), // ROI %
-          }
-        })
-
-        results.push(result)
       })
+
+      results.push(result)
     }
     return results
   } catch (error) {
     console.error(`❌ Lỗi với ${symbol}:`, error)
     return []
   }
+}
+
+function calculateProfit(entryPrice, exitPrice, decision) {
+  return decision === 'Long'
+    ? (((exitPrice - entryPrice) / entryPrice) * 100).toFixed(2)
+    : (((entryPrice - exitPrice) / exitPrice) * 100).toFixed(2)
 }
 
 async function runBacktest() {

@@ -66,21 +66,34 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
     try {
       const exchangeInfo = await binanceTestClient.futuresExchangeInfo()
       const symbolInfo = exchangeInfo.symbols.find((s) => s.symbol === symbol)
+      // Kiểm tra symbol có tồn tại không
+      if (!symbolInfo) {
+        console.error(`🔴 Symbol ${symbol} không tồn tại trên Testnet`)
+        return 0
+      }
       const lotSizeFilter = symbolInfo.filters.find((f) => f.filterType === 'LOT_SIZE')
       const stepSize = parseFloat(lotSizeFilter.stepSize)
 
       const notional = ORDER_SETTINGS.QUANTITY * ORDER_SETTINGS.LEVERAGE
       let quantity = notional / price
 
-      // Làm tròn xuống theo stepSize
+      // Làm tròn theo stepSize
       quantity = Math.floor(quantity / stepSize) * stepSize
 
-      // Đảm bảo notional >= 100
+      // Đảm bảo notional tối thiểu 100 USDT
       let actualNotional = quantity * price
       if (actualNotional < 100) {
-        quantity = Math.ceil(100 / price / stepSize) * stepSize
-        actualNotional = quantity * price
+        const minQuantity = Math.ceil(100 / price / stepSize) * stepSize
+        actualNotional = minQuantity * price
+        if (actualNotional < 100) {
+          console.error(`🔴 Không đạt notional tối thiểu cho ${symbol}: ${actualNotional.toFixed(2)} USDT`)
+          return 0
+        }
+        quantity = minQuantity
       }
+
+      // Log thông tin kiểm tra
+      console.log(`ℹ️ ${symbol} | Lot size step: ${stepSize} | Quantity: ${quantity}`)
 
       return quantity
     } catch (error) {
@@ -106,7 +119,7 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
     }
   }
   async placeOrder(signal) {
-    const { symbol, price, futuresDetails } = signal
+    const { symbol, price, decision, TP_ROI, SL_ROI } = signal
 
     try {
       if (await this.checkExistingPosition(symbol)) {
@@ -132,9 +145,11 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
       })
 
       const quantity = await this.calculateQuantity(symbol, price)
-      if (quantity <= 0) return
-
-      const side = futuresDetails.direction === 'Long' ? 'BUY' : 'SELL'
+      if (quantity <= 0) {
+        console.log(`🟡 Bỏ qua ${symbol} - Số lượng không hợp lệ`)
+        return
+      }
+      const side = decision === 'Long' ? 'BUY' : 'SELL'
       await binanceTestClient.futuresOrder({
         symbol,
         side,
