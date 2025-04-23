@@ -2,7 +2,7 @@ const { binanceClient } = require('../src/clients')
 const { getHistoricalData, processSignals, filterSignals, calculateTPAndSL } = require('../src/dataService')
 const TradingStrategies = require('../src/tradingStrategies')
 const { RSI, BollingerBands, MACD } = require('technicalindicators')
-const { STRATEGY_CONFIG } = require('../src/config')
+const { STRATEGY_CONFIG, ORDER_SETTINGS } = require('../src/config')
 const fs = require('fs')
 const path = require('path')
 const pLimit = require('p-limit')
@@ -25,7 +25,7 @@ const BACKTEST_SETTINGS = {
   interval: '1h',
   years: 1,
   resultFile: 'backtest_results',
-  concurrency: 20,
+  concurrency: 100,
 }
 
 async function fetchHistoricalData(symbol) {
@@ -169,7 +169,7 @@ async function processSymbol(symbol) {
       if (processed === null) continue
 
       const currentPrice = closes.at(-1)
-      const { TP, SL, TP_ROI, SL_ROI } = calculateTPAndSL(
+      const { TP_ROI, SL_ROI } = calculateTPAndSL(
         processed.decision,
         processed.strengthCount,
         currentPrice,
@@ -180,41 +180,87 @@ async function processSymbol(symbol) {
 
       const result = {
         symbol,
-        date: new Date(chunk[i].time).toISOString(), // Cần điều chỉnh để lấy thời gian từ dữ liệu lịch sử nếu có
+        date: new Date(chunk[i].time).toISOString(),
         action: processed.decision,
-        price: currentPrice,
-        strategy: 'all',
+        entryPrice: currentPrice,
+        strategies: [],
         TP_ROI,
         SL_ROI,
-        after1h: {},
-        after4h: {},
-        after8h: {},
-        after12h: {},
-        after24h: {},
+        initialMargin: ORDER_SETTINGS.QUANTITY,
+        isHitTp: false,
+        isHitSL: false,
+        actual_ROI: 0,
+        closePrice: currentPrice,
+        closeMargin: 0,
       }
 
-      // Tính ROI cho các khung thời gian
-      const intervals = [1, 4, 8, 12, 24]
-      intervals.forEach((hours) => {
-        const targetIndex = i + hours
-        if (targetIndex >= historicalData.length) return
-
-        const targetPrice = historicalData[targetIndex].close
-        const entryPrice = result.price
-        const exitPrice = targetPrice
-        const initialMargin = 1 // USD
-        const leverage = 10
-        const direction = processed.decision === 'Long' ? 1 : -1
-
-        const quantity = (initialMargin * leverage) / entryPrice
-        const pnl = (exitPrice - entryPrice) * quantity * direction
-        const roi = (pnl / initialMargin) * 100
-        result[`after${hours}h`] = {
-          price: targetPrice,
-          profitPercent: calculateProfit(result.price, targetPrice, processed.decision),
-          roi: roi.toFixed(2),
+      // Lấy danh sách chiến lược
+      const contributingStrategies = []
+      Object.values(processed.futuresDetails).forEach((group) => {
+        if (group.direction === processed.decision) {
+          contributingStrategies.push(...group.contributors)
         }
       })
+      result.strategies = [...new Set(contributingStrategies)].sort().join('_')
+
+      const initialMargin = ORDER_SETTINGS.QUANTITY // USD
+      const leverage = ORDER_SETTINGS.LEVERAGE
+      const entryPrice = currentPrice
+
+      // Tính toán TP/SL và ROI
+      const intervals = [1, 4, 8, 12, 24]
+      let tpPrice = processed.decision === 'Long' ? entryPrice * (1 + TP_ROI / 100) : entryPrice * (1 - TP_ROI / 100)
+      let slPrice = processed.decision === 'Long' ? entryPrice * (1 + SL_ROI / 100) : entryPrice * (1 - SL_ROI / 100)
+      let hitTime = null
+
+      for (let hours of intervals) {
+        const targetIndex = i + hours
+        if (targetIndex >= historicalData.length) break
+
+        const targetPrice = historicalData[targetIndex].close
+        const direction = processed.decision === 'Long' ? 1 : -1
+        const roi = direction * ((targetPrice - entryPrice) / entryPrice) * 100
+
+        if (!result.isHitTp && !result.isHitSL) {
+          if (processed.decision === 'Long') {
+            if (targetPrice >= tpPrice) {
+              result.isHitTp = true
+              result.closePrice = targetPrice
+              result.actual_ROI = TP_ROI
+              hitTime = hours
+            } else if (targetPrice <= slPrice) {
+              result.isHitSL = true
+              result.closePrice = targetPrice
+              result.actual_ROI = SL_ROI
+              hitTime = hours
+            }
+          } else {
+            if (targetPrice <= tpPrice) {
+              result.isHitTp = true
+              result.closePrice = targetPrice
+              result.actual_ROI = TP_ROI
+              hitTime = hours
+            } else if (targetPrice >= slPrice) {
+              result.isHitSL = true
+              result.closePrice = targetPrice
+              result.actual_ROI = SL_ROI
+              hitTime = hours
+            }
+          }
+        }
+
+        if (hours === 24 && !result.isHitTp && !result.isHitSL) {
+          result.closePrice = targetPrice
+          result.actual_ROI = roi
+        }
+
+        if (result.isHitTp || result.isHitSL) break
+      }
+
+      // Tính closeMargin
+      const quantity = (initialMargin * leverage) / entryPrice
+      const pnl = (result.closePrice - entryPrice) * quantity * (processed.decision === 'Long' ? 1 : -1)
+      result.closeMargin = initialMargin + pnl
 
       results.push(result)
     }

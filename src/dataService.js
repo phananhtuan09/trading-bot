@@ -195,30 +195,32 @@ function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes)
   const currentATR = atrValues[atrValues.length - 1] || 0 // Lấy ATR gần nhất
 
   // Điều chỉnh bội số dựa trên strength (1 đến 3 chiến lược đồng thuận)
-  const baseTPMultiplier = 2 + (strength - 1) * 0.8 // TP: 3x - 4.6x 
+  const baseTPMultiplier = 2 + (strength - 1) * 1.2 // TP: 3x - 4.6x
   const baseSLMultiplier = 1 + (strength - 1) * 0.2 // SL: 0.8x - 1.2x
 
   if (decision === 'Long') {
     const TP = currentPrice + currentATR * baseTPMultiplier
     const SL = currentPrice - currentATR * baseSLMultiplier
     const TP_ROI = ((TP - currentPrice) / currentPrice) * 100
-    const SL_ROI = ((SL - currentPrice) / currentPrice) * 100
+    let SL_ROI = TP_ROI * 2
+    if (SL_ROI > 30) SL_ROI = 30
     return {
       TP,
       SL,
       TP_ROI,
-      SL_ROI,
+      SL_ROI: -SL_ROI,
     }
   } else if (decision === 'Short') {
     const TP = currentPrice - currentATR * baseTPMultiplier
     const SL = currentPrice + currentATR * baseSLMultiplier
     const TP_ROI = ((currentPrice - TP) / currentPrice) * 100
-    const SL_ROI = ((currentPrice - SL) / currentPrice) * 100
+    let SL_ROI = TP_ROI * 2
+    if (SL_ROI > 30) SL_ROI = 30
     return {
       TP,
       SL,
       TP_ROI,
-      SL_ROI,
+      SL_ROI: -SL_ROI,
     }
   }
 }
