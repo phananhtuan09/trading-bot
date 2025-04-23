@@ -3,11 +3,25 @@ const { telegramClient } = require('./clients')
 
 // Tạo nội dung tin nhắn cho tín hiệu (sử dụng Markdown)
 function createSignalMessage(signal) {
-  const futures = signal.futuresDetails || {}
+  const futuresDetails = {
+    strategies: '',
+    strength: '',
+  }
+  Object.values(signal.futuresDetails).forEach((group) => {
+    if (group.direction === signal.decision) {
+      const strategies = group.contributors.sort().join(', ')
+      futuresDetails.strategies = strategies
+      futuresDetails.strength = group.strength
+    }
+  })
+
   const message = `*Tín hiệu:* ${signal.symbol}
-*Hành động:* ${futures.direction || 'N/A'}
-*Giá hiện tại:* ${signal.price}
-*Chiến lược:* ${signal.strategy}
+*Hành động:* ${signal.decision || 'N/A'}
+*Giá hiện tại:* ${signal.price || 'N/A'} 
+*Độ mạnh:* ${futuresDetails.strength || 'N/A'}
+*Chiến lược:* ${futuresDetails.strategies || 'N/A'}
+*TP(ROI %):* ${signal.TP_ROI.toFixed(4) || 'N/A'}
+*SL(ROI %):* ${signal.SL_ROI.toFixed(4) || 'N/A'}
 `
   return message
 }
