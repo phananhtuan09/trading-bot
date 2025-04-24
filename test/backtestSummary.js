@@ -85,6 +85,39 @@ function generateSummary() {
       }
     })
 
+    let badStrategies = null
+    let worstRatio = Infinity
+    Object.keys(strategyPerformance).forEach((strat) => {
+      const { hitTP, hitSL } = strategyPerformance[strat]
+      const ratio = hitSL > 0 ? hitTP / hitSL : hitTP
+      if (ratio < worstRatio) {
+        worstRatio = ratio
+        badStrategies = strat
+      }
+    })
+
+    let badInterval = null
+    let worstIntervalRatio = Infinity
+    Object.keys(intervalPerformance).forEach((interval) => {
+      const { hitTP, hitSL } = intervalPerformance[interval]
+      const ratio = hitSL > 0 ? hitTP / hitSL : hitTP
+      if (ratio < worstIntervalRatio) {
+        worstIntervalRatio = ratio
+        badInterval = interval
+      }
+    })
+
+    const reasonCloseCounts = {
+      hitTP: results.filter((r) => r.reasonClose === 'hitTP').length,
+      hitSL: results.filter((r) => r.reasonClose === 'hitSL').length,
+      timeout24h: results.filter((r) => r.reasonClose === 'timeout24h').length,
+    }
+
+    const strengthCounts = {}
+    for (let s = 4; s <= 10; s++) {
+      strengthCounts[s] = results.filter((r) => r.strength === s).length
+    }
+
     const initialMarginTotal = results.reduce((sum, r) => sum + r.initialMargin, 0)
     const closeMarginTotal = results.reduce((sum, r) => sum + r.closeMargin, 0)
     const close_ROI = ((closeMarginTotal - initialMarginTotal) / initialMarginTotal) * 100
@@ -102,6 +135,10 @@ function generateSummary() {
       initialMargin: initialMarginTotal,
       closeMargin: closeMarginTotal,
       close_ROI,
+      badStrategies,
+      badInterval,
+      reasonClose: reasonCloseCounts,
+      strength: strengthCounts,
     }
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(summary, null, 2))

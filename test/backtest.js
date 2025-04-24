@@ -133,24 +133,24 @@ async function processSymbol(symbol) {
 
       // Thu thập tín hiệu
       const allStrategies = {
-        NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes),
-        BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes),
-        RSI: TradingStrategies.checkRSI(indicators.rsi),
-        MACD: TradingStrategies.checkMACD(indicators.macd),
-        VolumeSpike: TradingStrategies.checkVolumeSpike(closes, volumes),
-        Ichimoku: TradingStrategies.checkIchimokuCloud(
-          indicators.ichimoku.highs,
-          indicators.ichimoku.lows,
-          indicators.ichimoku.closes,
-        ),
-        Stochastic: TradingStrategies.checkStochastic(
-          indicators.stochastic.highs,
-          indicators.stochastic.lows,
-          indicators.stochastic.closes,
-        ),
-        ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
-        ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
-        Fibonacci: TradingStrategies.checkFibonacci(closes),
+        //  NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes),
+        BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes, highs, lows, volumes),
+        //   RSI: TradingStrategies.checkRSI(indicators.rsi),
+        //  MACD: TradingStrategies.checkMACD(indicators.macd),
+        //   VolumeSpike: TradingStrategies.checkVolumeSpike(closes, volumes),
+        //   Ichimoku: TradingStrategies.checkIchimokuCloud(
+        //   indicators.ichimoku.highs,
+        //   indicators.ichimoku.lows,
+        //   indicators.ichimoku.closes,
+        // ),
+        //  Stochastic: TradingStrategies.checkStochastic(
+        //   indicators.stochastic.highs,
+        //   indicators.stochastic.lows,
+        //   indicators.stochastic.closes,
+        // ),
+        //    ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
+        //   ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
+        //  Fibonacci: TradingStrategies.checkFibonacci(closes),
       }
 
       // Lọc tín hiệu
@@ -178,6 +178,8 @@ async function processSymbol(symbol) {
         closes,
       )
 
+      if (TP_ROI < 5) continue
+
       const result = {
         symbol,
         date: new Date(chunk[i].time).toISOString(),
@@ -192,6 +194,14 @@ async function processSymbol(symbol) {
         actual_ROI: 0,
         closePrice: currentPrice,
         closeMargin: 0,
+        ROI_after1h: null,
+        ROI_after4h: null,
+        ROI_after8h: null,
+        ROI_after12h: null,
+        ROI_after24h: null,
+        reasonClose: 'timeout24h',
+        strength: processed.strengthCount,
+        hitTime: null,
       }
 
       // Lấy danh sách chiến lược
@@ -209,10 +219,6 @@ async function processSymbol(symbol) {
 
       // Tính toán TP/SL và ROI
       const intervals = [1, 4, 8, 12, 24]
-      let tpPrice = processed.decision === 'Long' ? entryPrice * (1 + TP_ROI / 100) : entryPrice * (1 - TP_ROI / 100)
-      let slPrice = processed.decision === 'Long' ? entryPrice * (1 + SL_ROI / 100) : entryPrice * (1 - SL_ROI / 100)
-      let hitTime = null
-
       for (let hours of intervals) {
         const targetIndex = i + hours
         if (targetIndex >= historicalData.length) break
@@ -221,36 +227,34 @@ async function processSymbol(symbol) {
         const direction = processed.decision === 'Long' ? 1 : -1
         const roi = direction * ((targetPrice - entryPrice) / entryPrice) * 100
 
-        if (!result.isHitTp && !result.isHitSL) {
-          if (processed.decision === 'Long') {
-            if (targetPrice >= tpPrice) {
-              result.isHitTp = true
-              result.closePrice = targetPrice
-              result.actual_ROI = TP_ROI
-              hitTime = hours
-            } else if (targetPrice <= slPrice) {
-              result.isHitSL = true
-              result.closePrice = targetPrice
-              result.actual_ROI = SL_ROI
-              hitTime = hours
-            }
-          } else {
-            if (targetPrice <= tpPrice) {
-              result.isHitTp = true
-              result.closePrice = targetPrice
-              result.actual_ROI = TP_ROI
-              hitTime = hours
-            } else if (targetPrice >= slPrice) {
-              result.isHitSL = true
-              result.closePrice = targetPrice
-              result.actual_ROI = SL_ROI
-              hitTime = hours
-            }
-          }
+        result[`ROI_after${hours}h`] = roi
+        // Tính toán TP/SL
+        const tpPrice =
+          processed.decision === 'Long' ? entryPrice * (1 + TP_ROI / 100) : entryPrice * (1 - TP_ROI / 100)
+        const slPrice =
+          processed.decision === 'Long' ? entryPrice * (1 + SL_ROI / 100) : entryPrice * (1 - SL_ROI / 100)
+
+        const hitTP = processed.decision === 'Long' ? targetPrice >= tpPrice : targetPrice <= tpPrice
+        const hitSL = processed.decision === 'Long' ? targetPrice <= slPrice : targetPrice >= slPrice
+
+        if (hitTP) {
+          result.reasonClose = 'hitTP'
+          result.isHitTp = true
+          result.closePrice = targetPrice
+          result.hitTime = hours
+          result.actual_ROI = TP_ROI
+        } else if (hitSL) {
+          result.reasonClose = 'hitSL'
+          result.isHitSL = true
+          result.closePrice = targetPrice
+          result.hitTime = hours
+          result.actual_ROI = SL_ROI
         }
 
         if (hours === 24 && !result.isHitTp && !result.isHitSL) {
           result.closePrice = targetPrice
+          result.hitTime = 24
+          result.reasonClose === 'timeout24h'
           result.actual_ROI = roi
         }
 
@@ -288,7 +292,7 @@ async function runBacktest() {
 
     console.log('Xử lý tông cộng ' + symbols.length + ' symbol')
 
-    const allResults = await Promise.all(symbols.map((symbol) => limit(() => processSymbol(symbol))))
+    const allResults = await Promise.all(symbols.slice(0, 10).map((symbol) => limit(() => processSymbol(symbol))))
 
     const mergedResults = allResults.flat()
     if (mergedResults.length === 0) {

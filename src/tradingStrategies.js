@@ -43,24 +43,62 @@ class TradingStrategies {
     return null
   }
 
+  static calculateMA(values, period) {
+    if (values.length < period) return []
+    const ma = []
+    for (let i = period - 1; i < values.length; i++) {
+      const sum = values.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0)
+      ma.push(sum / period)
+    }
+    return ma
+  }
+
   // Chiến lược Bollinger Bands
-  static checkBollingerBand(bbData, closes) {
-    if (!bbData || bbData.length < 1 || closes.length < 1) return null;
-  
-    const currentClose = closes.at(-1);
-    const { upper, lower, middle } = bbData.at(-1);
-    
-    // Thêm điều kiện xác nhận xu hướng
-    const isVolatile = (upper - lower) > (middle * 0.05); // Độ rộng dải > 5%
-    const isStrongSignal = 
-      (currentClose > upper && currentClose > upper * 1.005) || // Vượt quá 0.5%
-      (currentClose < lower && currentClose < lower * 0.995);
-  
-    if (!isVolatile || !isStrongSignal) return null;
-  
-    if (currentClose > upper) return 'SELL';
-    if (currentClose < lower) return 'BUY';
-    return null;
+  static checkBollingerBand(bbData, closes, highs, lows, volumes) {
+    const { PERIOD, STD_DEV, MIN_BANDWIDTH_PCT, BREAK_THRESHOLD_PCT, VOLUME_MA_PERIOD, ADX_THRESHOLD } =
+      STRATEGY_CONFIG.BOLLINGER_BAND
+
+    // Kiểm tra dữ liệu đầu vào
+    if (!bbData || bbData.length < PERIOD || closes.length < 200) return null
+
+    const currentClose = closes.at(-1)
+    const { upper, lower, middle } = bbData.at(-1)
+
+    // 1. Lọc độ rộng dải Bollinger
+    const bandWidthPct = ((upper - lower) / middle) * 100
+    if (bandWidthPct < MIN_BANDWIDTH_PCT) return null
+
+    // 2. Lọc ngưỡng vượt band
+    const breakThreshold = middle * (BREAK_THRESHOLD_PCT / 100)
+    const isValidBreak = currentClose > upper + breakThreshold || currentClose < lower - breakThreshold
+    if (!isValidBreak) return null
+
+    // 3. Lọc xu hướng với ADX
+    const adxValues = ADX.calculate({
+      high: highs.slice(-200),
+      low: lows.slice(-200),
+      close: closes.slice(-200),
+      period: 14,
+    })
+    if (adxValues.at(-1) < ADX_THRESHOLD) return null
+
+    // 4. Lọc volume
+    const volumeMA = volumes.slice(-VOLUME_MA_PERIOD).reduce((a, b) => a + b, 0) / VOLUME_MA_PERIOD
+    if (volumes.at(-1) < volumeMA * 1.2) return null // Volume hiện tại > 120% MA20
+
+    // 5. Lọc xu hướng dài hạn
+    const ma200 = closes.slice(-200).reduce((a, b) => a + b, 0) / 200
+    const trendDirection = currentClose > ma200 ? 'BUY' : 'SELL'
+
+    // Tạo tín hiệu
+    if (currentClose > upper + breakThreshold && trendDirection === 'SELL') {
+      return 'SELL'
+    }
+    if (currentClose < lower - breakThreshold && trendDirection === 'BUY') {
+      return 'BUY'
+    }
+
+    return null
   }
 
   // Chiến lược RSI

@@ -190,7 +190,7 @@ function formatSignals(signals) {
 
 // Hàm tính TP và SL mới dựa trên ATR
 function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes) {
-  const atrPeriod = STRATEGY_CONFIG.ATR.period 
+  const atrPeriod = STRATEGY_CONFIG.ATR.period
   const atrValues = calculateATR(highs, lows, closes, atrPeriod)
   const currentATR = atrValues[atrValues.length - 1] || 0 // Lấy ATR gần nhất
 

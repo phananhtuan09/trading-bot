@@ -21,6 +21,10 @@ const STRATEGY_CONFIG = {
   BOLLINGER_BAND: {
     PERIOD: 20, // Số nến để tính toán Bollinger Bands.
     STD_DEV: 2, // Độ lệch chuẩn cho Bollinger Bands.
+    MIN_BANDWIDTH_PCT: 5, // Độ rộng dải tối thiểu 5%
+    BREAK_THRESHOLD_PCT: 1, // Ngưỡng vượt band 1%
+    VOLUME_MA_PERIOD: 20, // Lọc volume trung bình 20 phiên
+    ADX_THRESHOLD: 25, // Ngưỡng ADX tối thiểu
   },
 
   // RSI
@@ -47,7 +51,7 @@ const STRATEGY_CONFIG = {
   STRENGTH_LEVELS: {
     STRONG: 6,
     MEDIUM: 5,
-    WEAK: 3,
+    WEAK: 1,
   },
 
   ICHIMOKU: {
@@ -78,11 +82,11 @@ const STRATEGY_CONFIG = {
     MACD_STRENGTH_RATIO: 0.5,
     TREND_MA_PERIOD: 200,
     ENABLE_VOLUME_FILTER: true,
-    ENABLE_TREND_FILTER: true
+    ENABLE_TREND_FILTER: true,
   },
   ATR: {
     period: 14,
-  }
+  },
 }
 
 module.exports = {
