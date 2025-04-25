@@ -1,10 +1,21 @@
-const { IchimokuCloud, Stochastic, ADX, PSAR } = require('technicalindicators')
+const { IchimokuCloud, Stochastic, ADX, PSAR, RSI } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 class TradingStrategies {
   // Hàm kernel Gaussian dùng để tính trọng số theo phân phối chuẩn
   static gaussianKernel(u) {
     return Math.exp(-0.5 * u * u)
+  }
+
+  // Hàm tính EMA
+  static calculateEMA(values, period) {
+    if (values.length < period) return []
+    const k = 2 / (period + 1)
+    const ema = [values.slice(0, period).reduce((a, b) => a + b, 0) / period]
+    for (let i = period; i < values.length; i++) {
+      ema.push(values[i] * k + ema[ema.length - 1] * (1 - k))
+    }
+    return ema
   }
 
   // Làm mượt dữ liệu chuỗi giá đóng cửa bằng phương pháp Nadaraya-Watson với kernel Gaussian
@@ -26,21 +37,45 @@ class TradingStrategies {
   }
 
   // Chiến lược Nadaraya-Watson
-  static checkNadarayaUTBot(closes) {
+  static checkNadarayaUTBot(closes, volumes) {
     const smoothed = this.nadarayaWatsonSmoothing(
       closes,
       STRATEGY_CONFIG.NADARAYA.WINDOW,
       STRATEGY_CONFIG.NADARAYA.BANDWIDTH,
     )
 
-    if (closes.length < 2 || smoothed.length < 2) return null
-
+    // Kiểm tra điều kiện cơ bản
+    if (closes.length < 200 || smoothed.length < 2) return null
     const [prevClose, currentClose] = closes.slice(-2)
     const [prevSmoothed, currentSmoothed] = smoothed.slice(-2)
 
-    if (prevClose < prevSmoothed && currentClose > currentSmoothed) return 'BUY'
-    if (prevClose > prevSmoothed && currentClose < currentSmoothed) return 'SELL'
-    return null
+    // Xác định tín hiệu ban đầu
+    let signal = null
+    if (prevClose < prevSmoothed && currentClose > currentSmoothed) signal = 'BUY'
+    if (prevClose > prevSmoothed && currentClose < currentSmoothed) signal = 'SELL'
+    if (!signal) return null
+
+    // Tính toán các chỉ báo bổ sung
+    const ma200 = this.calculateMA(closes, 200).at(-1)
+    const rsi = RSI.calculate({ values: closes, period: 14 }).at(-1)
+    const volumeMA20 = this.calculateMA(volumes, 20).at(-1)
+    const currentVolume = volumes.at(-1)
+
+    // Bộ lọc nâng cao
+    if (signal === 'BUY') {
+      if (
+        currentClose < ma200 ||
+        rsi > 60 ||
+        currentVolume < volumeMA20 * 1.5 ||
+        currentClose < currentSmoothed * 1.01 // Xác nhận động lượng
+      )
+        return null
+    } else {
+      if (currentClose > ma200 || rsi < 40 || currentVolume < volumeMA20 * 1.5 || currentClose > currentSmoothed * 0.99)
+        return null
+    }
+
+    return signal
   }
 
   static calculateMA(values, period) {
@@ -123,16 +158,65 @@ class TradingStrategies {
     return null
   }
 
+  static calculateMA(values, period) {
+    if (values.length < period) return [] // Nếu số lượng giá trị nhỏ hơn chu kỳ, trả về mảng rỗng
+    const ma = [] // Khởi tạo một mảng rỗng để lưu trữ các giá trị MA
+    for (let i = period - 1; i < values.length; i++) {
+      // Bắt đầu vòng lặp từ vị trí mà chúng ta có đủ số lượng giá trị để tính MA
+      // Ví dụ: nếu period là 20, vòng lặp bắt đầu từ index 19
+      const sum = values.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0)
+      // Lấy một phần của mảng 'values' có độ dài bằng 'period', bắt đầu từ 'i - period + 1' đến 'i' (bao gồm cả 'i').
+      // Sử dụng 'reduce' để tính tổng các giá trị trong phần mảng này.
+      ma.push(sum / period) // Tính giá trị trung bình bằng cách chia tổng cho 'period' và thêm vào mảng 'ma'.
+    }
+    return ma // Trả về mảng chứa các giá trị trung bình động.
+  }
+
   // Chiến lược Volume Spike
-  static checkVolumeSpike(closes, volumes) {
-    if (volumes.length < STRATEGY_CONFIG.VOLUME || closes.length < 2) return null
 
-    const recentVolumes = volumes.slice(-STRATEGY_CONFIG.VOLUME.PERIOD)
-    const avgVolume = recentVolumes.reduce((a, b) => a + b) / recentVolumes.length
+  // Chiến lược Volume Spike (đã chỉnh sửa lần 2 - kết hợp nến đảo chiều và ngưỡng volume động)
+  static checkVolumeSpike(closes, highs, lows, volumes) {
+    if (volumes.length < STRATEGY_CONFIG.VOLUME.PERIOD * 2 || closes.length < 2) return null
+
+    const period = STRATEGY_CONFIG.VOLUME.PERIOD
+    const recentVolumes = volumes.slice(-period)
+    const avgVolume = recentVolumes.reduce((a, b) => a + b) / period
+    const stdDevVolume = Math.sqrt(
+      recentVolumes.map((x) => Math.pow(x - avgVolume, 2)).reduce((a, b) => a + b) / period,
+    )
+    const volumeThreshold = avgVolume + 2 * stdDevVolume // Ngưỡng volume: trung bình + 2 độ lệch chuẩn
     const currentVolume = volumes.at(-1)
+    const currentClose = closes.at(-1)
+    const prevClose = closes.at(-2)
+    const currentHigh = highs.at(-1)
+    const currentLow = lows.at(-1)
+    const prevHigh = highs.at(-2)
+    const prevLow = lows.at(-2)
 
-    if (currentVolume > avgVolume * STRATEGY_CONFIG.VOLUME.THRESHOLD) {
-      return closes.at(-1) > closes.at(-2) ? 'BUY' : 'SELL'
+    if (currentVolume > volumeThreshold) {
+      // Kiểm tra nến đảo chiều tăng (Bullish Engulfing hoặc Pin Bar đáy)
+      if (currentClose > prevHigh && currentClose > prevClose && currentLow < prevLow) {
+        return 'BUY'
+      }
+      if (
+        currentClose > (currentHigh + currentLow) / 2 &&
+        currentHigh - currentLow > 2 * Math.abs(currentClose - currentLow) &&
+        currentLow < prevLow
+      ) {
+        return 'BUY' // Pin Bar đáy
+      }
+
+      // Kiểm tra nến đảo chiều giảm (Bearish Engulfing hoặc Pin Bar đỉnh)
+      if (currentClose < prevLow && currentClose < prevClose && currentHigh > prevHigh) {
+        return 'SELL'
+      }
+      if (
+        currentClose < (currentHigh + currentLow) / 2 &&
+        currentHigh - currentLow > 2 * Math.abs(currentClose - currentHigh) &&
+        currentHigh > prevHigh
+      ) {
+        return 'SELL' // Pin Bar đỉnh
+      }
     }
     return null
   }
@@ -224,15 +308,16 @@ class TradingStrategies {
       max: STRATEGY_CONFIG.PARABOLIC_SAR.max,
     })
 
-    if (psar.length < 2) return null
-    const [prev, current] = psar.slice(-2)
+    if (psar.length < 3) return null
 
-    // Tín hiệu đảo chiều tăng khi SAR nằm dưới giá
-    if (current > prev) return 'BUY'
+    const [prev2, prev1, current] = psar.slice(-3)
 
-    // Tín hiệu đảo chiều giảm khi SAR nằm trên giá
-    if (current < prev) return 'SELL'
+    // Xác nhận đảo chiều 2 nến liên tiếp
+    const isBuySignal = current > prev1 && prev1 > prev2
+    const isSellSignal = current < prev1 && prev1 < prev2
 
+    if (isBuySignal) return 'BUY'
+    if (isSellSignal) return 'SELL'
     return null
   }
 

@@ -1,6 +1,6 @@
 const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
-const { RSI, BollingerBands, MACD } = require('technicalindicators')
+const { RSI, BollingerBands, MACD, ADX } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 async function getHistoricalData(symbol) {
@@ -203,7 +203,7 @@ function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes)
     const SL = currentPrice - currentATR * baseSLMultiplier
     const TP_ROI = ((TP - currentPrice) / currentPrice) * 100
     let SL_ROI = TP_ROI * 2
-    if (SL_ROI > 30) SL_ROI = 30
+    if (SL_ROI > 20) SL_ROI = 20
     return {
       TP,
       SL,
@@ -215,7 +215,7 @@ function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes)
     const SL = currentPrice + currentATR * baseSLMultiplier
     const TP_ROI = ((currentPrice - TP) / currentPrice) * 100
     let SL_ROI = TP_ROI * 2
-    if (SL_ROI > 30) SL_ROI = 30
+    if (SL_ROI > 20) SL_ROI = 20
     return {
       TP,
       SL,

@@ -13,8 +13,8 @@ const STRATEGY_CONFIG = {
 
   // Nadaraya-Watson
   NADARAYA: {
-    WINDOW: 50, // Số điểm dùng cho hồi quy Nadaraya-Watson.
-    BANDWIDTH: 10, // Bandwidth cho hàm Gaussian.
+    WINDOW: 100, // Số điểm dùng cho hồi quy Nadaraya-Watson.
+    BANDWIDTH: 20, // Bandwidth cho hàm Gaussian.
   },
 
   // Bollinger Bands
@@ -66,11 +66,18 @@ const STRATEGY_CONFIG = {
   },
   ADX: {
     period: 14,
-    strongTrendThreshold: 25,
+    strongTrendThreshold: 25, // Tăng từ 20 lên 25
+    diDifferenceThreshold: 3, // Giữ nguyên
+    ma200BufferPct: 5, // Buffer ±5% cho MA200
   },
   PARABOLIC_SAR: {
-    step: 0.02,
-    max: 0.2,
+    step: 0.01, // Giảm độ nhạy
+    max: 0.25, // Tăng ngưỡng tối đa
+    enableTrendFilter: true,
+    trendMAPeriod: 200,
+    minADX: 25,
+    volumeThreshold: 1.5,
+    priceDistance: 0.005, // 0.5%
   },
   FIBONACCI: {
     retracementLevels: [0.236, 0.382, 0.5, 0.618, 0.786],

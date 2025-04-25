@@ -133,30 +133,42 @@ async function processSymbol(symbol) {
 
       // Thu thập tín hiệu
       const allStrategies = {
-        //  NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes),
+        NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes, volumes),
         BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes, highs, lows, volumes),
-        //   RSI: TradingStrategies.checkRSI(indicators.rsi),
-        //  MACD: TradingStrategies.checkMACD(indicators.macd),
-        //   VolumeSpike: TradingStrategies.checkVolumeSpike(closes, volumes),
-        //   Ichimoku: TradingStrategies.checkIchimokuCloud(
+        RSI: TradingStrategies.checkRSI(indicators.rsi),
+        MACD: TradingStrategies.checkMACD(indicators.macd),
+        VolumeSpike: TradingStrategies.checkVolumeSpike(closes, highs, lows, volumes),
+        // skip
+        // Ichimoku: TradingStrategies.checkIchimokuCloud(
         //   indicators.ichimoku.highs,
         //   indicators.ichimoku.lows,
         //   indicators.ichimoku.closes,
         // ),
-        //  Stochastic: TradingStrategies.checkStochastic(
+        // skip
+        // Stochastic: TradingStrategies.checkStochastic(
         //   indicators.stochastic.highs,
         //   indicators.stochastic.lows,
         //   indicators.stochastic.closes,
         // ),
-        //    ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
-        //   ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
-        //  Fibonacci: TradingStrategies.checkFibonacci(closes),
+        // skip
+        // ADX: TradingStrategies.checkADX(
+        //   indicators.adx.highs,
+        //   indicators.adx.lows,
+        //   indicators.adx.closes,
+        //   volumes,
+        //   indicators.rsi,
+        // ),
+        // skip
+        //  ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows, closes, volumes),
+        Fibonacci: TradingStrategies.checkFibonacci(closes),
       }
 
       // Lọc tín hiệu
       const filteredStrategies = filterSignals(
         allStrategies,
         {
+          highs,
+          lows,
           closes,
           volumes,
         },
@@ -292,7 +304,7 @@ async function runBacktest() {
 
     console.log('Xử lý tông cộng ' + symbols.length + ' symbol')
 
-    const allResults = await Promise.all(symbols.slice(0, 10).map((symbol) => limit(() => processSymbol(symbol))))
+    const allResults = await Promise.all(symbols.slice(0, 50).map((symbol) => limit(() => processSymbol(symbol))))
 
     const mergedResults = allResults.flat()
     if (mergedResults.length === 0) {
