@@ -270,24 +270,30 @@ async function analyzeMarket(symbol) {
 
     // Thu thập tín hiệu
     const allStrategies = {
-      NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(data.closes),
-      BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, data.closes),
+      NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(data.closes, data.volumes),
+      BollingerBand: TradingStrategies.checkBollingerBand(
+        indicators.bb,
+        data.closes,
+        data.highs,
+        data.lows,
+        data.volumes,
+      ),
       RSI: TradingStrategies.checkRSI(indicators.rsi),
       MACD: TradingStrategies.checkMACD(indicators.macd),
-      VolumeSpike: TradingStrategies.checkVolumeSpike(data.closes, data.volumes),
-      Ichimoku: TradingStrategies.checkIchimokuCloud(
-        indicators.ichimoku.highs,
-        indicators.ichimoku.lows,
-        indicators.ichimoku.closes,
-      ),
-      Stochastic: TradingStrategies.checkStochastic(
-        indicators.stochastic.highs,
-        indicators.stochastic.lows,
-        indicators.stochastic.closes,
-      ),
-      ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
-      ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
-      Fibonacci: TradingStrategies.checkFibonacci(data.closes),
+      VolumeSpike: TradingStrategies.checkVolumeSpike(data.closes, data.highs, data.lows, data.volumes),
+      // Ichimoku: TradingStrategies.checkIchimokuCloud(
+      //   indicators.ichimoku.highs,
+      //   indicators.ichimoku.lows,
+      //   indicators.ichimoku.closes,
+      // ),
+      // Stochastic: TradingStrategies.checkStochastic(
+      //   indicators.stochastic.highs,
+      //   indicators.stochastic.lows,
+      //   indicators.stochastic.closes,
+      // ),
+      // ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
+      // ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
+      // Fibonacci: TradingStrategies.checkFibonacci(data.closes),
     }
 
     // Lọc tín hiệu

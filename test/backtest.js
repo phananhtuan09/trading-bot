@@ -160,7 +160,7 @@ async function processSymbol(symbol) {
         // ),
         // skip
         //  ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows, closes, volumes),
-        Fibonacci: TradingStrategies.checkFibonacci(closes),
+        //  Fibonacci: TradingStrategies.checkFibonacci(closes),
       }
 
       // Lọc tín hiệu
@@ -304,7 +304,7 @@ async function runBacktest() {
 
     console.log('Xử lý tông cộng ' + symbols.length + ' symbol')
 
-    const allResults = await Promise.all(symbols.slice(0, 50).map((symbol) => limit(() => processSymbol(symbol))))
+    const allResults = await Promise.all(symbols.map((symbol) => limit(() => processSymbol(symbol))))
 
     const mergedResults = allResults.flat()
     if (mergedResults.length === 0) {

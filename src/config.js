@@ -51,7 +51,7 @@ const STRATEGY_CONFIG = {
   STRENGTH_LEVELS: {
     STRONG: 6,
     MEDIUM: 5,
-    WEAK: 1,
+    WEAK: 2,
   },
 
   ICHIMOKU: {

@@ -166,8 +166,8 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
 
       const { tp: tpPriceRaw, sl: slPriceRaw } = this.calculateTpSlPrices({
         entryPrice,
-        tpRoiPercent: ORDER_SETTINGS.TP_ROI_PERCENTAGE,
-        slRoiPercent: ORDER_SETTINGS.SL_ROI_PERCENTAGE,
+        tpRoiPercent: TP_ROI,
+        slRoiPercent: Math.abs(SL_ROI),
         direction: side,
         leverage: ORDER_SETTINGS.LEVERAGE,
       })
