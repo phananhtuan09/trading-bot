@@ -314,6 +314,8 @@ async function analyzeMarket(symbol) {
       data.lows,
       data.closes,
     )
+    if (TP_ROI < 5) return null
+
     return {
       symbol,
       signals: formatSignals(filteredStrategies),
