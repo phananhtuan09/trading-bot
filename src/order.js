@@ -1,0 +1,295 @@
+const { performScan } = require('../src/scanner')
+const { ORDER_SETTINGS, CONFIG } = require('../src/config')
+const { binanceTestClient } = require('../src/clients')
+const { sendTelegramMessage } = require('../src/telegramService')
+const stateManager = require('../src/stateManager')
+
+class Order {
+  constructor() {
+    this.state = stateManager.state
+    this.isRunning = false
+    this.dailyOrderLimit = ORDER_SETTINGS.MAX_ORDERS_PER_DAY || Infinity
+    this.scanOrderLimit = ORDER_SETTINGS.ORDER_LIMIT_PER_SCAN || Infinity
+
+    this.setupDailyCheck()
+  }
+
+  setupDailyCheck() {
+    setInterval(() => {
+      stateManager.resetDailyOrdersIfNeeded()
+    }, 60000) // Kiểm tra mỗi phút
+  }
+
+  async checkExistingPosition(symbol) {
+    try {
+      const positions = await binanceTestClient.futuresPositionRisk()
+      return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
+    } catch (error) {
+      console.error('Lỗi kiểm tra vị thế:', error)
+      return false
+    }
+  }
+
+  async logBalance() {
+    try {
+      const balances = await binanceTestClient.futuresAccountBalance()
+      const usdtBalance = balances.find((b) => b.asset === 'USDT')
+      const availableBalance = parseFloat(usdtBalance.availableBalance)
+      const initialCapital = this.state.initialCapital ?? availableBalance
+
+      if (!this.state.initialCapital) {
+        this.state.initialCapital = availableBalance
+        stateManager.saveState()
+      }
+      const currentTotal = availableBalance + (await this.getUnrealizedProfit())
+      const profit = currentTotal - initialCapital
+
+      const profitMessage = `
+💰 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
+📈 Lợi nhuận: ${profit.toFixed(2)} USDT (${((profit / initialCapital) * 100).toFixed(2)}%)
+      `
+      console.log(profitMessage)
+      return { availableBalance, profit }
+    } catch (error) {
+      console.error('Lỗi khi log balance:', error)
+      await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
+      return { availableBalance: 0, profit: 0 }
+    }
+  }
+
+  async getUnrealizedProfit() {
+    const positions = await binanceTestClient.futuresPositionRisk()
+    return positions.reduce((sum, p) => sum + parseFloat(p.unrealizedProfit), 0)
+  }
+
+  async placeOrder(signal) {
+    if (!this.state.orderPlacementEnabled) return
+    if (this.state.ordersPlacedToday >= this.dailyOrderLimit) {
+      const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày`
+      console.log(limitMessage)
+      await sendTelegramMessage(limitMessage)
+      return
+    }
+    const { symbol, price, decision, TP_ROI, SL_ROI } = signal
+
+    if (await this.checkExistingPosition(symbol)) {
+      const existMessage = `🟡 Bỏ qua ${symbol} - Đang có vị thế mở`
+      console.log(existMessage)
+      await sendTelegramMessage(existMessage)
+      return
+    }
+
+    try {
+      // Kiểm tra margin type
+      await this.setMarginType(symbol)
+
+      // Đặt lệnh chính
+      const { quantity, side } = await this.prepareOrder(symbol, price, decision)
+      await binanceTestClient.futuresOrder({ symbol, side, type: 'MARKET', quantity })
+      let tpPriceOrder
+      let slPriceOrder
+
+      // Đặt TP/SL
+      try {
+        const { tpPrice, slPrice } = await this.setTPSL(symbol, side, price, TP_ROI, SL_ROI)
+        tpPriceOrder = tpPrice
+        slPriceOrder = slPrice
+      } catch (tpSlError) {
+        await this.closePositionImmediately(symbol, quantity, side)
+        throw new Error(`Lỗi TP/SL: ${tpSlError.message}`)
+      }
+
+      this.ordersPlacedToday++
+      const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
+        4,
+      )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
+      console.log(orderMessage)
+      await sendTelegramMessage(orderMessage)
+    } catch (error) {
+      await this.handleOrderError(error, symbol)
+    }
+  }
+
+  async closePositionImmediately(symbol, quantity, side) {
+    try {
+      const closeSide = side === 'BUY' ? 'SELL' : 'BUY'
+      await binanceTestClient.futuresOrder({
+        symbol,
+        side: closeSide,
+        type: 'MARKET',
+        quantity: Math.abs(quantity),
+      })
+      await sendTelegramMessage(`⚠️ Đã đóng lệnh ${symbol} do lỗi TP/SL`)
+    } catch (closeError) {
+      await sendTelegramMessage(`🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`)
+    }
+  }
+
+  async setMarginType(symbol) {
+    try {
+      await binanceTestClient.futuresMarginType({ symbol, marginType: 'ISOLATED' })
+    } catch (error) {
+      if (!error.message.includes('No need')) {
+        await sendTelegramMessage(`🔴 Lỗi set margin type cho ${symbol}: ${error.message}`)
+        throw error
+      }
+    }
+  }
+
+  async prepareOrder(symbol, price, decision) {
+    const quantity = await this.calculateQuantity(symbol, price)
+    if (quantity <= 0) throw new Error('Số lượng không hợp lệ')
+
+    await binanceTestClient.futuresLeverage({
+      symbol,
+      leverage: ORDER_SETTINGS.LEVERAGE,
+    })
+
+    return {
+      quantity,
+      side: decision === 'Long' ? 'BUY' : 'SELL',
+    }
+  }
+
+  async calculateQuantity(symbol, price) {
+    const exchangeInfo = await binanceTestClient.futuresExchangeInfo()
+    const symbolInfo = exchangeInfo.symbols.find((s) => s.symbol === symbol)
+    const lotSizeFilter = symbolInfo.filters.find((f) => f.filterType === 'LOT_SIZE')
+    return (
+      Math.floor((ORDER_SETTINGS.QUANTITY * ORDER_SETTINGS.LEVERAGE) / price / lotSizeFilter.stepSize) *
+      lotSizeFilter.stepSize
+    )
+  }
+
+  async setTPSL(symbol, side, entryPrice, TP_ROI, SL_ROI) {
+    try {
+      const { tp: tpPriceRaw, sl: slPriceRaw } = this.calculateTpSlPrices({
+        entryPrice,
+        tpRoiPercent: TP_ROI,
+        slRoiPercent: Math.abs(SL_ROI),
+        side,
+      })
+
+      let tpPrice = tpPriceRaw
+      let slPrice = slPriceRaw
+      const symbolInfo = (await binanceTestClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
+      const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
+      const tickSize = parseFloat(priceFilter.tickSize)
+      tpPrice = Math.round(tpPrice / tickSize) * tickSize
+      slPrice = Math.round(slPrice / tickSize) * tickSize
+      await this.placeTPSLOrder(symbol, side, tpPrice, 'TAKE_PROFIT_MARKET')
+      await this.placeTPSLOrder(symbol, side, slPrice, 'STOP_MARKET')
+      return { tpPrice, slPrice }
+    } catch (error) {
+      await sendTelegramMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
+      throw error
+    }
+  }
+
+  calculateTpSlPrices({ entryPrice, tpRoiPercent, slRoiPercent, side }) {
+    const tpChange = tpRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
+    const slChange = slRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
+
+    if (side === 'BUY') {
+      return {
+        tp: entryPrice * (1 + tpChange),
+        sl: entryPrice * (1 - slChange),
+      }
+    } else {
+      return {
+        tp: entryPrice * (1 - tpChange),
+        sl: entryPrice * (1 + slChange),
+      }
+    }
+  }
+
+  placeTPSLOrder(symbol, side, price, type) {
+    return binanceTestClient.futuresOrder({
+      symbol,
+      side: side === 'BUY' ? 'SELL' : 'BUY',
+      type,
+      stopPrice: price.toFixed(4),
+      closePosition: true,
+    })
+  }
+
+  async handleOrderError(error, symbol) {
+    const message = `🔴 Lỗi đặt lệnh ${symbol}: ${error.message}`
+    console.error(message)
+    await sendTelegramMessage(message)
+  }
+
+  async executeTest() {
+    if (this.isRunning) return
+    this.isRunning = true
+
+    try {
+      const signals = (await performScan()) || []
+      if (!signals || signals?.length === 0) {
+        const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
+        console.log(noSignalMessage)
+        await sendTelegramMessage(noSignalMessage)
+        return
+      }
+      const filteredSignals = signals.sort((a, b) => b.TP_ROI - a.TP_ROI).slice(0, this.scanOrderLimit)
+
+      for (const signal of filteredSignals) {
+        await this.placeOrder(signal)
+      }
+      if (signals.length > this.scanOrderLimit) {
+        const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
+        const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
+        await sendTelegramMessage(limitMessage)
+        console.log(limitMessage)
+      }
+    } finally {
+      this.isRunning = false
+    }
+  }
+
+  async generateReport() {
+    const { initialCapital, ordersPlacedToday } = this.state
+    const balanceInfo = await this.logBalance()
+
+    return `
+📊 Báo cáo 
+• Số lệnh đã đặt trong ngày: ${
+      !isFinite(this.dailyOrderLimit) ? ordersPlacedToday : `${ordersPlacedToday}/${this.dailyOrderLimit}`
+    }
+• Tổng Số lệnh đã đặt: 
+• Tổng Lợi nhuận: ${balanceInfo.profit.toFixed(2)} USDT (${((balanceInfo.profit / initialCapital) * 100).toFixed(2)}%)
+• Tổng vốn đã vào:  USDT
+• Vốn mỗi lệnh: ${ORDER_SETTINGS.QUANTITY} USDT
+• Đòn bẩy: ${ORDER_SETTINGS.LEVERAGE}x
+• Số lệnh đặt tối đa mỗi ngày: ${!isFinite(this.dailyOrderLimit) ? 'Không giới hạn' : dailyOrderLimit}
+• Số lệnh đặt tối đa mỗi lần quét: ${!isFinite(this.scanOrderLimit) ? 'Không giới hạn' : scanOrderLimit}
+    `
+  }
+  startTesting() {
+    setInterval(() => {
+      this.executeTest()
+    }, CONFIG.SCAN_INTERVAL)
+    // Chạy lần đầu tiên ngay lập tức
+    this.executeTest()
+  }
+}
+
+const mockSignal = [
+  {
+    symbol: 'AERGOUSDT',
+    price: 0.6043, // giá giả lập
+    decision: 'Long',
+    TP_ROI: 0,
+    SL_ROI: 0,
+  },
+  {
+    symbol: 'RLCUSDT',
+    price: 1.3633, // giá giả lập
+    decision: 'Short',
+    TP_ROI: 12,
+    SL_ROI: 5,
+  },
+]
+
+const order = new Order()
+order.startTesting()

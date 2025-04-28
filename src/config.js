@@ -122,5 +122,7 @@ module.exports = {
     QUANTITY: Number(process.env.ORDER_QUANTITY),
     TP_ROI_PERCENTAGE: Number(process.env.TP_ROI_PERCENTAGE),
     SL_ROI_PERCENTAGE: Number(process.env.SL_ROI_PERCENTAGE),
+    MAX_ORDERS_PER_DAY: Number(process.env.MAX_ORDERS_PER_DAY),
+    ORDER_LIMIT_PER_SCAN: Number(process.env.ORDER_LIMIT_PER_SCAN),
   },
 }
