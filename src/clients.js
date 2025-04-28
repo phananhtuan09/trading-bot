@@ -19,7 +19,7 @@ const binanceTestClient = Binance({
 const telegramClient = !TELEGRAM.IS_ENABLED
   ? null
   : new TelegramBot(TELEGRAM.BOT_TOKEN, {
-      polling: false,
+      polling: true,
       request: {
         agentOptions: {
           keepAlive: true,

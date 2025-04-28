@@ -1,8 +1,9 @@
 const { performScan } = require('../src/scanner')
 const { ORDER_SETTINGS, CONFIG } = require('../src/config')
-const { binanceTestClient } = require('../src/clients')
+const { binanceClient } = require('../src/clients')
 const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
+const telegramCommands = require('../src/telegramCommands')
 
 class Order {
   constructor() {
@@ -10,19 +11,11 @@ class Order {
     this.isRunning = false
     this.dailyOrderLimit = ORDER_SETTINGS.MAX_ORDERS_PER_DAY || Infinity
     this.scanOrderLimit = ORDER_SETTINGS.ORDER_LIMIT_PER_SCAN || Infinity
-
-    this.setupDailyCheck()
-  }
-
-  setupDailyCheck() {
-    setInterval(() => {
-      stateManager.resetDailyOrdersIfNeeded()
-    }, 60000) // Kiểm tra mỗi phút
   }
 
   async checkExistingPosition(symbol) {
     try {
-      const positions = await binanceTestClient.futuresPositionRisk()
+      const positions = await binanceClient.futuresPositionRisk()
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
       console.error('Lỗi kiểm tra vị thế:', error)
@@ -32,7 +25,7 @@ class Order {
 
   async logBalance() {
     try {
-      const balances = await binanceTestClient.futuresAccountBalance()
+      const balances = await binanceClient.futuresAccountBalance()
       const usdtBalance = balances.find((b) => b.asset === 'USDT')
       const availableBalance = parseFloat(usdtBalance.availableBalance)
       const initialCapital = this.state.initialCapital ?? availableBalance
@@ -48,7 +41,7 @@ class Order {
 💰 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
 📈 Lợi nhuận: ${profit.toFixed(2)} USDT (${((profit / initialCapital) * 100).toFixed(2)}%)
       `
-      console.log(profitMessage)
+      //  console.log(profitMessage)
       return { availableBalance, profit }
     } catch (error) {
       console.error('Lỗi khi log balance:', error)
@@ -58,7 +51,7 @@ class Order {
   }
 
   async getUnrealizedProfit() {
-    const positions = await binanceTestClient.futuresPositionRisk()
+    const positions = await binanceClient.futuresPositionRisk()
     return positions.reduce((sum, p) => sum + parseFloat(p.unrealizedProfit), 0)
   }
 
@@ -66,7 +59,7 @@ class Order {
     if (!this.state.orderPlacementEnabled) return
     if (this.state.ordersPlacedToday >= this.dailyOrderLimit) {
       const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày`
-      console.log(limitMessage)
+      //  console.log(limitMessage)
       await sendTelegramMessage(limitMessage)
       return
     }
@@ -74,7 +67,7 @@ class Order {
 
     if (await this.checkExistingPosition(symbol)) {
       const existMessage = `🟡 Bỏ qua ${symbol} - Đang có vị thế mở`
-      console.log(existMessage)
+      //  console.log(existMessage)
       await sendTelegramMessage(existMessage)
       return
     }
@@ -85,7 +78,7 @@ class Order {
 
       // Đặt lệnh chính
       const { quantity, side } = await this.prepareOrder(symbol, price, decision)
-      await binanceTestClient.futuresOrder({ symbol, side, type: 'MARKET', quantity })
+      await binanceClient.futuresOrder({ symbol, side, type: 'MARKET', quantity })
       let tpPriceOrder
       let slPriceOrder
 
@@ -102,10 +95,11 @@ class Order {
       this.ordersPlacedToday++
       this.totalOrders++
       this.totalCapital += ORDER_SETTINGS.ORDER_QUANTITY
+      stateManager.saveState() // Persist state changes
       const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
         4,
       )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
-      console.log(orderMessage)
+      //  console.log(orderMessage)
       await sendTelegramMessage(orderMessage)
     } catch (error) {
       await this.handleOrderError(error, symbol)
@@ -115,7 +109,7 @@ class Order {
   async closePositionImmediately(symbol, quantity, side) {
     try {
       const closeSide = side === 'BUY' ? 'SELL' : 'BUY'
-      await binanceTestClient.futuresOrder({
+      await binanceClient.futuresOrder({
         symbol,
         side: closeSide,
         type: 'MARKET',
@@ -129,7 +123,7 @@ class Order {
 
   async setMarginType(symbol) {
     try {
-      await binanceTestClient.futuresMarginType({ symbol, marginType: 'ISOLATED' })
+      await binanceClient.futuresMarginType({ symbol, marginType: 'ISOLATED' })
     } catch (error) {
       if (!error.message.includes('No need')) {
         await sendTelegramMessage(`🔴 Lỗi set margin type cho ${symbol}: ${error.message}`)
@@ -142,7 +136,7 @@ class Order {
     const quantity = await this.calculateQuantity(symbol, price)
     if (quantity <= 0) throw new Error('Số lượng không hợp lệ')
 
-    await binanceTestClient.futuresLeverage({
+    await binanceClient.futuresLeverage({
       symbol,
       leverage: ORDER_SETTINGS.LEVERAGE,
     })
@@ -154,7 +148,7 @@ class Order {
   }
 
   async calculateQuantity(symbol, price) {
-    const exchangeInfo = await binanceTestClient.futuresExchangeInfo()
+    const exchangeInfo = await binanceClient.futuresExchangeInfo()
     const symbolInfo = exchangeInfo.symbols.find((s) => s.symbol === symbol)
     const lotSizeFilter = symbolInfo.filters.find((f) => f.filterType === 'LOT_SIZE')
     return (
@@ -174,7 +168,7 @@ class Order {
 
       let tpPrice = tpPriceRaw
       let slPrice = slPriceRaw
-      const symbolInfo = (await binanceTestClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
+      const symbolInfo = (await binanceClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
       const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
       const tickSize = parseFloat(priceFilter.tickSize)
       tpPrice = Math.round(tpPrice / tickSize) * tickSize
@@ -206,7 +200,7 @@ class Order {
   }
 
   placeTPSLOrder(symbol, side, price, type) {
-    return binanceTestClient.futuresOrder({
+    return binanceClient.futuresOrder({
       symbol,
       side: side === 'BUY' ? 'SELL' : 'BUY',
       type,
@@ -221,15 +215,21 @@ class Order {
     await sendTelegramMessage(message)
   }
 
-  async executeTest() {
+  async execute(isFirstRunning) {
     if (this.isRunning) return
     this.isRunning = true
 
+    if (isFirstRunning) {
+      stateManager.saveState() // Save initial state
+    }
+
     try {
+      stateManager.resetDailyOrdersIfNeeded() // Check and reset daily orders
+
       const signals = (await performScan()) || []
       if (!signals || signals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
-        console.log(noSignalMessage)
+        //  console.log(noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
@@ -242,7 +242,7 @@ class Order {
         const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
         await sendTelegramMessage(limitMessage)
-        console.log(limitMessage)
+        //  console.log(limitMessage)
       }
     } finally {
       this.isRunning = false
@@ -263,35 +263,18 @@ class Order {
 • Tổng vốn đã vào: ${totalCapital} USDT
 • Vốn mỗi lệnh: ${ORDER_SETTINGS.QUANTITY} USDT
 • Đòn bẩy: ${ORDER_SETTINGS.LEVERAGE}x
-• Số lệnh đặt tối đa mỗi ngày: ${!isFinite(this.dailyOrderLimit) ? 'Không giới hạn' : dailyOrderLimit}
-• Số lệnh đặt tối đa mỗi lần quét: ${!isFinite(this.scanOrderLimit) ? 'Không giới hạn' : scanOrderLimit}
+• Số lệnh đặt tối đa mỗi ngày: ${!isFinite(this.dailyOrderLimit) ? 'Không giới hạn' : this.dailyOrderLimit}
+• Số lệnh đặt tối đa mỗi lần quét: ${!isFinite(this.scanOrderLimit) ? 'Không giới hạn' : this.scanOrderLimit}
     `
   }
-  startTesting() {
+  start() {
     setInterval(() => {
-      this.executeTest()
+      this.execute(false)
     }, CONFIG.SCAN_INTERVAL)
-    // Chạy lần đầu tiên ngay lập tức
-    this.executeTest()
+    this.execute(true)
   }
 }
 
-const mockSignal = [
-  {
-    symbol: 'AERGOUSDT',
-    price: 0.6043, // giá giả lập
-    decision: 'Long',
-    TP_ROI: 0,
-    SL_ROI: 0,
-  },
-  {
-    symbol: 'RLCUSDT',
-    price: 1.3633, // giá giả lập
-    decision: 'Short',
-    TP_ROI: 12,
-    SL_ROI: 5,
-  },
-]
-
 const order = new Order()
-order.startTesting()
+telegramCommands(order)
+order.start()

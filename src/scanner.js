@@ -9,7 +9,7 @@ const { STRATEGY_CONFIG, CONFIG } = require('./config')
 const { ensureFoldersExist, getFileNameTimestamp } = require('./utils')
 
 async function performScan() {
-  console.log(`\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
+  // console.log(`\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
 
   try {
     const symbols = await getSymbols()
@@ -30,7 +30,7 @@ async function performScan() {
       const signal = result.value
       if (!signal) continue
       signalCount++
-      console.log('Tín hiệu:', JSON.stringify(signal, null, 2))
+      //   console.log('Tín hiệu:', JSON.stringify(signal, null, 2))
       allSignals.push(signal)
       await sendDiscordSignalMessage(signal)
       await sendTelegramSignalMessage(signal)
@@ -40,7 +40,7 @@ async function performScan() {
       ensureFoldersExist(['logs/signals'])
       const signalFile = path.join('logs/signals', getFileNameTimestamp('signal'))
       fs.writeFileSync(signalFile, JSON.stringify(allSignals, null, 2))
-      console.log(`📝 Đã ghi tín hiệu vào ${signalFile}`)
+      //  console.log(`📝 Đã ghi tín hiệu vào ${signalFile}`)
     }
 
     const summary = [
@@ -51,7 +51,7 @@ async function performScan() {
       `- Thời gian quét: ${new Date().toLocaleString()}`,
     ].join('\n')
 
-    console.log(summary)
+    // console.log(summary)
     if (errors.length > 0) {
       console.error('Chi tiết lỗi:', errors)
       return null
