@@ -100,6 +100,8 @@ class Order {
       }
 
       this.ordersPlacedToday++
+      this.totalOrders++
+      this.totalCapital += ORDER_SETTINGS.ORDER_QUANTITY
       const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
         4,
       )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
@@ -248,7 +250,7 @@ class Order {
   }
 
   async generateReport() {
-    const { initialCapital, ordersPlacedToday } = this.state
+    const { initialCapital, ordersPlacedToday, totalOrders, totalCapital } = this.state
     const balanceInfo = await this.logBalance()
 
     return `
@@ -256,9 +258,9 @@ class Order {
 • Số lệnh đã đặt trong ngày: ${
       !isFinite(this.dailyOrderLimit) ? ordersPlacedToday : `${ordersPlacedToday}/${this.dailyOrderLimit}`
     }
-• Tổng Số lệnh đã đặt: 
+• Tổng Số lệnh đã đặt: ${totalOrders}
 • Tổng Lợi nhuận: ${balanceInfo.profit.toFixed(2)} USDT (${((balanceInfo.profit / initialCapital) * 100).toFixed(2)}%)
-• Tổng vốn đã vào:  USDT
+• Tổng vốn đã vào: ${totalCapital} USDT
 • Vốn mỗi lệnh: ${ORDER_SETTINGS.QUANTITY} USDT
 • Đòn bẩy: ${ORDER_SETTINGS.LEVERAGE}x
 • Số lệnh đặt tối đa mỗi ngày: ${!isFinite(this.dailyOrderLimit) ? 'Không giới hạn' : dailyOrderLimit}

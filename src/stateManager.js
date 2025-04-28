@@ -28,6 +28,8 @@ class StateManager {
       initialCapital: null,
       orderPlacementEnabled: true,
       ordersPlacedToday: 0,
+      totalOrders: 0,
+      totalCapital: 0,
       lastCheckDate: new Date().toISOString().split('T')[0],
     }
   }
