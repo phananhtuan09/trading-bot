@@ -44,7 +44,11 @@ class Order {
 📈 Lợi nhuận: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (${isNaN(profitPercent) ? 0 : profitPercent}%)
       `
       //  console.log(profitMessage)
-      return { availableBalance, profit, profitPercent }
+      return {
+        availableBalance,
+        profit: isNaN(profit) ? 0 : profit.toFixed(2),
+        profitPercent: isNaN(profitPercent) ? 0 : profitPercent,
+      }
     } catch (error) {
       console.error('Lỗi khi log balance:', error)
       await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
