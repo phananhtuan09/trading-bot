@@ -4,7 +4,9 @@ const fs = require('fs')
 class StateManager {
   constructor() {
     this.stateFilePath = path.join(__dirname, 'botState.json')
+    this.deleteFile();
     this.state = this.loadState()
+    this.saveState();
   }
 
   loadState() {
@@ -55,9 +57,7 @@ class StateManager {
     try {
       if (fs.existsSync(this.stateFilePath)) {
         fs.unlinkSync(this.stateFilePath)
-        console.log(`State file ${this.stateFilePath} deleted successfully`)
       }
-      this.state = this.getDefaultState()
     } catch (error) {
       console.error('Error deleting state file:', error.message)
     }

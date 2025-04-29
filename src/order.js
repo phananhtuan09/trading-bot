@@ -215,13 +215,10 @@ class Order {
     await sendTelegramMessage(message)
   }
 
-  async execute(isFirstRunning) {
+  async execute() {
     if (this.isRunning) return
     this.isRunning = true
 
-    if (isFirstRunning) {
-      stateManager.saveState() // Save initial state
-    }
 
     try {
       stateManager.resetDailyOrdersIfNeeded() // Check and reset daily orders
@@ -269,9 +266,9 @@ class Order {
   }
   start() {
     setInterval(() => {
-      this.execute(false)
+      this.execute()
     }, CONFIG.SCAN_INTERVAL)
-    this.execute(true)
+    this.execute()
   }
 }
 
