@@ -4,32 +4,53 @@ const fs = require('fs')
 class StateManager {
   constructor() {
     this.stateFilePath = path.join(__dirname, 'botState.json')
-    this.deleteFile();
-    this.state = this.loadState()
-    this.saveState();
+    this.deleteFile()
+    this.state = this.loadStateFirstTime()
+    this.saveStateToFile()
+  }
+  getState() {
+    return this.state
   }
 
-  loadState() {
+  setState(newState = {}) {
+    this.state = { ...this.getState(), ...newState }
+  }
+
+  saveStateToFile(state = {}) {
     try {
-      if (fs.existsSync(this.stateFilePath)) {
-        const data = fs.readFileSync(this.stateFilePath)
-        const state = JSON.parse(data)
-        // Validate state
-        const defaultState = this.getDefaultState()
-        return { ...defaultState, ...state }
-      }
-      return this.getDefaultState()
+      const newState = { ...this.getState(), ...state }
+      fs.writeFileSync(this.stateFilePath, JSON.stringify(newState, null, 2))
     } catch (error) {
-      console.error(`Error loading state from ${this.stateFilePath}:`, error.message)
-      return this.getDefaultState()
+      console.error(`Error saving state to ${this.stateFilePath}:`, error.message)
     }
   }
 
-  saveState() {
+  setStateAndSaveToFile(state = {}) {
+    this.setState(state)
+    this.saveStateToFile(state)
+  }
+
+  syncStateFromFile() {
+    const stateFromFile = this.loadStateFromFile()
+    if (stateFromFile) {
+      this.setState(stateFromFile)
+    }
+  }
+
+  loadStateFirstTime() {
+    const stateFromFile = this.loadStateFromFile()
+    return stateFromFile ?? this.getDefaultState()
+  }
+
+  loadStateFromFile() {
     try {
-      fs.writeFileSync(this.stateFilePath, JSON.stringify(this.state, null, 2))
+      if (fs.existsSync(this.stateFilePath)) {
+        const data = fs.readFileSync(this.stateFilePath)
+        return JSON.parse(data)
+      }
     } catch (error) {
-      console.error(`Error saving state to ${this.stateFilePath}:`, error.message)
+      console.error(`Error loading state from ${this.stateFilePath}:`, error.message)
+      return null
     }
   }
 
@@ -44,12 +65,14 @@ class StateManager {
     }
   }
 
-  resetDailyOrdersIfNeeded() {
+  resetDailyOrders() {
     const today = new Date().toISOString().split('T')[0]
     if (this.state.lastCheckDate !== today) {
-      this.state.ordersPlacedToday = 0
-      this.state.lastCheckDate = today
-      this.saveState()
+      const newState = {
+        ordersPlacedToday: 0,
+        lastCheckDate: today,
+      }
+      this.setStateAndSaveToFile(newState)
     }
   }
 

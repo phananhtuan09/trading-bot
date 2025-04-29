@@ -7,7 +7,6 @@ const telegramCommands = require('../src/telegramCommands')
 
 class Order {
   constructor() {
-    this.state = stateManager.state
     this.isRunning = false
     this.dailyOrderLimit = ORDER_SETTINGS.MAX_ORDERS_PER_DAY || Infinity
     this.scanOrderLimit = ORDER_SETTINGS.ORDER_LIMIT_PER_SCAN || Infinity
@@ -28,25 +27,28 @@ class Order {
       const balances = await binanceClient.futuresAccountBalance()
       const usdtBalance = balances.find((b) => b.asset === 'USDT')
       const availableBalance = parseFloat(usdtBalance.availableBalance)
-      const initialCapital = this.state.initialCapital ?? availableBalance
+      const { initialCapital } = stateManager.getState()
+      const currentCapital = initialCapital ?? availableBalance
 
-      if (!this.state.initialCapital) {
-        this.state.initialCapital = availableBalance
-        stateManager.saveState()
+      if (!initialCapital) {
+        stateManager.setStateAndSaveToFile({
+          initialCapital: availableBalance,
+        })
       }
       const currentTotal = availableBalance + (await this.getUnrealizedProfit())
-      const profit = currentTotal - initialCapital
+      const profit = currentTotal - currentCapital
+      const profitPercent = ((profit / currentCapital) * 100).toFixed(2)
 
       const profitMessage = `
 💰 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
-📈 Lợi nhuận: ${profit.toFixed(2)} USDT (${((profit / initialCapital) * 100).toFixed(2)}%)
+📈 Lợi nhuận: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (${isNaN(profitPercent) ? 0 : profitPercent}%)
       `
       //  console.log(profitMessage)
-      return { availableBalance, profit }
+      return { availableBalance, profit, profitPercent }
     } catch (error) {
       console.error('Lỗi khi log balance:', error)
       await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
-      return { availableBalance: 0, profit: 0 }
+      return { availableBalance: 0, profit: 0, profitPercent: 0 }
     }
   }
 
@@ -56,8 +58,9 @@ class Order {
   }
 
   async placeOrder(signal) {
-    if (!this.state.orderPlacementEnabled) return
-    if (this.state.ordersPlacedToday >= this.dailyOrderLimit) {
+    const { orderPlacementEnabled, ordersPlacedToday, totalOrders, totalCapital } = stateManager.getState()
+    if (!orderPlacementEnabled) return
+    if (ordersPlacedToday >= this.dailyOrderLimit) {
       const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày`
       //  console.log(limitMessage)
       await sendTelegramMessage(limitMessage)
@@ -92,10 +95,11 @@ class Order {
         throw new Error(`Lỗi TP/SL: ${tpSlError.message}`)
       }
 
-      this.ordersPlacedToday++
-      this.totalOrders++
-      this.totalCapital += ORDER_SETTINGS.ORDER_QUANTITY
-      stateManager.saveState() // Persist state changes
+      stateManager.setStateAndSaveToFile({
+        ordersPlacedToday: ordersPlacedToday + 1,
+        totalOrders: totalOrders + 1,
+        totalCapital: totalCapital + ORDER_SETTINGS.QUANTITY,
+      })
       const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
         4,
       )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
@@ -218,15 +222,15 @@ class Order {
   async execute() {
     if (this.isRunning) return
     this.isRunning = true
-
+    stateManager.syncStateFromFile()
 
     try {
-      stateManager.resetDailyOrdersIfNeeded() // Check and reset daily orders
+      stateManager.resetDailyOrders() // Check and reset daily orders
 
       const signals = (await performScan()) || []
       if (!signals || signals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
-        //  console.log(noSignalMessage)
+        console.log(noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
@@ -239,7 +243,7 @@ class Order {
         const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
         await sendTelegramMessage(limitMessage)
-        //  console.log(limitMessage)
+        console.log(limitMessage)
       }
     } finally {
       this.isRunning = false
@@ -247,7 +251,7 @@ class Order {
   }
 
   async generateReport() {
-    const { initialCapital, ordersPlacedToday, totalOrders, totalCapital } = this.state
+    const { ordersPlacedToday, totalOrders, totalCapital } = stateManager.getState()
     const balanceInfo = await this.logBalance()
 
     return `
@@ -256,7 +260,7 @@ class Order {
       !isFinite(this.dailyOrderLimit) ? ordersPlacedToday : `${ordersPlacedToday}/${this.dailyOrderLimit}`
     }
 • Tổng Số lệnh đã đặt: ${totalOrders}
-• Tổng Lợi nhuận: ${balanceInfo.profit.toFixed(2)} USDT (${((balanceInfo.profit / initialCapital) * 100).toFixed(2)}%)
+• Tổng Lợi nhuận: ${balanceInfo.profit} USDT (${balanceInfo.profitPercent}%)
 • Tổng vốn đã vào: ${totalCapital} USDT
 • Vốn mỗi lệnh: ${ORDER_SETTINGS.QUANTITY} USDT
 • Đòn bẩy: ${ORDER_SETTINGS.LEVERAGE}x

@@ -3,14 +3,16 @@ const { telegramClient } = require('./clients') // Giả sử đã setup bot Tel
 
 module.exports = (tester) => {
   telegramClient.onText(/\/stop_order/, (msg) => {
-    stateManager.state.orderPlacementEnabled = false
-    stateManager.saveState()
+    stateManager.setStateAndSaveToFile({
+      orderPlacementEnabled: false,
+    })
     telegramClient.sendMessage(msg.chat.id, '⏸ Đã dừng đặt lệnh')
   })
 
   telegramClient.onText(/\/start_order/, (msg) => {
-    stateManager.state.orderPlacementEnabled = true
-    stateManager.saveState()
+    stateManager.setStateAndSaveToFile({
+      orderPlacementEnabled: true,
+    })
     telegramClient.sendMessage(msg.chat.id, '▶️ Đã tiếp tục đặt lệnh')
   })
 
