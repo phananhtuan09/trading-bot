@@ -137,13 +137,16 @@ class TradingStrategies {
   }
 
   // Chiến lược RSI
-  static checkRSI(rsiValues) {
+  static checkRSI(rsiValues, closes) {
     if (!rsiValues || rsiValues.length < 1) return null
 
+    const ma200 = this.calculateMA(closes, 200).at(-1)
+    const currentPrice = closes.at(-1)
     const currentRSI = rsiValues.at(-1)
 
-    if (currentRSI < STRATEGY_CONFIG.RSI.OVERSOLD) return 'BUY'
-    if (currentRSI > STRATEGY_CONFIG.RSI.OVERBOUGHT) return 'SELL'
+    // Thêm điều kiện xu hướng
+    if (currentRSI < 30 && currentPrice > ma200) return 'BUY'
+    if (currentRSI > 70 && currentPrice < ma200) return 'SELL'
     return null
   }
 
@@ -152,9 +155,10 @@ class TradingStrategies {
     if (!macdOutput || macdOutput.length < 2) return null
 
     const [prev, current] = macdOutput.slice(-2)
+    const histogramStrength = current.histogram > prev.histogram * 1.2 // Thêm điều kiện tăng cường histogram
 
-    if (current.MACD > current.signal && prev.MACD <= prev.signal) return 'BUY'
-    if (current.MACD < current.signal && prev.MACD >= prev.signal) return 'SELL'
+    if (current.MACD > current.signal && prev.MACD <= prev.signal && histogramStrength) return 'BUY'
+    if (current.MACD < current.signal && prev.MACD >= prev.signal && histogramStrength) return 'SELL'
     return null
   }
 

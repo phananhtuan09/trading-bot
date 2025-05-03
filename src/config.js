@@ -30,14 +30,14 @@ const STRATEGY_CONFIG = {
   // RSI
   RSI: {
     PERIOD: 14, // Số nến để tính toán RSI.
-    OVERSOLD: 30, // Ngưỡng RSI quá bán.
-    OVERBOUGHT: 70, // Ngưỡng RSI quá mua.
+    OVERSOLD: 35, // Ngưỡng RSI quá bán.
+    OVERBOUGHT: 65, // Ngưỡng RSI quá mua.
   },
 
   // MACD
   MACD: {
-    FAST_PERIOD: 12, // Số nến nhanh cho MACD.
-    SLOW_PERIOD: 26, // Số nến chậm cho MACD.
+    FAST_PERIOD: 10, // Số nến nhanh cho MACD.
+    SLOW_PERIOD: 21, // Số nến chậm cho MACD.
     SIGNAL_PERIOD: 9, // Số nến tín hiệu cho MACD.
   },
 

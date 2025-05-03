@@ -292,7 +292,7 @@ async function analyzeMarket(symbol) {
         data.lows,
         data.volumes,
       ),
-      RSI: TradingStrategies.checkRSI(indicators.rsi),
+      RSI: TradingStrategies.checkRSI(indicators.rsi, data.closes),
       MACD: TradingStrategies.checkMACD(indicators.macd),
       // VolumeSpike: TradingStrategies.checkVolumeSpike(data.closes, data.highs, data.lows, data.volumes),
       // Ichimoku: TradingStrategies.checkIchimokuCloud(

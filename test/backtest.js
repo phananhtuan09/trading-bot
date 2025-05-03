@@ -135,7 +135,7 @@ async function processSymbol(symbol) {
       const allStrategies = {
         NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes, volumes),
         BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes, highs, lows, volumes),
-        RSI: TradingStrategies.checkRSI(indicators.rsi),
+        RSI: TradingStrategies.checkRSI(indicators.rsi, closes),
         MACD: TradingStrategies.checkMACD(indicators.macd),
         // VolumeSpike: TradingStrategies.checkVolumeSpike(closes, highs, lows, volumes),
         // skip
