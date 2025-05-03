@@ -137,7 +137,7 @@ async function processSymbol(symbol) {
         BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes, highs, lows, volumes),
         RSI: TradingStrategies.checkRSI(indicators.rsi),
         MACD: TradingStrategies.checkMACD(indicators.macd),
-        VolumeSpike: TradingStrategies.checkVolumeSpike(closes, highs, lows, volumes),
+        // VolumeSpike: TradingStrategies.checkVolumeSpike(closes, highs, lows, volumes),
         // skip
         // Ichimoku: TradingStrategies.checkIchimokuCloud(
         //   indicators.ichimoku.highs,

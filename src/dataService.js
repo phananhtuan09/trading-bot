@@ -201,7 +201,14 @@ function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes)
   if (decision === 'Long') {
     const TP = currentPrice + currentATR * baseTPMultiplier
     const SL = currentPrice - currentATR * baseSLMultiplier
-    const TP_ROI = ((TP - currentPrice) / currentPrice) * 100
+    let TP_ROI = ((TP - currentPrice) / currentPrice) * 100
+    if (TP_ROI < 5) {
+      TP_ROI = 4
+    } else if (TP_ROI < 10) {
+      TP_ROI = 10
+    } else if (TP_ROI < 15) {
+      TP_ROI = 15
+    }
     let SL_ROI = TP_ROI * 2
     if (SL_ROI > 20) SL_ROI = 20
     return {
@@ -213,7 +220,14 @@ function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes)
   } else if (decision === 'Short') {
     const TP = currentPrice - currentATR * baseTPMultiplier
     const SL = currentPrice + currentATR * baseSLMultiplier
-    const TP_ROI = ((currentPrice - TP) / currentPrice) * 100
+    let TP_ROI = ((currentPrice - TP) / currentPrice) * 100
+    if (TP_ROI < 5) {
+      TP_ROI = 4
+    } else if (TP_ROI < 10) {
+      TP_ROI = 10
+    } else if (TP_ROI < 15) {
+      TP_ROI = 15
+    }
     let SL_ROI = TP_ROI * 2
     if (SL_ROI > 20) SL_ROI = 20
     return {

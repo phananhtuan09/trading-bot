@@ -26,16 +26,22 @@ class Order {
     try {
       const balances = await binanceClient.futuresAccountBalance()
       const usdtBalance = balances.find((b) => b.asset === 'USDT')
+
+      const walletBalance = parseFloat(usdtBalance.balance)
       const availableBalance = parseFloat(usdtBalance.availableBalance)
+
       const { initialCapital } = stateManager.getState()
-      const currentCapital = initialCapital ?? availableBalance
+      const currentCapital = initialCapital ?? walletBalance
 
       if (!initialCapital) {
         stateManager.setStateAndSaveToFile({
-          initialCapital: availableBalance,
+          initialCapital: walletBalance,
         })
       }
-      const currentTotal = availableBalance + (await this.getUnrealizedProfit())
+
+      const unrealizedProfit = await this.getUnrealizedProfit()
+      const currentTotal = walletBalance + unrealizedProfit
+
       const profit = currentTotal - currentCapital
       const profitPercent = ((profit / currentCapital) * 100).toFixed(2)
 
@@ -43,7 +49,6 @@ class Order {
 💰 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
 📈 Lợi nhuận: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (${isNaN(profitPercent) ? 0 : profitPercent}%)
       `
-      //  console.log(profitMessage)
       return {
         availableBalance,
         profit: isNaN(profit) ? 0 : profit.toFixed(2),
@@ -234,7 +239,7 @@ class Order {
       const signals = (await performScan()) || []
       if (!signals || signals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
-        console.log(noSignalMessage)
+        //console.log(noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
@@ -247,7 +252,7 @@ class Order {
         const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
         await sendTelegramMessage(limitMessage)
-        console.log(limitMessage)
+        // console.log(limitMessage)
       }
     } finally {
       this.isRunning = false
@@ -265,7 +270,7 @@ class Order {
     }
 • Tổng Số lệnh đã đặt: ${totalOrders}
 • Tổng Lợi nhuận: ${balanceInfo.profit} USDT (${balanceInfo.profitPercent}%)
-• Tổng vốn đã vào: ${totalCapital} USDT
+• Tổng vốn đã vào: ${totalCapital.toFixed(4)} USDT
 • Vốn mỗi lệnh: ${ORDER_SETTINGS.QUANTITY} USDT
 • Đòn bẩy: ${ORDER_SETTINGS.LEVERAGE}x
 • Số lệnh đặt tối đa mỗi ngày: ${!isFinite(this.dailyOrderLimit) ? 'Không giới hạn' : this.dailyOrderLimit}
