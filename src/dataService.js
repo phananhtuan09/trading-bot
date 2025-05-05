@@ -1,6 +1,6 @@
 const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
-const { RSI, BollingerBands, MACD, ADX } = require('technicalindicators')
+const { RSI, BollingerBands, MACD, ADX, EMA } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 async function getHistoricalData(symbol) {
@@ -261,38 +261,35 @@ async function analyzeMarket(symbol) {
         slowPeriod: STRATEGY_CONFIG.MACD.SLOW_PERIOD,
         signalPeriod: STRATEGY_CONFIG.MACD.SIGNAL_PERIOD,
       }),
-      ichimoku: {
-        highs: data.highs,
-        lows: data.lows,
-        closes: data.closes,
-      },
-      stochastic: {
-        highs: data.highs,
-        lows: data.lows,
-        closes: data.closes,
-      },
-      adx: {
-        highs: data.highs,
-        lows: data.lows,
-        closes: data.closes,
-      },
-      psar: {
-        highs: data.highs,
-        lows: data.lows,
-      },
+      // ichimoku: {
+      //   highs: data.highs,
+      //   lows: data.lows,
+      //   closes: data.closes,
+      // },
+      // stochastic: {
+      //   highs: data.highs,
+      //   lows: data.lows,
+      //   closes: data.closes,
+      // },
+      // adx: {
+      //   highs: data.highs,
+      //   lows: data.lows,
+      //   closes: data.closes,
+      // },
+      // psar: {
+      //   highs: data.highs,
+      //   lows: data.lows,
+      // },
     }
 
+    const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.short, values: data.closes })
+    const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: data.closes })
+    const lastRSI = indicators.rsi.at(-1)
     // Thu thập tín hiệu
     const allStrategies = {
-      NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(data.closes, data.volumes),
-      BollingerBand: TradingStrategies.checkBollingerBand(
-        indicators.bb,
-        data.closes,
-        data.highs,
-        data.lows,
-        data.volumes,
-      ),
-      RSI: TradingStrategies.checkRSI(indicators.rsi, data.closes),
+      // NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(data.closes, data.volumes),
+      BollingerBand: TradingStrategies.checkBollingerBand(data.closes, emaShort, emaLong, lastRSI),
+      RSI: TradingStrategies.checkRSI(indicators.rsi),
       MACD: TradingStrategies.checkMACD(indicators.macd),
       // VolumeSpike: TradingStrategies.checkVolumeSpike(data.closes, data.highs, data.lows, data.volumes),
       // Ichimoku: TradingStrategies.checkIchimokuCloud(

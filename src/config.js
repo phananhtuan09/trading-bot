@@ -30,15 +30,21 @@ const STRATEGY_CONFIG = {
   // RSI
   RSI: {
     PERIOD: 14, // Số nến để tính toán RSI.
-    OVERSOLD: 35, // Ngưỡng RSI quá bán.
-    OVERBOUGHT: 65, // Ngưỡng RSI quá mua.
+    OVERSOLD: 30, // Ngưỡng RSI quá bán.
+    OVERBOUGHT: 70, // Ngưỡng RSI quá mua.
   },
 
   // MACD
   MACD: {
-    FAST_PERIOD: 10, // Số nến nhanh cho MACD.
-    SLOW_PERIOD: 21, // Số nến chậm cho MACD.
+    FAST_PERIOD: 12, // Số nến nhanh cho MACD.
+    SLOW_PERIOD: 26, // Số nến chậm cho MACD.
     SIGNAL_PERIOD: 9, // Số nến tín hiệu cho MACD.
+    HISTOGRAM_STRENGTH_RATIO: 1.1,
+  },
+
+  emaPeriods: {
+    short: 20, // EMA ngắn: sử dụng 20 giá trị cuối.
+    long: 50, // EMA dài: sử dụng 50 giá trị cuối.
   },
 
   // Volume
@@ -51,7 +57,7 @@ const STRATEGY_CONFIG = {
   STRENGTH_LEVELS: {
     STRONG: 6,
     MEDIUM: 5,
-    WEAK: 2,
+    WEAK: 3,
   },
 
   ICHIMOKU: {

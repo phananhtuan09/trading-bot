@@ -1,4 +1,4 @@
-const { IchimokuCloud, Stochastic, ADX, PSAR, RSI } = require('technicalindicators')
+const { IchimokuCloud, Stochastic, ADX, PSAR, RSI, BollingerBands } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 class TradingStrategies {
@@ -89,64 +89,39 @@ class TradingStrategies {
   }
 
   // Chiến lược Bollinger Bands
-  static checkBollingerBand(bbData, closes, highs, lows, volumes) {
-    const { PERIOD, STD_DEV, MIN_BANDWIDTH_PCT, BREAK_THRESHOLD_PCT, VOLUME_MA_PERIOD, ADX_THRESHOLD } =
-      STRATEGY_CONFIG.BOLLINGER_BAND
+  static checkBollingerBand(bb, closes, emaShort, emaLong, rsi) {
+    try {
+      if (bb.length < 2) return null
+      const lastClose = closes.at(-1)
+      const { upper, lower } = bb.at(-1)
+      // Đánh giá isStrong cho tín hiệu Bollinger dựa trên việc chạm gần biên
+      const isStrong = lastClose <= lower || lastClose >= upper
 
-    // Kiểm tra dữ liệu đầu vào
-    if (!bbData || bbData.length < PERIOD || closes.length < 200) return null
+      // Tín hiệu mua khi giá chạm dải dưới + điều kiện RSI và EMA
+      if (lastClose <= lower && rsi < STRATEGY_CONFIG.RSI.OVERSOLD && emaShort.at(-1) > emaLong.at(-1)) {
+        return 'BUY'
+      }
 
-    const currentClose = closes.at(-1)
-    const { upper, lower, middle } = bbData.at(-1)
-
-    // 1. Lọc độ rộng dải Bollinger
-    const bandWidthPct = ((upper - lower) / middle) * 100
-    if (bandWidthPct < MIN_BANDWIDTH_PCT) return null
-
-    // 2. Lọc ngưỡng vượt band
-    const breakThreshold = middle * (BREAK_THRESHOLD_PCT / 100)
-    const isValidBreak = currentClose > upper + breakThreshold || currentClose < lower - breakThreshold
-    if (!isValidBreak) return null
-
-    // 3. Lọc xu hướng với ADX
-    const adxValues = ADX.calculate({
-      high: highs.slice(-200),
-      low: lows.slice(-200),
-      close: closes.slice(-200),
-      period: 14,
-    })
-    if (adxValues.at(-1) < ADX_THRESHOLD) return null
-
-    // 4. Lọc volume
-    const volumeMA = volumes.slice(-VOLUME_MA_PERIOD).reduce((a, b) => a + b, 0) / VOLUME_MA_PERIOD
-    if (volumes.at(-1) < volumeMA * 1.2) return null // Volume hiện tại > 120% MA20
-
-    // 5. Lọc xu hướng dài hạn
-    const ma200 = closes.slice(-200).reduce((a, b) => a + b, 0) / 200
-    const trendDirection = currentClose > ma200 ? 'BUY' : 'SELL'
-
-    // Tạo tín hiệu
-    if (currentClose > upper + breakThreshold && trendDirection === 'SELL') {
-      return 'SELL'
+      // Tín hiệu bán khi giá chạm dải trên + điều kiện RSI và EMA
+      if (lastClose >= upper && rsi > STRATEGY_CONFIG.RSI.OVERBOUGHT && emaShort.at(-1) < emaLong.at(-1)) {
+        return 'SELL'
+      }
+      return null
+    } catch (error) {
+      console.error('Bollinger Band Error:', error)
+      return null
     }
-    if (currentClose < lower - breakThreshold && trendDirection === 'BUY') {
-      return 'BUY'
-    }
-
-    return null
   }
 
   // Chiến lược RSI
-  static checkRSI(rsiValues, closes) {
+  static checkRSI(rsiValues) {
     if (!rsiValues || rsiValues.length < 1) return null
 
-    const ma200 = this.calculateMA(closes, 200).at(-1)
-    const currentPrice = closes.at(-1)
     const currentRSI = rsiValues.at(-1)
 
     // Thêm điều kiện xu hướng
-    if (currentRSI < 30 && currentPrice > ma200) return 'BUY'
-    if (currentRSI > 70 && currentPrice < ma200) return 'SELL'
+    if (currentRSI < STRATEGY_CONFIG.RSI.OVERSOLD) return 'BUY'
+    if (currentRSI > STRATEGY_CONFIG.RSI.OVERBOUGHT) return 'SELL'
     return null
   }
 
@@ -155,10 +130,9 @@ class TradingStrategies {
     if (!macdOutput || macdOutput.length < 2) return null
 
     const [prev, current] = macdOutput.slice(-2)
-    const histogramStrength = current.histogram > prev.histogram * 1.2 // Thêm điều kiện tăng cường histogram
 
-    if (current.MACD > current.signal && prev.MACD <= prev.signal && histogramStrength) return 'BUY'
-    if (current.MACD < current.signal && prev.MACD >= prev.signal && histogramStrength) return 'SELL'
+    if (current.MACD > current.signal && prev.MACD <= prev.signal) return 'BUY'
+    if (current.MACD < current.signal && prev.MACD >= prev.signal) return 'SELL'
     return null
   }
 
