@@ -11,12 +11,6 @@ const STRATEGY_CONFIG = {
 
   CONCURRENCY_LIMIT: 20, // Giới hạn xử lý song song.
 
-  // Nadaraya-Watson
-  NADARAYA: {
-    WINDOW: 100, // Số điểm dùng cho hồi quy Nadaraya-Watson.
-    BANDWIDTH: 20, // Bandwidth cho hàm Gaussian.
-  },
-
   // Bollinger Bands
   BOLLINGER_BAND: {
     PERIOD: 20, // Số nến để tính toán Bollinger Bands.
@@ -25,6 +19,7 @@ const STRATEGY_CONFIG = {
     BREAK_THRESHOLD_PCT: 1, // Ngưỡng vượt band 1%
     VOLUME_MA_PERIOD: 20, // Lọc volume trung bình 20 phiên
     ADX_THRESHOLD: 25, // Ngưỡng ADX tối thiểu
+    VOLUME_MA_THRESHOLD: 1000000, // Thêm ngưỡng volume trung bình
   },
 
   // RSI
@@ -47,25 +42,13 @@ const STRATEGY_CONFIG = {
     long: 50, // EMA dài: sử dụng 50 giá trị cuối.
   },
 
-  // Volume
-  VOLUME: {
-    PERIOD: 20, // Số nến để tính toán khối lượng trung bình.
-    THRESHOLD: 2, // Ngưỡng khối lượng vượt trung bình.
-  },
-
   // Strength Levels
   STRENGTH_LEVELS: {
-    STRONG: 6,
+    STRONG: 7,
     MEDIUM: 5,
-    WEAK: 2,
+    WEAK: 3,
   },
 
-  ICHIMOKU: {
-    conversionPeriod: 9,
-    basePeriod: 26,
-    spanPeriod: 52,
-    displacement: 26,
-  },
   STOCHASTIC: {
     period: 14,
     signalPeriod: 3,
@@ -73,22 +56,22 @@ const STRATEGY_CONFIG = {
   ADX: {
     period: 14,
     strongTrendThreshold: 25, // Tăng từ 20 lên 25
-    diDifferenceThreshold: 3, // Giữ nguyên
-    ma200BufferPct: 5, // Buffer ±5% cho MA200
   },
-  PARABOLIC_SAR: {
-    step: 0.01, // Giảm độ nhạy
-    max: 0.25, // Tăng ngưỡng tối đa
-    enableTrendFilter: true,
-    trendMAPeriod: 200,
-    minADX: 25,
-    volumeThreshold: 1.5,
-    priceDistance: 0.005, // 0.5%
+
+  ICHIMOKU: {
+    conversionPeriod: 9,
+    basePeriod: 26,
+    spanPeriod: 52,
   },
-  FIBONACCI: {
-    retracementLevels: [0.236, 0.382, 0.5, 0.618, 0.786],
-    lookbackPeriod: 50,
+  PSAR: {
+    step: 0.02,
+    max: 0.2,
   },
+  MOMENTUM: {
+    period: 14,
+    threshold: 100,
+  },
+
   FILTER: {
     VOLUME_THRESHOLD: 0.8,
     RSI_STRENGTH_BUFFER: 5,
@@ -96,9 +79,30 @@ const STRATEGY_CONFIG = {
     TREND_MA_PERIOD: 200,
     ENABLE_VOLUME_FILTER: true,
     ENABLE_TREND_FILTER: true,
+    MIN_TRADE_VOLUME: 1000000, // 1 triệu USDT
+    STRATEGY_WEIGHTS: {
+      MACD: 3,
+      RSI: 2,
+      Ichimoku: 3,
+      PSAR: 2,
+      Momentum: 1,
+      BollingerBands: 2,
+      ADX: 2,
+      Stochastic: 1,
+      SMA: 2,
+    },
+    MIN_CONFIDENCE_SCORE: 8,
+    MULTI_TIMEFRAME_EMA: {
+      SHORT: 50,
+      LONG: 200,
+    },
   },
   ATR: {
     period: 14,
+  },
+  VOLATILITY: {
+    ATR_PERIOD: 14,
+    STD_DEV_PERIOD: 50,
   },
 }
 

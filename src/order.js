@@ -4,6 +4,7 @@ const { binanceClient } = require('../src/clients')
 const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
+const { getHistoricalData, calculateATR } = require('../src/dataService')
 
 class Order {
   constructor() {
@@ -58,6 +59,26 @@ class Order {
       console.error('Lỗi khi log balance:', error)
       await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
       return { availableBalance: 0, profit: 0, profitPercent: 0 }
+    }
+  }
+
+  async checkEmergencyExit(symbol, position) {
+    const data = await getHistoricalData(symbol)
+    const atr = calculateATR(data.highs, data.lows, data.closes)
+    const currentATR = atr.at(-1)
+
+    if (Math.abs(position.markPrice - position.entryPrice) > 2 * currentATR) {
+      await closePosition(symbol)
+      await sendTelegramMessage(`🚨 Thoát lệnh khẩn cấp ${symbol} | Mất mát: ${position.unrealizedProfit}`)
+    }
+  }
+
+  async monitorPositions() {
+    const positions = await binanceClient.futuresPositionRisk()
+    for (const position of positions) {
+      if (Math.abs(parseFloat(position.positionAmt)) > 0) {
+        await this.checkEmergencyExit(position.symbol, position)
+      }
     }
   }
 
@@ -248,6 +269,7 @@ class Order {
       for (const signal of filteredSignals) {
         await this.placeOrder(signal)
       }
+      await this.monitorPositions() // Thêm kiểm tra vị thế sau khi đặt lệnh
       if (signals.length > this.scanOrderLimit) {
         const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`

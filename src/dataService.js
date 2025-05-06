@@ -1,13 +1,13 @@
 const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
-const { RSI, BollingerBands, MACD, ADX, EMA } = require('technicalindicators')
+const { RSI, BollingerBands, MACD, ADX, EMA, Stochastic, IchimokuCloud, PSAR } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
-async function getHistoricalData(symbol) {
+async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
   try {
     const candles = await binanceClient.futuresCandles({
       symbol: symbol,
-      interval: STRATEGY_CONFIG.INTERVAL,
+      interval,
       limit: 100,
     })
 
@@ -22,6 +22,13 @@ async function getHistoricalData(symbol) {
     console.error(`Lỗi dữ liệu futures cho ${symbol}:`, error.message)
     return null
   }
+}
+
+function calculateMomentum(closes, period = 10) {
+  return closes.map((close, index) => {
+    if (index < period) return null
+    return close - closes[index - period]
+  })
 }
 
 // Hàm xử lý chính
@@ -73,19 +80,96 @@ function processSignals(signals) {
   return { decision, futuresDetails, strengthCount }
 }
 
-// Thêm các hàm utility
-function calculateMA(values, period) {
-  if (values.length < period) return []
-  const ma = []
-  for (let i = period - 1; i < values.length; i++) {
-    const sum = values.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0)
-    ma.push(sum / period)
-  }
-  return ma
+function filterSignals(strategies, data, indicators, multiTimeframe) {
+  //  Thêm tính toán Volume MA
+  const volumeMA = data.volumes.length >= 20 ? data.volumes.slice(-20).reduce((a, b) => a + b, 0) / 20 : 0
+
+  const currentATR = indicators.atr.at(-1)
+  // Lọc volume
+  const dailyVolume = data.volumes.slice(-24).reduce((a, b) => a + b, 0)
+  if (dailyVolume < STRATEGY_CONFIG.FILTER.MIN_TRADE_VOLUME) return null
+
+  // Lọc xu hướng
+  const ema200 = EMA.calculate({
+    period: STRATEGY_CONFIG.FILTER.TREND_MA_PERIOD,
+    values: data.closes,
+  })
+  const currentEma200 = ema200[ema200.length - 1]
+  const isPriceAboveEMA200 = data.closes.at(-1) > currentEma200
+  if (!isPriceAboveEMA200) return null // Chỉ giao dịch khi giá trên EMA200
+
+  // Tính điểm tin cậy
+  let confidenceScore = Object.entries(strategies).reduce((score, [strategy, signal]) => {
+    return score + (signal ? STRATEGY_CONFIG.FILTER.STRATEGY_WEIGHTS[strategy] || 1 : 0) + (isPriceAboveEMA200 ? 2 : 0)
+  }, 0)
+
+  // Xác nhận đa khung thời gian
+  const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
+    (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
+  ).length
+
+  confidenceScore += multiTimeframeConfirm * 2
+
+  if (confidenceScore < STRATEGY_CONFIG.FILTER.MIN_CONFIDENCE_SCORE) return null
+
+  // Lọc biến động
+  if (currentATR > data.closes.at(-1) * 0.05) return null // Bỏ qua nếu biến động quá cao
+
+  // Kết hợp điều kiện phụ
+  const validSignals = Object.entries(strategies).reduce((acc, [strategy, signal]) => {
+    if (!signal) return acc
+
+    // Kết hợp RSI và MACD
+    if (strategy === 'RSI') {
+      // Chỉ kiểm tra khi MACD tồn tại và có giá trị khác null/undefined
+      if (strategies.MACD !== undefined && strategies.MACD !== null && strategies.MACD !== signal) {
+        return acc
+      }
+    }
+    // Kết hợp Bollinger Bands và Volume
+    if (strategy === 'BollingerBands' && volumeMA < STRATEGY_CONFIG.BOLLINGER_BAND.VOLUME_MA_THRESHOLD) return acc
+
+    acc[strategy] = signal
+    return acc
+  }, {})
+
+  return Object.keys(validSignals).length > 0 ? validSignals : null
 }
 
-// Hàm tính ATR đơn giản
-function calculateATR(highs, lows, closes, period = 14) {
+// Format tín hiệu thay null -> ""
+function formatSignals(signals) {
+  return Object.fromEntries(Object.entries(signals).map(([k, v]) => [k, v || '']))
+}
+
+// Hàm tính TP và SL mới dựa trên ATR
+function calculateTPAndSL(decision, strength, currentPrice, indicators) {
+  const { atr, volatility } = indicators
+  const baseTP = decision === 'Long' ? currentPrice + 3 * atr : currentPrice - 3 * atr
+
+  const baseSL = decision === 'Long' ? currentPrice - 2 * atr : currentPrice + 2 * atr
+
+  // Điều chỉnh theo độ biến động
+  const volatilityAdjustment = 1 + volatility / 100
+  return {
+    TP: baseTP * volatilityAdjustment,
+    SL: baseSL / volatilityAdjustment,
+    TP_ROI: (((baseTP - currentPrice) / currentPrice) * 100).toFixed(2),
+    SL_ROI: (((baseSL - currentPrice) / currentPrice) * 100).toFixed(2),
+  }
+}
+
+async function analyzeTimeframe(symbol, interval) {
+  const data = await getHistoricalData(symbol, interval)
+  return {
+    ema: EMA.calculate({
+      period: STRATEGY_CONFIG.FILTER.MULTI_TIMEFRAME_EMA.LONG,
+      values: data.closes,
+    }),
+    atr: calculateATR(data.highs, data.lows, data.closes),
+  }
+}
+
+function calculateATR(highs, lows, closes, period = STRATEGY_CONFIG.ATR.period) {
   const tr = []
   for (let i = 1; i < highs.length; i++) {
     const highLow = highs[i] - lows[i]
@@ -95,154 +179,21 @@ function calculateATR(highs, lows, closes, period = 14) {
   }
   const atr = []
   for (let i = period - 1; i < tr.length; i++) {
-    const avg = tr.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0) / period
-    atr.push(avg)
+    const sum = tr.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0)
+    atr.push(sum / period)
   }
   return atr
-}
-
-function calculateAverageMACDDiff(macdData) {
-  const diffs = macdData.map((d) => Math.abs(d.MACD - d.signal))
-  return diffs.reduce((a, b) => a + b, 0) / diffs.length
-}
-
-function filterSignals(strategies, data, indicators) {
-  const filtered = { ...strategies }
-  const { FILTER } = STRATEGY_CONFIG
-
-  // 1. Lọc volume
-  if (FILTER.ENABLE_VOLUME_FILTER) {
-    const recentVolumes = data.volumes.slice(-STRATEGY_CONFIG.VOLUME.PERIOD)
-    const avgVolume = recentVolumes.reduce((a, b) => a + b, 0) / recentVolumes.length
-    const currentVolume = data.volumes.at(-1)
-
-    if (currentVolume < avgVolume * FILTER.VOLUME_THRESHOLD) {
-      filtered.VolumeSpike = null
-      filtered.Fibonacci = null
-    }
-  }
-
-  // 2. Lọc xu hướng
-  if (FILTER.ENABLE_TREND_FILTER) {
-    const ma = calculateMA(data.closes, FILTER.TREND_MA_PERIOD)
-    if (ma.length > 0) {
-      const currentMA = ma.at(-1)
-      const currentPrice = data.closes.at(-1)
-      const isUptrend = currentPrice > currentMA
-
-      if (isUptrend) {
-        if (filtered.Stochastic === 'SELL') filtered.Stochastic = null
-        if (filtered.ParabolicSAR === 'SELL') filtered.ParabolicSAR = null
-      } else {
-        if (filtered.Stochastic === 'BUY') filtered.Stochastic = null
-        if (filtered.ParabolicSAR === 'BUY') filtered.ParabolicSAR = null
-      }
-    }
-  }
-
-  // 3. Lọc RSI yếu
-  if (strategies.RSI) {
-    const currentRSI = indicators.rsi.at(-1)
-    const threshold =
-      strategies.RSI === 'BUY'
-        ? STRATEGY_CONFIG.RSI.OVERSOLD + FILTER.RSI_STRENGTH_BUFFER
-        : STRATEGY_CONFIG.RSI.OVERBOUGHT - FILTER.RSI_STRENGTH_BUFFER
-
-    if ((strategies.RSI === 'BUY' && currentRSI > threshold) || (strategies.RSI === 'SELL' && currentRSI < threshold)) {
-      filtered.RSI = null
-    }
-  }
-
-  // 4. Lọc MACD yếu
-  if (strategies.MACD && indicators.macd.length >= 2) {
-    const currentMACD = indicators.macd.at(-1)
-    const avgDiff = calculateAverageMACDDiff(indicators.macd)
-    const currentDiff = Math.abs(currentMACD.MACD - currentMACD.signal)
-
-    if (currentDiff < avgDiff * FILTER.MACD_STRENGTH_RATIO) {
-      filtered.MACD = null
-    }
-  }
-
-  // 5. Kiểm tra nếu tất cả chiến lược đều là null
-  if (Object.values(filtered).every((s) => s === null)) {
-    return null
-  }
-
-  // 6. Kiểm tra độ mạnh của tín hiệu và sự đồng thuận
-  const longCount = Object.values(filtered).filter((s) => s === 'BUY').length
-  const shortCount = Object.values(filtered).filter((s) => s === 'SELL').length
-
-  if (
-    (longCount >= STRATEGY_CONFIG.STRENGTH_LEVELS.WEAK && longCount > shortCount) ||
-    (shortCount >= STRATEGY_CONFIG.STRENGTH_LEVELS.WEAK && longCount < shortCount)
-  ) {
-    return filtered
-  } else {
-    return null
-  }
-}
-
-// Format tín hiệu thay null -> ""
-function formatSignals(signals) {
-  return Object.fromEntries(Object.entries(signals).map(([k, v]) => [k, v || '']))
-}
-
-// Hàm tính TP và SL mới dựa trên ATR
-function calculateTPAndSL(decision, strength, currentPrice, highs, lows, closes) {
-  const atrPeriod = STRATEGY_CONFIG.ATR.period
-  const atrValues = calculateATR(highs, lows, closes, atrPeriod)
-  const currentATR = atrValues[atrValues.length - 1] || 0 // Lấy ATR gần nhất
-
-  // Điều chỉnh bội số dựa trên strength (1 đến 3 chiến lược đồng thuận)
-  const baseTPMultiplier = 2 + (strength - 1) * 1.2 // TP: 3x - 4.6x
-  const baseSLMultiplier = 1 + (strength - 1) * 0.2 // SL: 0.8x - 1.2x
-
-  if (decision === 'Long') {
-    const TP = currentPrice + currentATR * baseTPMultiplier
-    const SL = currentPrice - currentATR * baseSLMultiplier
-    let TP_ROI = ((TP - currentPrice) / currentPrice) * 100
-    if (TP_ROI < 5) {
-      TP_ROI = 4
-    } else if (TP_ROI < 10) {
-      TP_ROI = 10
-    } else if (TP_ROI < 15) {
-      TP_ROI = 15
-    }
-    let SL_ROI = TP_ROI * 2
-    if (SL_ROI > 20) SL_ROI = 20
-    return {
-      TP,
-      SL,
-      TP_ROI,
-      SL_ROI: -SL_ROI,
-    }
-  } else if (decision === 'Short') {
-    const TP = currentPrice - currentATR * baseTPMultiplier
-    const SL = currentPrice + currentATR * baseSLMultiplier
-    let TP_ROI = ((currentPrice - TP) / currentPrice) * 100
-    if (TP_ROI < 5) {
-      TP_ROI = 4
-    } else if (TP_ROI < 10) {
-      TP_ROI = 10
-    } else if (TP_ROI < 15) {
-      TP_ROI = 15
-    }
-    let SL_ROI = TP_ROI * 2
-    if (SL_ROI > 20) SL_ROI = 20
-    return {
-      TP,
-      SL,
-      TP_ROI,
-      SL_ROI: -SL_ROI,
-    }
-  }
 }
 
 async function analyzeMarket(symbol) {
   try {
     const data = await getHistoricalData(symbol)
     if (!data || data.closes.length < 100) return null
+
+    const atrValues = calculateATR(data.highs, data.lows, data.closes)
+    const currentATR = atrValues.at(-1) || 0
+    const currentPrice = data.closes.at(-1)
+    const volatility = currentATR ? (currentATR / currentPrice) * 100 : 0
 
     // Tính toán chỉ báo
     const indicators = {
@@ -261,70 +212,72 @@ async function analyzeMarket(symbol) {
         slowPeriod: STRATEGY_CONFIG.MACD.SLOW_PERIOD,
         signalPeriod: STRATEGY_CONFIG.MACD.SIGNAL_PERIOD,
       }),
-      // ichimoku: {
-      //   highs: data.highs,
-      //   lows: data.lows,
-      //   closes: data.closes,
-      // },
-      // stochastic: {
-      //   highs: data.highs,
-      //   lows: data.lows,
-      //   closes: data.closes,
-      // },
-      // adx: {
-      //   highs: data.highs,
-      //   lows: data.lows,
-      //   closes: data.closes,
-      // },
-      // psar: {
-      //   highs: data.highs,
-      //   lows: data.lows,
-      // },
+      stochastic: Stochastic.calculate({
+        high: data.highs,
+        low: data.lows,
+        close: data.closes,
+        period: STRATEGY_CONFIG.STOCHASTIC.period,
+        signalPeriod: STRATEGY_CONFIG.STOCHASTIC.signalPeriod,
+      }),
+      adx: ADX.calculate({
+        high: data.highs,
+        low: data.lows,
+        close: data.closes,
+        period: STRATEGY_CONFIG.ADX.period,
+      }),
+
+      ichimoku: IchimokuCloud.calculate({
+        high: data.highs,
+        low: data.lows,
+        conversionPeriod: STRATEGY_CONFIG.ICHIMOKU.conversionPeriod,
+        basePeriod: STRATEGY_CONFIG.ICHIMOKU.basePeriod,
+        spanPeriod: STRATEGY_CONFIG.ICHIMOKU.spanPeriod,
+      }),
+      psar: PSAR.calculate({
+        high: data.highs,
+        low: data.lows,
+        step: STRATEGY_CONFIG.PSAR.step,
+        max: STRATEGY_CONFIG.PSAR.max,
+      }),
+      momentum: calculateMomentum(data.closes, STRATEGY_CONFIG.MOMENTUM.period),
+      atr: currentATR,
+      volatility: volatility,
     }
 
     const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.short, values: data.closes })
     const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: data.closes })
-    const lastRSI = indicators.rsi.at(-1)
+
+    // Thêm phân tích đa khung thời gian
+    const multiTimeframeAnalysis = {
+      '1h': await analyzeTimeframe(symbol, '1h'),
+      '4h': await analyzeTimeframe(symbol, '4h'),
+      '1d': await analyzeTimeframe(symbol, '1d'),
+    }
+
     // Thu thập tín hiệu
     const allStrategies = {
-      // NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(data.closes, data.volumes),
-      BollingerBand: TradingStrategies.checkBollingerBand(data.closes, emaShort, emaLong, lastRSI),
       RSI: TradingStrategies.checkRSI(indicators.rsi),
       MACD: TradingStrategies.checkMACD(indicators.macd),
-      // VolumeSpike: TradingStrategies.checkVolumeSpike(data.closes, data.highs, data.lows, data.volumes),
-      // Ichimoku: TradingStrategies.checkIchimokuCloud(
-      //   indicators.ichimoku.highs,
-      //   indicators.ichimoku.lows,
-      //   indicators.ichimoku.closes,
-      // ),
-      // Stochastic: TradingStrategies.checkStochastic(
-      //   indicators.stochastic.highs,
-      //   indicators.stochastic.lows,
-      //   indicators.stochastic.closes,
-      // ),
-      // ADX: TradingStrategies.checkADX(indicators.adx.highs, indicators.adx.lows, indicators.adx.closes),
-      // ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows),
-      // Fibonacci: TradingStrategies.checkFibonacci(data.closes),
+      SMA: TradingStrategies.checkSMA(emaShort, emaLong),
+      Stochastic: TradingStrategies.checkStochastic(indicators.stochastic),
+      BollingerBands: TradingStrategies.checkBollingerBands(indicators.bb, data.closes),
+      ADX: TradingStrategies.checkADX(indicators.adx),
+      Ichimoku: TradingStrategies.checkIchimoku(indicators.ichimoku, data.closes.at(-1), data.highs, data.lows),
+      PSAR: TradingStrategies.checkPSAR(indicators.psar, data.closes.at(-1)),
+      Momentum: TradingStrategies.checkMomentum(indicators.momentum),
     }
 
     // Lọc tín hiệu
-    const filteredStrategies = filterSignals(allStrategies, data, indicators)
+    const filteredStrategies = filterSignals(allStrategies, data, indicators, multiTimeframeAnalysis)
+
     if (filteredStrategies === null) return null
 
     // Xử lý tín hiệu và tạo output
     const processed = processSignals(filteredStrategies)
     if (processed === null) return null
-    const currentPrice = data.closes.at(-1)
 
     // Tính toán TP và SL với ATR
-    const { TP_ROI, SL_ROI } = calculateTPAndSL(
-      processed.decision,
-      processed.strengthCount,
-      currentPrice,
-      data.highs,
-      data.lows,
-      data.closes,
-    )
+    const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, processed.strengthCount, currentPrice, indicators)
     if (TP_ROI < 5) return null
 
     return {
@@ -342,4 +295,4 @@ async function analyzeMarket(symbol) {
   }
 }
 
-module.exports = { getHistoricalData, analyzeMarket, processSignals, filterSignals, calculateTPAndSL }
+module.exports = { getHistoricalData, analyzeMarket, processSignals, filterSignals, calculateTPAndSL, calculateATR }

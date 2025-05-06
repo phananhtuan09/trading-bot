@@ -1,7 +1,7 @@
 const { binanceClient } = require('../src/clients')
 const { getHistoricalData, processSignals, filterSignals, calculateTPAndSL } = require('../src/dataService')
 const TradingStrategies = require('../src/tradingStrategies')
-const { RSI, BollingerBands, MACD, EMA } = require('technicalindicators')
+const { RSI, BollingerBands, MACD, EMA, Stochastic, ADX } = require('technicalindicators')
 const { STRATEGY_CONFIG, ORDER_SETTINGS } = require('../src/config')
 const fs = require('fs')
 const path = require('path')
@@ -31,7 +31,7 @@ const BACKTEST_SETTINGS = {
 async function fetchHistoricalData(symbol) {
   let allCandles = []
   const endTime = Date.now()
-  const startTime = endTime - 10 * 24 * 60 * 60 * 1000 // Test trong 30 ngày
+  const startTime = endTime - 30 * 24 * 60 * 60 * 1000 // Test trong 30 ngày
 
   let currentStart = startTime
   while (true) {
@@ -110,64 +110,32 @@ async function processSymbol(symbol) {
           slowPeriod: STRATEGY_CONFIG.MACD.SLOW_PERIOD,
           signalPeriod: STRATEGY_CONFIG.MACD.SIGNAL_PERIOD,
         }),
-        // ichimoku: {
-        //   highs: highs,
-        //   lows: lows,
-        //   closes: closes,
-        // },
-        // stochastic: {
-        //   highs: highs,
-        //   lows: lows,
-        //   closes: closes,
-        // },
-        // adx: {
-        //   highs: highs,
-        //   lows: lows,
-        //   closes: closes,
-        // },
-        // psar: {
-        //   highs: highs,
-        //   lows: lows,
-        // },
+        stochastic: Stochastic.calculate({
+          high: highs,
+          low: lows,
+          close: closes,
+          period: STRATEGY_CONFIG.STOCHASTIC.period,
+          signalPeriod: STRATEGY_CONFIG.STOCHASTIC.signalPeriod,
+        }),
+        adx: ADX.calculate({
+          high: highs,
+          low: lows,
+          close: closes,
+          period: STRATEGY_CONFIG.ADX.period,
+        }),
       }
 
       const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.short, values: closes })
       const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: closes })
-      const lastRSI = indicators.rsi.at(-1)
 
       // Thu thập tín hiệu
       const allStrategies = {
-        // NadarayaUTBot: TradingStrategies.checkNadarayaUTBot(closes, volu
-        // mes),
-        BollingerBand: TradingStrategies.checkBollingerBand(indicators.bb, closes, emaShort, emaLong, lastRSI),
         RSI: TradingStrategies.checkRSI(indicators.rsi),
         MACD: TradingStrategies.checkMACD(indicators.macd),
-        //  Combined: TradingStrategies.checkCombinedStrategy(indicators.bb, closes, indicators.rsi, indicators.macd),
-
-        // VolumeSpike: TradingStrategies.checkVolumeSpike(closes, highs, lows, volumes),
-        // skip
-        // Ichimoku: TradingStrategies.checkIchimokuCloud(
-        //   indicators.ichimoku.highs,
-        //   indicators.ichimoku.lows,
-        //   indicators.ichimoku.closes,
-        // ),
-        // skip
-        // Stochastic: TradingStrategies.checkStochastic(
-        //   indicators.stochastic.highs,
-        //   indicators.stochastic.lows,
-        //   indicators.stochastic.closes,
-        // ),
-        // skip
-        // ADX: TradingStrategies.checkADX(
-        //   indicators.adx.highs,
-        //   indicators.adx.lows,
-        //   indicators.adx.closes,
-        //   volumes,
-        //   indicators.rsi,
-        // ),
-        // skip
-        //  ParabolicSAR: TradingStrategies.checkParabolicSAR(indicators.psar.highs, indicators.psar.lows, closes, volumes),
-        //  Fibonacci: TradingStrategies.checkFibonacci(closes),
+        SMA: TradingStrategies.checkSMA(emaShort, emaLong),
+        Stochastic: TradingStrategies.checkStochastic(indicators.stochastic),
+        BollingerBands: TradingStrategies.checkBollingerBands(indicators.bb, closes),
+        ADX: TradingStrategies.checkADX(indicators.adx),
       }
 
       // Lọc tín hiệu
