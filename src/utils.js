@@ -15,7 +15,7 @@ function getFileNameTimestamp(prefix) {
 }
 
 function log(type, ...args) {
-  if (Boolean(process.env.IS_DEV_MODE) === true) {
+  if (process.env.IS_DEV_MODE === 'true') {
     console[type](...args)
   }
 }
