@@ -11,7 +11,6 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
       interval,
       limit: 100,
     })
-    await new Promise((resolve) => setTimeout(resolve, 2000))
     return {
       symbol,
       closes: candles.map((c) => parseFloat(c.close)),
