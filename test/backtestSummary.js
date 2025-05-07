@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { getFileNameTimestamp, ensureFoldersExist } = require('../src/utils')
+const { getFileNameTimestamp, ensureFoldersExist, log } = require('../src/utils')
 
 const outputDir = path.join(__dirname, '..', 'logs', 'backtest')
 // Get the most recent backtest results file
@@ -15,7 +15,7 @@ const getLatestBacktestFile = () => {
 
 const INPUT_FILE = getLatestBacktestFile()
 if (!INPUT_FILE) {
-  console.error('❌ Không tìm thấy file backtest results')
+  log('error', '❌ Không tìm thấy file backtest results')
   process.exit(1)
 }
 
@@ -142,9 +142,9 @@ function generateSummary() {
     }
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(summary, null, 2))
-    console.log(`✅ Báo cáo tổng hợp đã được lưu tại: ${OUTPUT_FILE}`)
+    log('log', `✅ Báo cáo tổng hợp đã được lưu tại: ${OUTPUT_FILE}`)
   } catch (error) {
-    console.error('❌ Lỗi khi tạo báo cáo:', error)
+    log('error', '❌ Lỗi khi tạo báo cáo:', error)
   }
 }
 

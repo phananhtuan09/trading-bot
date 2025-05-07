@@ -14,4 +14,10 @@ function getFileNameTimestamp(prefix) {
   return `${prefix}_${timestamp}.json`
 }
 
-module.exports = { ensureFoldersExist, getFileNameTimestamp }
+function log(type, ...args) {
+  if (Boolean(process.env.IS_DEV_MODE) === true) {
+    console[type](...args)
+  }
+}
+
+module.exports = { ensureFoldersExist, getFileNameTimestamp, log }

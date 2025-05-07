@@ -6,10 +6,10 @@ const { analyzeMarket } = require('./dataService')
 const { sendDiscordSignalMessage, sendDiscordMessage } = require('./discordService')
 const { sendTelegramSignalMessage, sendTelegramMessage } = require('./telegramService')
 const { STRATEGY_CONFIG, CONFIG } = require('./config')
-const { ensureFoldersExist, getFileNameTimestamp } = require('./utils')
+const { ensureFoldersExist, getFileNameTimestamp, log } = require('./utils')
 
 async function performScan() {
-  // console.log(`\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
+  log('log', `\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
 
   try {
     const symbols = await getSymbols()
@@ -30,7 +30,7 @@ async function performScan() {
       const signal = result.value
       if (!signal) continue
       signalCount++
-      //   console.log('Tín hiệu:', JSON.stringify(signal, null, 2))
+      log('log', 'Tín hiệu:', JSON.stringify(signal, null, 2))
       allSignals.push(signal)
       await sendDiscordSignalMessage(signal)
       await sendTelegramSignalMessage(signal)
@@ -40,7 +40,7 @@ async function performScan() {
       ensureFoldersExist(['logs/signals'])
       const signalFile = path.join('logs/signals', getFileNameTimestamp('signal'))
       fs.writeFileSync(signalFile, JSON.stringify(allSignals, null, 2))
-      //  console.log(`📝 Đã ghi tín hiệu vào ${signalFile}`)
+      log('log', `📝 Đã ghi tín hiệu vào ${signalFile}`)
     }
 
     const summary = [
@@ -51,16 +51,16 @@ async function performScan() {
       `- Thời gian quét: ${new Date().toLocaleString()}`,
     ].join('\n')
 
-    // console.log(summary)
+    log('log', summary)
     if (errors.length > 0) {
-      console.error('Chi tiết lỗi:', errors)
+      log('error', 'Chi tiết lỗi:', errors)
       return null
     }
     await sendDiscordMessage(summary)
     await sendTelegramMessage(summary)
     return allSignals
   } catch (error) {
-    console.error('Lỗi quét tổng:', error)
+    log('error', 'Lỗi quét tổng:', error)
     return null
   }
 }
@@ -70,7 +70,7 @@ function startScanning() {
   const interval = setInterval(performScan, CONFIG.SCAN_INTERVAL)
   process.on('SIGINT', () => {
     clearInterval(interval)
-    console.log('🛑 Bot đã dừng')
+    log('log', '🛑 Bot đã dừng')
     process.exit()
   })
 }

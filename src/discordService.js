@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { DISCORD } = require('./config')
+const { log } = require('./utils')
 
 const username = 'Crypto Trading Bot'
 
@@ -45,7 +46,7 @@ async function sendDiscordSignalMessage(signal) {
 
       await axios.post(DISCORD.WEBHOOK_URL, payload)
     } catch (error) {
-      console.error('🚨 Lỗi gửi tín hiệu Discord:', error.message)
+      log('error', '🚨 Lỗi gửi tín hiệu Discord:', error.message)
     }
   }
 }
@@ -61,7 +62,7 @@ async function sendDiscordMessage(message) {
 
       await axios.post(DISCORD.WEBHOOK_URL, payload)
     } catch (error) {
-      console.error('🚨 Lỗi gửi tin nhắn Discord:', error.message)
+      log('error', '🚨 Lỗi gửi tin nhắn Discord:', error.message)
     }
   }
 }
@@ -76,10 +77,10 @@ async function checkDiscordConnection() {
       content: '🤖 Webhook Discord đã được kết nối thành công!',
     })
 
-    console.log('✅ Đã kết nối Discord Webhook thành công!')
+    log('log', '✅ Đã kết nối Discord Webhook thành công!')
     return true
   } catch (error) {
-    console.error('🚨 Lỗi kết nối Discord Webhook:', error.message)
+    log('error', '🚨 Lỗi kết nối Discord Webhook:', error.message)
     return false
   }
 }

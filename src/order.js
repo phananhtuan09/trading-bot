@@ -5,6 +5,7 @@ const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
 const { getHistoricalData, calculateATR } = require('../src/dataService')
+const { log } = require('../src/utils')
 
 class Order {
   constructor() {
@@ -18,7 +19,7 @@ class Order {
       const positions = await binanceClient.futuresPositionRisk()
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
-      console.error('Lỗi kiểm tra vị thế:', error)
+      log('error', 'Lỗi kiểm tra vị thế:', error)
       return false
     }
   }
@@ -50,13 +51,14 @@ class Order {
 💰 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
 📈 Lợi nhuận: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (${isNaN(profitPercent) ? 0 : profitPercent}%)
       `
+      log('log', profitMessage)
       return {
         availableBalance,
         profit: isNaN(profit) ? 0 : profit.toFixed(2),
         profitPercent: isNaN(profitPercent) ? 0 : profitPercent,
       }
     } catch (error) {
-      console.error('Lỗi khi log balance:', error)
+      log('error', 'Lỗi khi log balance:', error)
       await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
       return { availableBalance: 0, profit: 0, profitPercent: 0 }
     }
@@ -69,7 +71,9 @@ class Order {
 
     if (Math.abs(position.markPrice - position.entryPrice) > 2 * currentATR) {
       await closePosition(symbol)
-      await sendTelegramMessage(`🚨 Thoát lệnh khẩn cấp ${symbol} | Mất mát: ${position.unrealizedProfit}`)
+      const exitMessage = `🚨 Thoát lệnh khẩn cấp ${symbol} | Mất mát: ${position.unrealizedProfit}`
+      log('error', exitMessage)
+      await sendTelegramMessage(exitMessage)
     }
   }
 
@@ -92,7 +96,7 @@ class Order {
     if (!orderPlacementEnabled) return
     if (ordersPlacedToday >= this.dailyOrderLimit) {
       const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày`
-      //  console.log(limitMessage)
+      log('log', limitMessage)
       await sendTelegramMessage(limitMessage)
       return
     }
@@ -100,7 +104,7 @@ class Order {
 
     if (await this.checkExistingPosition(symbol)) {
       const existMessage = `🟡 Bỏ qua ${symbol} - Đang có vị thế mở`
-      //  console.log(existMessage)
+      log('log', existMessage)
       await sendTelegramMessage(existMessage)
       return
     }
@@ -122,7 +126,9 @@ class Order {
         slPriceOrder = slPrice
       } catch (tpSlError) {
         await this.closePositionImmediately(symbol, quantity, side)
-        throw new Error(`Lỗi TP/SL: ${tpSlError.message}`)
+        const tpSlError = `Lỗi TP/SL: ${tpSlError.message}`
+        log('error', tpSlError)
+        throw new Error(tpSlError)
       }
 
       stateManager.setStateAndSaveToFile({
@@ -133,7 +139,7 @@ class Order {
       const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
         4,
       )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
-      //  console.log(orderMessage)
+      log('log', orderMessage)
       await sendTelegramMessage(orderMessage)
     } catch (error) {
       await this.handleOrderError(error, symbol)
@@ -149,9 +155,13 @@ class Order {
         type: 'MARKET',
         quantity: Math.abs(quantity),
       })
-      await sendTelegramMessage(`⚠️ Đã đóng lệnh ${symbol} do lỗi TP/SL`)
+      const tpSlError = `⚠️ Đã đóng lệnh ${symbol} do lỗi TP/SL`
+      log('error', tpSlError)
+      await sendTelegramMessage(tpSlError)
     } catch (closeError) {
-      await sendTelegramMessage(`🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`)
+      const tpSlError = `🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`
+      log('error', tpSlError)
+      await sendTelegramMessage(tpSlError)
     }
   }
 
@@ -160,7 +170,9 @@ class Order {
       await binanceClient.futuresMarginType({ symbol, marginType: 'ISOLATED' })
     } catch (error) {
       if (!error.message.includes('No need')) {
-        await sendTelegramMessage(`🔴 Lỗi set margin type cho ${symbol}: ${error.message}`)
+        const marginError = `🔴 Lỗi set margin type cho ${symbol}: ${error.message}`
+        log('error', marginError)
+        await sendTelegramMessage(marginError)
         throw error
       }
     }
@@ -168,7 +180,11 @@ class Order {
 
   async prepareOrder(symbol, price, decision) {
     const quantity = await this.calculateQuantity(symbol, price)
-    if (quantity <= 0) throw new Error('Số lượng không hợp lệ')
+    if (quantity <= 0) {
+      const quantityError = 'Số lượng không hợp lệ'
+      log('error', quantityError)
+      throw new Error(quantityError)
+    }
 
     await binanceClient.futuresLeverage({
       symbol,
@@ -211,7 +227,9 @@ class Order {
       await this.placeTPSLOrder(symbol, side, slPrice, 'STOP_MARKET')
       return { tpPrice, slPrice }
     } catch (error) {
-      await sendTelegramMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
+      const tpSlError = `🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`
+      log('error', tpSlError)
+      await sendTelegramMessage(tpSlError)
       throw error
     }
   }
@@ -245,7 +263,7 @@ class Order {
 
   async handleOrderError(error, symbol) {
     const message = `🔴 Lỗi đặt lệnh ${symbol}: ${error.message}`
-    console.error(message)
+    log('error', message)
     await sendTelegramMessage(message)
   }
 
@@ -260,7 +278,7 @@ class Order {
       const signals = (await performScan()) || []
       if (!signals || signals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
-        //console.log(noSignalMessage)
+        log('log', noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
@@ -273,8 +291,8 @@ class Order {
       if (signals.length > this.scanOrderLimit) {
         const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
+        log('log', limitMessage)
         await sendTelegramMessage(limitMessage)
-        // console.log(limitMessage)
       }
     } finally {
       this.isRunning = false

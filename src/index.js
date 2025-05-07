@@ -4,29 +4,30 @@ const { checkDiscordConnection } = require('./discordService')
 const { checkTelegramConnection } = require('./telegramService')
 const { DISCORD, TELEGRAM } = require('./config')
 const { binanceClient } = require('./clients')
+const { log } = require('./utils')
 
 async function checkBinanceConnection() {
   try {
     const time = await binanceClient.time()
-    console.log(`✅ Binance: ${new Date(time).toLocaleString()}`)
+    log('log', `✅ Binance: ${new Date(time).toLocaleString()}`)
     return true
   } catch (error) {
-    console.error('❌ Lỗi Binance:', error.message)
+    log('error', '❌ Lỗi Binance:', error.message)
     return false
   }
 }
 
 async function initializeBot() {
-  console.log('🚀 Đang khởi động bot...')
+  log('log', '🚀 Đang khởi động bot...')
 
   if (!(await checkBinanceConnection())) {
-    console.error('❌ Không thể kết nối Binance')
+    log('error', '❌ Không thể kết nối Binance')
     process.exit(1)
   }
 
   const symbols = await getSymbols()
   if (symbols.length === 0) {
-    console.error('❌ Không có symbols hợp lệ')
+    log('error', '❌ Không có symbols hợp lệ')
     process.exit(1)
   }
 
@@ -37,9 +38,9 @@ async function initializeBot() {
       if (!isDiscordConnected) {
         throw new Error('Kết nối Discord không thành công')
       }
-      console.log('✅ Đã kết nối Discord')
+      log('log', '✅ Đã kết nối Discord')
     } catch (error) {
-      console.error('❌ Lỗi Discord:', error.message)
+      log('error', '❌ Lỗi Discord:', error.message)
       process.exit(1)
     }
   }
@@ -49,22 +50,22 @@ async function initializeBot() {
       // Kết nối tới telegram
       const isTelegramConnected = await checkTelegramConnection()
       if (!isTelegramConnected) {
-        console.error('❌ Kết nối Telegram không thành công')
+        log('error', '❌ Kết nối Telegram không thành công')
       }
-      console.log('✅ Đã kết nối Telegram')
+      log('log', '✅ Đã kết nối Telegram')
     } catch (error) {
-      console.error('❌ Lỗi Telegram:', error.message)
+      log('error', '❌ Lỗi Telegram:', error.message)
       process.exit(1)
     }
   }
 
-  console.log(`📊 Bắt đầu theo dõi ${symbols.length} cặp:`)
-  console.log(symbols.join(', '))
+  log('log', `📊 Bắt đầu theo dõi ${symbols.length} cặp:`)
+  log('log', symbols.join(', '))
 
   startScanning()
 }
 
 initializeBot().catch((error) => {
-  console.error('💥 Lỗi khởi động:', error)
+  log('error', '💥 Lỗi khởi động:', error)
   process.exit(1)
 })

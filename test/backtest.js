@@ -1,13 +1,21 @@
 const { binanceClient } = require('../src/clients')
-const { getHistoricalData, processSignals, filterSignals, calculateTPAndSL } = require('../src/dataService')
+const {
+  getHistoricalData,
+  processSignals,
+  filterSignals,
+  calculateTPAndSL,
+  calculateATR,
+  calculateMomentum,
+  analyzeTimeframe,
+} = require('../src/dataService')
 const TradingStrategies = require('../src/tradingStrategies')
-const { RSI, BollingerBands, MACD, EMA, Stochastic, ADX } = require('technicalindicators')
+const { RSI, BollingerBands, MACD, EMA, Stochastic, ADX, IchimokuCloud, PSAR } = require('technicalindicators')
 const { STRATEGY_CONFIG, ORDER_SETTINGS } = require('../src/config')
 const fs = require('fs')
 const path = require('path')
 const pLimit = require('p-limit')
 const { getSymbols } = require('../src/symbolManager')
-const { getFileNameTimestamp, ensureFoldersExist } = require('../src/utils')
+const { getFileNameTimestamp, ensureFoldersExist, log } = require('../src/utils')
 
 const BACKTEST_SETTINGS = {
   symbols: [
@@ -28,7 +36,7 @@ const BACKTEST_SETTINGS = {
   concurrency: 100,
 }
 
-async function fetchHistoricalData(symbol) {
+async function fetchHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
   let allCandles = []
   const endTime = Date.now()
   const startTime = endTime - 30 * 24 * 60 * 60 * 1000 // Test trong 30 ngày
@@ -43,14 +51,14 @@ async function fetchHistoricalData(symbol) {
       try {
         candles = await binanceClient.futuresCandles({
           symbol: symbol,
-          interval: BACKTEST_SETTINGS.interval,
+          interval,
           startTime: currentStart,
           limit: 1000,
         })
         success = true
       } catch (error) {
         attempts++
-        console.log(`Retry ${attempts}/3 cho ${symbol}`)
+        log('log', `Retry ${attempts}/3 cho ${symbol}`)
         await new Promise((resolve) => setTimeout(resolve, 3000))
       }
     }
@@ -78,10 +86,10 @@ async function fetchHistoricalData(symbol) {
 
 async function processSymbol(symbol) {
   try {
-    console.log(`🔄 Đang xử lý ${symbol}`)
+    log('log', `🔄 Đang xử lý ${symbol}`)
     const historicalData = await fetchHistoricalData(symbol)
     if (!historicalData || historicalData.length < 100) {
-      console.log(`⚠️ Không đủ dữ liệu cho ${symbol} (${historicalData.length} candles)`)
+      log('log', `⚠️ Không đủ dữ liệu cho ${symbol} (${historicalData.length} candles)`)
       return []
     }
     const results = []
@@ -92,6 +100,11 @@ async function processSymbol(symbol) {
       const highs = chunk.map((c) => c.high)
       const lows = chunk.map((c) => c.low)
       const volumes = chunk.map((c) => c.volume)
+
+      const atrValues = calculateATR(highs, lows, closes)
+      const currentATR = atrValues.at(-1) || 0
+      const currentPrice = closes.at(-1)
+      const volatility = currentATR ? (currentATR / currentPrice) * 100 : 0
 
       // Tính toán chỉ báo
       const indicators = {
@@ -123,11 +136,33 @@ async function processSymbol(symbol) {
           close: closes,
           period: STRATEGY_CONFIG.ADX.period,
         }),
+        ichimoku: IchimokuCloud.calculate({
+          high: highs,
+          low: lows,
+          conversionPeriod: STRATEGY_CONFIG.ICHIMOKU.conversionPeriod,
+          basePeriod: STRATEGY_CONFIG.ICHIMOKU.basePeriod,
+          spanPeriod: STRATEGY_CONFIG.ICHIMOKU.spanPeriod,
+        }),
+        psar: PSAR.calculate({
+          high: highs,
+          low: lows,
+          step: STRATEGY_CONFIG.PSAR.step,
+          max: STRATEGY_CONFIG.PSAR.max,
+        }),
+        momentum: calculateMomentum(closes, STRATEGY_CONFIG.MOMENTUM.period),
+        atr: currentATR,
+        volatility: volatility,
       }
 
       const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.short, values: closes })
       const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: closes })
 
+      // Thêm phân tích đa khung thời gian
+      const multiTimeframeAnalysis = {
+        '1h': await analyzeTimeframe(symbol, '1h'),
+        '4h': await analyzeTimeframe(symbol, '4h'),
+        '1d': await analyzeTimeframe(symbol, '1d'),
+      }
       // Thu thập tín hiệu
       const allStrategies = {
         RSI: TradingStrategies.checkRSI(indicators.rsi),
@@ -136,6 +171,9 @@ async function processSymbol(symbol) {
         Stochastic: TradingStrategies.checkStochastic(indicators.stochastic),
         BollingerBands: TradingStrategies.checkBollingerBands(indicators.bb, closes),
         ADX: TradingStrategies.checkADX(indicators.adx),
+        Ichimoku: TradingStrategies.checkIchimoku(indicators.ichimoku, closes.at(-1), highs, lows),
+        PSAR: TradingStrategies.checkPSAR(indicators.psar, closes.at(-1)),
+        Momentum: TradingStrategies.checkMomentum(indicators.momentum),
       }
 
       // Lọc tín hiệu
@@ -148,22 +186,16 @@ async function processSymbol(symbol) {
           volumes,
         },
         indicators,
+        multiTimeframeAnalysis,
       )
+
       if (filteredStrategies === null) continue
 
       // Xử lý tín hiệu và tạo output
       const processed = processSignals(filteredStrategies)
       if (processed === null) continue
 
-      const currentPrice = closes.at(-1)
-      const { TP_ROI, SL_ROI } = calculateTPAndSL(
-        processed.decision,
-        processed.strengthCount,
-        currentPrice,
-        highs,
-        lows,
-        closes,
-      )
+      const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
 
       if (TP_ROI < 5) continue
 
@@ -257,7 +289,7 @@ async function processSymbol(symbol) {
     }
     return results
   } catch (error) {
-    console.error(`❌ Lỗi với ${symbol}:`, error)
+    log('error', `❌ Lỗi với ${symbol}:`, error)
     return []
   }
 }
@@ -273,17 +305,18 @@ async function runBacktest() {
     const symbols = await getSymbols()
     const limit = pLimit(BACKTEST_SETTINGS.concurrency)
     if (symbols.length === 0) {
-      console.log('⚠️ Không có symbol nào để xử lý.')
+      log('log', '⚠️ Không có symbol nào để xử lý.')
+
       return
     }
 
-    console.log('Xử lý tông cộng ' + symbols.length + ' symbol')
+    log('log', 'Xử lý tông cộng ' + symbols.length + ' symbol')
 
     const allResults = await Promise.all(symbols.map((symbol) => limit(() => processSymbol(symbol))))
 
     const mergedResults = allResults.flat()
     if (mergedResults.length === 0) {
-      console.log('⚠️ Không có kết quả nào để ghi lại.')
+      log('log', '⚠️ Không có kết quả nào để ghi lại.')
       return
     }
     ensureFoldersExist(['logs/backtest'])
@@ -295,9 +328,9 @@ async function runBacktest() {
       getFileNameTimestamp(BACKTEST_SETTINGS.resultFile),
     )
     fs.writeFileSync(outputPath, JSON.stringify(mergedResults, null, 2))
-    console.log(`✅ Đã xử lý ${symbols.length} coins. Kết quả lưu tại: ${outputPath}`)
+    log('log', `✅ Đã xử lý ${symbols.length} coins. Kết quả lưu tại: ${outputPath}`)
   } catch (error) {
-    console.error('❌ Lỗi tổng:', error)
+    log('error', '❌ Lỗi tổng:', error)
   }
 }
 

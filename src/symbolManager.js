@@ -1,5 +1,6 @@
 const { binanceClient } = require('./clients')
 const { STRATEGY_CONFIG } = require('./config')
+const { log } = require('./utils')
 
 let symbolCache = {
   lastUpdated: 0,
@@ -8,7 +9,7 @@ let symbolCache = {
 
 async function fetchAllSymbols() {
   try {
-    console.log('🔄 Đang cập nhật danh sách symbols cho futures...')
+    log('log', '🔄 Đang cập nhật danh sách symbols cho futures...')
     const exchangeInfo = await binanceClient.futuresExchangeInfo()
 
     const validSymbols = exchangeInfo.symbols
@@ -25,10 +26,10 @@ async function fetchAllSymbols() {
       symbols: validSymbols,
     }
 
-    console.log(`✅ Đã cập nhật ${validSymbols.length} symbols cho futures`)
+    log('log', `✅ Đã cập nhật ${validSymbols.length} symbols cho futures`)
     return validSymbols
   } catch (error) {
-    console.error('❌ Lỗi cập nhật symbols cho futures:', error.message)
+    log('error', '❌ Lỗi cập nhật symbols cho futures:', error.message)
     return []
   }
 }

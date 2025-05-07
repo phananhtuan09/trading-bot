@@ -2,6 +2,7 @@ const { performScan } = require('../src/scanner')
 const { ORDER_SETTINGS, CONFIG } = require('../src/config')
 const { binanceTestClient } = require('../src/clients')
 const { sendTelegramMessage } = require('../src/telegramService')
+const { log } = require('../src/utils')
 
 class ForwardTester {
   constructor() {
@@ -26,7 +27,7 @@ class ForwardTester {
         this.initialCapital = availableBalance
         this.isFirstRun = false
         const initialCapitalMessage = `💰 Vốn khởi đầu: ${this.initialCapital.toFixed(2)} USDT`
-        console.log(initialCapitalMessage)
+        log('log', initialCapitalMessage)
         await sendTelegramMessage(initialCapitalMessage)
       }
 
@@ -40,7 +41,7 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
       )} USDT).
       `
 
-      console.log(profitMessage)
+      log('log', profitMessage)
       await sendTelegramMessage(profitMessage)
 
       return {
@@ -48,7 +49,7 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
         profit,
       }
     } catch (error) {
-      console.error('Lỗi khi lấy thông tin tài khoản:', error)
+      log('error', 'Lỗi khi lấy thông tin tài khoản:', error)
     }
   }
 
@@ -57,7 +58,8 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
       const positions = await binanceTestClient.futuresPositionRisk()
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
-      console.error('Lỗi kiểm tra vị thế:', error)
+      log('error', 'Lỗi kiểm tra vị thế:', error)
+
       return false
     }
   }
@@ -68,7 +70,7 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
       const symbolInfo = exchangeInfo.symbols.find((s) => s.symbol === symbol)
       // Kiểm tra symbol có tồn tại không
       if (!symbolInfo) {
-        console.error(`🔴 Symbol ${symbol} không tồn tại trên Testnet`)
+        log('error', `🔴 Symbol ${symbol} không tồn tại trên Testnet`)
         return 0
       }
       const lotSizeFilter = symbolInfo.filters.find((f) => f.filterType === 'LOT_SIZE')
@@ -86,18 +88,18 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
         const minQuantity = Math.ceil(100 / price / stepSize) * stepSize
         actualNotional = minQuantity * price
         if (actualNotional < 100) {
-          console.error(`🔴 Không đạt notional tối thiểu cho ${symbol}: ${actualNotional.toFixed(2)} USDT`)
+          log('error', `🔴 Không đạt notional tối thiểu cho ${symbol}: ${actualNotional.toFixed(2)} USDT`)
           return 0
         }
         quantity = minQuantity
       }
 
       // Log thông tin kiểm tra
-      console.log(`ℹ️ ${symbol} | Lot size step: ${stepSize} | Quantity: ${quantity}`)
+      log('log', `ℹ️ ${symbol} | Lot size step: ${stepSize} | Quantity: ${quantity}`)
 
       return quantity
     } catch (error) {
-      console.error('Lỗi tính số lượng:', error)
+      log('error', 'Lỗi tính số lượng:', error)
       return 0
     }
   }
@@ -124,7 +126,8 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
     try {
       if (await this.checkExistingPosition(symbol)) {
         const existMessage = `🟡 Bỏ qua ${symbol} - Đang có vị thế mở`
-        console.log(existMessage)
+        log('log', existMessage)
+
         await sendTelegramMessage(existMessage)
         return
       }
@@ -146,7 +149,8 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
 
       const quantity = await this.calculateQuantity(symbol, price)
       if (quantity <= 0) {
-        console.log(`🟡 Bỏ qua ${symbol} - Số lượng không hợp lệ`)
+        log('log', `🟡 Bỏ qua ${symbol} - Số lượng không hợp lệ`)
+
         return
       }
       const side = decision === 'Long' ? 'BUY' : 'SELL'
@@ -159,7 +163,7 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
 
       const entryPrice = price
       if (entryPrice <= 0) {
-        console.error(`🔴 Lỗi: entryPrice không hợp lệ, sử dụng giá trị price: ${price}`)
+        log('error', `🔴 Lỗi: entryPrice không hợp lệ, sử dụng giá trị price: ${price}`)
         return
       }
       const symbolInfo = (await binanceTestClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
@@ -198,33 +202,33 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
       const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${entryPrice.toFixed(4)} | SL: ${slPrice.toFixed(
         4,
       )} | TP: ${tpPrice.toFixed(4)} | KL: ${quantity}`
-      console.log(orderMessage)
+      log('log', orderMessage)
       await sendTelegramMessage(orderMessage)
     } catch (error) {
-      console.error(`🔴 Lỗi đặt lệnh ${symbol}:`, error)
+      log('error', `🔴 Lỗi đặt lệnh ${symbol}:`, error)
     }
   }
 
   async executeTest() {
     let startMessage = `\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`
-    console.log(startMessage)
+    log('log', startMessage)
     await sendTelegramMessage(startMessage)
     // Kiểm tra nếu hàm đang chạy thì bỏ qua lần gọi này
     if (this.isRunning) {
-      console.log('executeTest đang chạy, bỏ qua lần này.')
+      log('log', 'executeTest đang chạy, bỏ qua lần này.')
       return
     }
 
     this.isRunning = true // Đánh dấu hàm đang chạy
     try {
-      console.log('=== BẮT ĐẦU FORWARD TEST ===')
+      log('log', '=== BẮT ĐẦU FORWARD TEST ===')
       await this.logBalance()
 
       const allSignals = await performScan()
 
       if (!allSignals || allSignals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
-        console.log(noSignalMessage)
+        log('log', noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
@@ -232,9 +236,9 @@ Lợi nhuận đang có: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (so với
         await this.placeOrder(signal)
       }
 
-      console.log('=== KẾT THÚC FORWARD TEST ===')
+      log('log', '=== KẾT THÚC FORWARD TEST ===')
     } catch (error) {
-      console.error('Lỗi trong executeTest:', error)
+      log('error', 'Lỗi trong executeTest:', error)
     } finally {
       this.isRunning = false // Đánh dấu hàm đã hoàn thành
     }

@@ -2,6 +2,7 @@ const { binanceClient } = require('./clients')
 const TradingStrategies = require('./tradingStrategies')
 const { RSI, BollingerBands, MACD, ADX, EMA, Stochastic, IchimokuCloud, PSAR } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
+const { log } = require('./utils')
 
 async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
   try {
@@ -10,7 +11,7 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
       interval,
       limit: 100,
     })
-
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     return {
       symbol,
       closes: candles.map((c) => parseFloat(c.close)),
@@ -19,7 +20,7 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
       volumes: candles.map((c) => parseFloat(c.volume)),
     }
   } catch (error) {
-    console.error(`Lỗi dữ liệu futures cho ${symbol}:`, error.message)
+    log('error', `Lỗi dữ liệu futures cho ${symbol}:`, error.message)
     return null
   }
 }
@@ -84,7 +85,7 @@ function filterSignals(strategies, data, indicators, multiTimeframe) {
   //  Thêm tính toán Volume MA
   const volumeMA = data.volumes.length >= 20 ? data.volumes.slice(-20).reduce((a, b) => a + b, 0) / 20 : 0
 
-  const currentATR = indicators.atr.at(-1)
+  const currentATR = indicators.atr
   // Lọc volume
   const dailyVolume = data.volumes.slice(-24).reduce((a, b) => a + b, 0)
   if (dailyVolume < STRATEGY_CONFIG.FILTER.MIN_TRADE_VOLUME) return null
@@ -142,7 +143,7 @@ function formatSignals(signals) {
 }
 
 // Hàm tính TP và SL mới dựa trên ATR
-function calculateTPAndSL(decision, strength, currentPrice, indicators) {
+function calculateTPAndSL(decision, currentPrice, indicators) {
   const { atr, volatility } = indicators
   const baseTP = decision === 'Long' ? currentPrice + 3 * atr : currentPrice - 3 * atr
 
@@ -277,7 +278,7 @@ async function analyzeMarket(symbol) {
     if (processed === null) return null
 
     // Tính toán TP và SL với ATR
-    const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, processed.strengthCount, currentPrice, indicators)
+    const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
     if (TP_ROI < 5) return null
 
     return {
@@ -290,9 +291,18 @@ async function analyzeMarket(symbol) {
       SL_ROI,
     }
   } catch (error) {
-    console.error(`Error analyzing ${symbol}:`, error)
+    log('error', `Error analyzing ${symbol}:`, error)
     return null
   }
 }
 
-module.exports = { getHistoricalData, analyzeMarket, processSignals, filterSignals, calculateTPAndSL, calculateATR }
+module.exports = {
+  getHistoricalData,
+  analyzeMarket,
+  processSignals,
+  filterSignals,
+  calculateTPAndSL,
+  calculateATR,
+  calculateMomentum,
+  analyzeTimeframe,
+}

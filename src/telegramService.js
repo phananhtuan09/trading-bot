@@ -1,5 +1,6 @@
 const { TELEGRAM } = require('./config')
 const { telegramClient } = require('./clients')
+const { log } = require('./utils')
 
 // Tạo nội dung tin nhắn cho tín hiệu (sử dụng Markdown)
 function createSignalMessage(signal) {
@@ -33,7 +34,7 @@ async function sendTelegramSignalMessage(signal) {
       const message = createSignalMessage(signal)
       await telegramClient.sendMessage(TELEGRAM.CHAT_ID, message, { parse_mode: 'Markdown' })
     } catch (error) {
-      console.error('Lỗi gửi Telegram signal:', error.message)
+      log('error', 'Lỗi gửi Telegram signal:', error.message)
     }
   }
 }
@@ -44,7 +45,7 @@ async function sendTelegramMessage(message) {
     try {
       await telegramClient.sendMessage(TELEGRAM.CHAT_ID, message)
     } catch (error) {
-      console.error('Lỗi gửi Telegram:', error.message)
+      log('error', 'Lỗi gửi Telegram:', error.message)
     }
   }
 }
@@ -57,13 +58,14 @@ async function checkTelegramConnection() {
   try {
     const botInfo = await telegramClient.getMe()
     if (botInfo?.username) {
-      console.log(`✅ Đã kết nối Telegram với bot: @${botInfo.username}`)
+      log('log', `✅ Đã kết nối Telegram với bot: @${botInfo.username}`)
       return true
     } else {
       throw new Error('Thông tin bot không hợp lệ')
     }
   } catch (error) {
-    console.error('Lỗi kết nối Telegram:', error.message)
+    log('error', 'Lỗi kết nối Telegram:', error.message)
+
     return false
   }
 }
