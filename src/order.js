@@ -126,8 +126,8 @@ class Order {
         slPriceOrder = slPrice
       } catch (tpSlError) {
         await this.closePositionImmediately(symbol, quantity, side)
-        const tpSlError = `Lỗi TP/SL: ${tpSlError.message}`
-        log('error', tpSlError)
+        const error = `Lỗi TP/SL: ${tpSlError.message}`
+        log('error', error)
         throw new Error(tpSlError)
       }
 
