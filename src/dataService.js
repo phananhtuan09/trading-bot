@@ -10,7 +10,7 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL, li
 
   try {
     let requestsNeeded = Math.ceil(limit / BATCH_SIZE)
-    let currentBatchEndTime // Đây sẽ là endTime cho API call, để lấy nến *TRƯỚC* thời điểm này
+    let currentBatchEndTime
 
     for (let i = 0; i < requestsNeeded; i++) {
       const numCandlesToFetchThisIteration = Math.min(BATCH_SIZE, limit - allCandles.length)
@@ -52,7 +52,8 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL, li
       }
 
       if (i < requestsNeeded - 1 && allCandles.length < limit) {
-        await new Promise((resolve) => setTimeout(resolve, 150)) // Tăng nhẹ độ trễ
+        const delay = 500 + Math.random() * 200
+        await new Promise((resolve) => setTimeout(resolve, delay))
       }
     }
 
@@ -302,10 +303,13 @@ async function analyzeMarket(symbol) {
     const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: data.closes })
 
     // Thêm phân tích đa khung thời gian
-    const multiTimeframeAnalysis = {
-      '1h': await analyzeTimeframe(symbol, '1h'),
-      '4h': await analyzeTimeframe(symbol, '4h'),
-      '1d': await analyzeTimeframe(symbol, '1d'),
+    const multiTimeframeAnalysis = {}
+    const timeframes = ['1h', '4h', '1d']
+
+    for (const tf of timeframes) {
+      multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
+      const delay = 700 + Math.random() * 300 // Random delay 500-800ms
+      await new Promise((resolve) => setTimeout(resolve, delay))
     }
 
     const allStrategies = {
