@@ -287,7 +287,7 @@ class Order {
       for (const signal of filteredSignals) {
         await this.placeOrder(signal)
       }
-      await this.monitorPositions() // Thêm kiểm tra vị thế sau khi đặt lệnh
+      // await this.monitorPositions() // Thêm kiểm tra vị thế sau khi đặt lệnh
       if (signals.length > this.scanOrderLimit) {
         const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
