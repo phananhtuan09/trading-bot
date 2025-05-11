@@ -15,11 +15,11 @@ const STRATEGY_CONFIG = {
   BOLLINGER_BAND: {
     PERIOD: 20, // Số nến để tính toán Bollinger Bands.
     STD_DEV: 2, // Độ lệch chuẩn cho Bollinger Bands.
-    MIN_BANDWIDTH_PCT: 5, // Độ rộng dải tối thiểu 5%
-    BREAK_THRESHOLD_PCT: 1, // Ngưỡng vượt band 1%
+    MIN_BANDWIDTH_PCT: 2, // Độ rộng dải tối thiểu 2%
+    BREAK_THRESHOLD_PCT: 0.5, // Ngưỡng vượt band 1%
     VOLUME_MA_PERIOD: 20, // Lọc volume trung bình 20 phiên
     ADX_THRESHOLD: 25, // Ngưỡng ADX tối thiểu
-    VOLUME_MA_THRESHOLD: 1000000, // Thêm ngưỡng volume trung bình
+    VOLUME_MA_THRESHOLD: 100000, // Thêm ngưỡng volume trung bình
   },
 
   // RSI
@@ -70,6 +70,7 @@ const STRATEGY_CONFIG = {
   MOMENTUM: {
     period: 14,
     threshold: 100,
+    CROSSOVER_ZERO: true,
   },
 
   FILTER: {
@@ -79,11 +80,11 @@ const STRATEGY_CONFIG = {
     TREND_MA_PERIOD: 200,
     ENABLE_VOLUME_FILTER: true,
     ENABLE_TREND_FILTER: true,
-    MIN_TRADE_VOLUME: 1000000, // 1 triệu USDT
+    MIN_TRADE_VOLUME: 700000, // 1 triệu USDT
     STRATEGY_WEIGHTS: {
-      MACD: 3,
+      MACD: 2,
       RSI: 2,
-      Ichimoku: 3,
+      Ichimoku: 2,
       PSAR: 2,
       Momentum: 1,
       BollingerBands: 2,

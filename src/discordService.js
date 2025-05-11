@@ -23,8 +23,8 @@ function createSignalEmbed(signal) {
       `**Hành động:** ${signal.decision || 'N/A'}\n` +
       `**Giá hiện tại:** ${signal.price}\n` +
       `**Độ mạnh:** ${futuresDetails.strength || 'N/A'}\n` +
-      `**TP(ROI %):** ${signal.TP_ROI.toFixed(4) || 'N/A'}\n` +
-      `**SL(ROI %):** ${signal.SL_ROI.toFixed(4) || 'N/A'}\n` +
+      `**TP(ROI %):** ${signal.TP_ROI || 'N/A'}\n` +
+      `**SL(ROI %):** ${signal.SL_ROI || 'N/A'}\n` +
       `**Chiến lược:** ${futuresDetails.strategies || 'N/A'}`,
     timestamp: new Date().toISOString(),
     footer: {

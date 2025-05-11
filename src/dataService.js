@@ -4,22 +4,82 @@ const { RSI, BollingerBands, MACD, ADX, EMA, Stochastic, IchimokuCloud, PSAR } =
 const { STRATEGY_CONFIG } = require('./config')
 const { log } = require('./utils')
 
-async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL) {
+async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL, limit = 200) {
+  const BATCH_SIZE = 100
+  let allCandles = [] // Sẽ lưu trữ nến từ cũ nhất đến mới nhất
+
   try {
-    const candles = await binanceClient.futuresCandles({
-      symbol: symbol,
-      interval,
-      limit: 100,
-    })
+    let requestsNeeded = Math.ceil(limit / BATCH_SIZE)
+    let currentBatchEndTime // Đây sẽ là endTime cho API call, để lấy nến *TRƯỚC* thời điểm này
+
+    for (let i = 0; i < requestsNeeded; i++) {
+      const numCandlesToFetchThisIteration = Math.min(BATCH_SIZE, limit - allCandles.length)
+
+      if (numCandlesToFetchThisIteration <= 0) {
+        break // Đã lấy đủ hoặc vượt limit
+      }
+
+      const params = {
+        symbol: symbol,
+        interval,
+        limit: numCandlesToFetchThisIteration,
+      }
+
+      if (currentBatchEndTime) {
+        params.endTime = currentBatchEndTime
+      }
+      const newCandlesBatch = await binanceClient.futuresCandles(params)
+
+      if (!newCandlesBatch || newCandlesBatch.length === 0) {
+        break // Dừng nếu không có thêm dữ liệu
+      }
+
+      if (newCandlesBatch[0] && typeof newCandlesBatch[0].openTime === 'number' && newCandlesBatch[0].openTime > 0) {
+        currentBatchEndTime = newCandlesBatch[0].openTime
+      } else {
+        allCandles = [...newCandlesBatch, ...allCandles]
+        break
+      }
+
+      allCandles = [...newCandlesBatch, ...allCandles]
+
+      if (newCandlesBatch.length < numCandlesToFetchThisIteration) {
+        break
+      }
+
+      if (allCandles.length >= limit) {
+        break // Đã lấy đủ số nến yêu cầu
+      }
+
+      if (i < requestsNeeded - 1 && allCandles.length < limit) {
+        await new Promise((resolve) => setTimeout(resolve, 150)) // Tăng nhẹ độ trễ
+      }
+    }
+
+    const finalCandles = allCandles.length > limit ? allCandles.slice(allCandles.length - limit) : allCandles
+
+    if (finalCandles.length === 0 && limit > 0) {
+      log('warn', `[${symbol}-${interval}] Không có nến nào được lấy cho yêu cầu ${limit} nến.`)
+      return null
+    }
+    if (finalCandles.length < limit && limit > 0 && requestsNeeded > 0 && allCandles.length > 0) {
+      log('warn', `[${symbol}-${interval}] Chỉ lấy được ${finalCandles.length} trong số ${limit} nến yêu cầu.`)
+    }
+
     return {
       symbol,
-      closes: candles.map((c) => parseFloat(c.close)),
-      highs: candles.map((c) => parseFloat(c.high)),
-      lows: candles.map((c) => parseFloat(c.low)),
-      volumes: candles.map((c) => parseFloat(c.volume)),
+      closes: finalCandles.map((c) => parseFloat(c.close)),
+      highs: finalCandles.map((c) => parseFloat(c.high)),
+      lows: finalCandles.map((c) => parseFloat(c.low)),
+      volumes: finalCandles.map((c) => parseFloat(c.volume)),
     }
   } catch (error) {
-    log('error', `Lỗi dữ liệu futures cho ${symbol}:`, error.message)
+    log(
+      'error',
+      `Lỗi xử lý dữ liệu futures cho ${symbol} (${interval}): ${error.message}`,
+      error.code ? `(Code: ${error.code})` : '',
+      error.stack ? error.stack : '',
+    )
     return null
   }
 }
@@ -31,14 +91,11 @@ function calculateMomentum(closes, period = 10) {
   })
 }
 
-// Hàm xử lý chính
 function processSignals(signals) {
   const signalGroups = {
     BUY: { strategies: [], count: 0 },
     SELL: { strategies: [], count: 0 },
   }
-
-  // Nhóm các tín hiệu
   for (const [strategy, signal] of Object.entries(signals)) {
     if (signal === 'BUY') {
       signalGroups.BUY.strategies.push(strategy)
@@ -48,8 +105,6 @@ function processSignals(signals) {
       signalGroups.SELL.count++
     }
   }
-
-  // Tạo futuresDetails
   const futuresDetails = {}
   for (const [action, group] of Object.entries(signalGroups)) {
     if (group.count > 0) {
@@ -81,57 +136,58 @@ function processSignals(signals) {
 }
 
 function filterSignals(strategies, data, indicators, multiTimeframe) {
-  //  Thêm tính toán Volume MA
   const volumeMA = data.volumes.length >= 20 ? data.volumes.slice(-20).reduce((a, b) => a + b, 0) / 20 : 0
-
   const currentATR = indicators.atr
-  // Lọc volume
   const dailyVolume = data.volumes.slice(-24).reduce((a, b) => a + b, 0)
-  if (dailyVolume < STRATEGY_CONFIG.FILTER.MIN_TRADE_VOLUME) return null
+  if (dailyVolume < STRATEGY_CONFIG.FILTER.MIN_TRADE_VOLUME) {
+    return null
+  }
 
-  // Lọc xu hướng
   const ema200 = EMA.calculate({
     period: STRATEGY_CONFIG.FILTER.TREND_MA_PERIOD,
     values: data.closes,
   })
   const currentEma200 = ema200[ema200.length - 1]
   const isPriceAboveEMA200 = data.closes.at(-1) > currentEma200
-  if (!isPriceAboveEMA200) return null // Chỉ giao dịch khi giá trên EMA200
+  const isPriceBelowEMA200 = data.closes.at(-1) < currentEma200
 
-  // Tính điểm tin cậy
-  let confidenceScore = Object.entries(strategies).reduce((score, [strategy, signal]) => {
-    return score + (signal ? STRATEGY_CONFIG.FILTER.STRATEGY_WEIGHTS[strategy] || 1 : 0) + (isPriceAboveEMA200 ? 2 : 0)
-  }, 0)
-
-  // Xác nhận đa khung thời gian
-  const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
-    (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
-  ).length
-
-  confidenceScore += multiTimeframeConfirm * 2
-
-  if (confidenceScore < STRATEGY_CONFIG.FILTER.MIN_CONFIDENCE_SCORE) return null
-
-  // Lọc biến động
-  if (currentATR > data.closes.at(-1) * 0.05) return null // Bỏ qua nếu biến động quá cao
-
-  // Kết hợp điều kiện phụ
+  // Chỉ cho phép tín hiệu MUA khi giá trên EMA200 và tín hiệu BÁN khi giá dưới EMA200
   const validSignals = Object.entries(strategies).reduce((acc, [strategy, signal]) => {
-    if (!signal) return acc
-
-    // Kết hợp RSI và MACD
-    if (strategy === 'RSI') {
-      // Chỉ kiểm tra khi MACD tồn tại và có giá trị khác null/undefined
-      if (strategies.MACD !== undefined && strategies.MACD !== null && strategies.MACD !== signal) {
-        return acc
-      }
+    if (signal === 'BUY' && isPriceAboveEMA200) {
+      acc[strategy] = signal
+    } else if (signal === 'SELL' && isPriceBelowEMA200) {
+      acc[strategy] = signal
     }
-    // Kết hợp Bollinger Bands và Volume
-    if (strategy === 'BollingerBands' && volumeMA < STRATEGY_CONFIG.BOLLINGER_BAND.VOLUME_MA_THRESHOLD) return acc
-
-    acc[strategy] = signal
     return acc
   }, {})
+
+  let confidenceScore = Object.entries(validSignals).reduce((score, [strategy, signal]) => {
+    return score + (signal ? STRATEGY_CONFIG.FILTER.STRATEGY_WEIGHTS[strategy] || 1 : 0)
+  }, 0)
+
+  // const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
+  //   (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
+  // ).length
+  // confidenceScore += multiTimeframeConfirm * 2
+
+  if (confidenceScore < STRATEGY_CONFIG.FILTER.MIN_CONFIDENCE_SCORE) {
+    return null
+  }
+
+  if (currentATR > data.closes.at(-1) * 0.05) {
+    return null
+  }
+
+  // Nới lỏng kết hợp RSI và MACD: chỉ yêu cầu MACD không ngược chiều
+  if (validSignals.RSI) {
+    if (strategies.MACD && strategies.MACD !== validSignals.RSI) {
+      delete validSignals.RSI
+    }
+  }
+
+  if (validSignals.BollingerBands && volumeMA < STRATEGY_CONFIG.BOLLINGER_BAND.VOLUME_MA_THRESHOLD) {
+    delete validSignals.BollingerBands
+  }
 
   return Object.keys(validSignals).length > 0 ? validSignals : null
 }
@@ -177,10 +233,10 @@ function calculateATR(highs, lows, closes, period = STRATEGY_CONFIG.ATR.period) 
     const lowPrevClose = Math.abs(lows[i] - closes[i - 1])
     tr.push(Math.max(highLow, highPrevClose, lowPrevClose))
   }
-  const atr = []
-  for (let i = period - 1; i < tr.length; i++) {
-    const sum = tr.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0)
-    atr.push(sum / period)
+  // Sử dụng phương pháp Wilder thay vì SMA để tính ATR chuẩn hơn
+  let atr = tr[0]
+  for (let i = 1; i < tr.length; i++) {
+    atr = (atr * (period - 1) + tr[i]) / period
   }
   return atr
 }
@@ -188,14 +244,13 @@ function calculateATR(highs, lows, closes, period = STRATEGY_CONFIG.ATR.period) 
 async function analyzeMarket(symbol) {
   try {
     const data = await getHistoricalData(symbol)
-    if (!data || data.closes.length < 100) return null
+    if (!data || data.closes.length < 200) return null // Tăng yêu cầu tối thiểu lên 200 để đảm bảo EMA200
 
     const atrValues = calculateATR(data.highs, data.lows, data.closes)
-    const currentATR = atrValues.at(-1) || 0
+    const currentATR = atrValues || 0
     const currentPrice = data.closes.at(-1)
     const volatility = currentATR ? (currentATR / currentPrice) * 100 : 0
 
-    // Tính toán chỉ báo
     const indicators = {
       bb: BollingerBands.calculate({
         period: STRATEGY_CONFIG.BOLLINGER_BAND.PERIOD,
@@ -225,7 +280,6 @@ async function analyzeMarket(symbol) {
         close: data.closes,
         period: STRATEGY_CONFIG.ADX.period,
       }),
-
       ichimoku: IchimokuCloud.calculate({
         high: data.highs,
         low: data.lows,
@@ -254,7 +308,6 @@ async function analyzeMarket(symbol) {
       '1d': await analyzeTimeframe(symbol, '1d'),
     }
 
-    // Thu thập tín hiệu
     const allStrategies = {
       RSI: TradingStrategies.checkRSI(indicators.rsi),
       MACD: TradingStrategies.checkMACD(indicators.macd),
@@ -276,8 +329,8 @@ async function analyzeMarket(symbol) {
     const processed = processSignals(filteredStrategies)
     if (processed === null) return null
 
-    // Tính toán TP và SL với ATR
     const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
+
     if (TP_ROI < 5) return null
 
     return {

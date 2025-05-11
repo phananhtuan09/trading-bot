@@ -21,8 +21,8 @@ function createSignalMessage(signal) {
 *Giá hiện tại:* ${signal.price || 'N/A'} 
 *Độ mạnh:* ${futuresDetails.strength || 'N/A'}
 *Chiến lược:* ${futuresDetails.strategies || 'N/A'}
-*TP(ROI %):* ${signal.TP_ROI.toFixed(4) || 'N/A'}
-*SL(ROI %):* ${signal.SL_ROI.toFixed(4) || 'N/A'}
+*TP(ROI %):* ${signal.TP_ROI || 'N/A'}
+*SL(ROI %):* ${signal.SL_ROI || 'N/A'}
 `
   return message
 }
