@@ -207,7 +207,9 @@ function calculateTPAndSL(decision, currentPrice, indicators) {
 
   const TP_ROI = (((baseTP - currentPrice) / currentPrice) * 100).toFixed(2)
   let SL_ROI = TP_ROI * 2
-  if (SL_ROI > 20) SL_ROI = 20
+  if (SL_ROI > 20) {
+    SL_ROI = 20
+  }
 
   // Điều chỉnh theo độ biến động
   const volatilityAdjustment = 1 + volatility / 100
@@ -215,6 +217,7 @@ function calculateTPAndSL(decision, currentPrice, indicators) {
     TP: baseTP * volatilityAdjustment,
     SL: baseSL / volatilityAdjustment,
     TP_ROI,
+    SL_ROI: -SL_ROI,
     // SL_ROI: (((baseSL - currentPrice) / currentPrice) * 100).toFixed(2),
   }
 }
