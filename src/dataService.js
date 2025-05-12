@@ -206,9 +206,11 @@ function calculateTPAndSL(decision, currentPrice, indicators) {
   const baseSL = decision === 'Long' ? currentPrice - 2 * atr : currentPrice + 2 * atr
 
   const TP_ROI = (((baseTP - currentPrice) / currentPrice) * 100).toFixed(2)
-  let SL_ROI = TP_ROI * 2
+  let SL_ROI = TP_ROI
   if (SL_ROI > 20) {
     SL_ROI = 20
+  } else if (SL_ROI < 10) {
+    SL_ROI = 10
   }
 
   // Điều chỉnh theo độ biến động
