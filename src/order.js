@@ -102,13 +102,6 @@ class Order {
     }
     const { symbol, price, decision, TP_ROI, SL_ROI } = signal
 
-    if (await this.checkExistingPosition(symbol)) {
-      const existMessage = `🟡 Bỏ qua ${symbol} - Đang có vị thế mở`
-      log('log', existMessage)
-      await sendTelegramMessage(existMessage)
-      return
-    }
-
     try {
       // Kiểm tra margin type
       await this.setMarginType(symbol)
@@ -282,14 +275,33 @@ class Order {
         await sendTelegramMessage(noSignalMessage)
         return
       }
-      const filteredSignals = signals.sort((a, b) => b.TP_ROI - a.TP_ROI).slice(0, this.scanOrderLimit)
 
+      // Lọc tín hiệu chưa có vị thế mở
+      const validSignals = []
+      for (const signal of signals) {
+        if (!(await this.checkExistingPosition(signal.symbol))) {
+          validSignals.push(signal)
+        } else {
+          const existMessage = `🟡 Bỏ qua ${signal.symbol} - Đang có vị thế mở`
+          log('log', existMessage)
+          await sendTelegramMessage(existMessage)
+        }
+      }
+
+      // Sắp xếp và áp dụng scanOrderLimit cho các tín hiệu hợp lệ
+      const filteredSignals = validSignals
+        .sort((a, b) => Number(b.TP_ROI) - Number(a.TP_ROI))
+        .slice(0, this.scanOrderLimit)
+
+      // Đặt lệnh cho các tín hiệu đã lọc
       for (const signal of filteredSignals) {
+        log('log', signal)
         await this.placeOrder(signal)
       }
-      // await this.monitorPositions() // Thêm kiểm tra vị thế sau khi đặt lệnh
-      if (signals.length > this.scanOrderLimit) {
-        const skipped = signals.slice(this.scanOrderLimit).map((s) => s.symbol)
+
+      // Thông báo nếu có tín hiệu bị bỏ qua do scanOrderLimit
+      if (validSignals.length > this.scanOrderLimit) {
+        const skipped = validSignals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
         log('log', limitMessage)
         await sendTelegramMessage(limitMessage)
