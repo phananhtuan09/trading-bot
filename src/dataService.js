@@ -201,26 +201,55 @@ function formatSignals(signals) {
 // Hàm tính TP và SL mới dựa trên ATR
 function calculateTPAndSL(decision, currentPrice, indicators) {
   const { atr, volatility } = indicators
+  // Tính baseTP và baseSL
   const baseTP = decision === 'Long' ? currentPrice + 3 * atr : currentPrice - 3 * atr
-
   const baseSL = decision === 'Long' ? currentPrice - 2 * atr : currentPrice + 2 * atr
 
-  const TP_ROI = (((baseTP - currentPrice) / currentPrice) * 100).toFixed(2)
-  // let SL_ROI = TP_ROI
-  // if (SL_ROI > 20) {
-  //   SL_ROI = 20
-  // } else if (SL_ROI < 10) {
-  //   SL_ROI = 10
-  // }
+  // Tính ROI ban đầu
+  let TP_ROI = (((baseTP - currentPrice) / currentPrice) * 100).toFixed(2)
+  let SL_ROI = (((baseSL - currentPrice) / currentPrice) * 100).toFixed(2)
 
   // Điều chỉnh theo độ biến động
   const volatilityAdjustment = 1 + volatility / 100
+  if (volatilityAdjustment <= 0) {
+    if (Math.abs(TP_ROI) < 5) {
+      TP_ROI = 5
+    }
+
+    if (Math.abs(SL_ROI) < 5) {
+      SL_ROI = -5
+    } else if (Math.abs(SL_ROI) > 20) {
+      SL_ROI = -20
+    }
+    return {
+      TP: baseTP,
+      SL: baseSL,
+      TP_ROI: Number(TP_ROI),
+      SL_ROI: Number(SL_ROI),
+    }
+  }
+  const finalTP = baseTP * volatilityAdjustment
+  const finalSL = baseSL / volatilityAdjustment
+
+  // Tính lại ROI dựa trên TP/SL đã điều chỉnh
+  TP_ROI = (((finalTP - currentPrice) / currentPrice) * 100).toFixed(2)
+  SL_ROI = (((finalSL - currentPrice) / currentPrice) * 100).toFixed(2)
+
+  if (Math.abs(TP_ROI) < 5) {
+    TP_ROI = 5
+  }
+
+  if (Math.abs(SL_ROI) < 5) {
+    SL_ROI = -5
+  } else if (Math.abs(SL_ROI) > 20) {
+    SL_ROI = -20
+  }
+
   return {
-    TP: baseTP * volatilityAdjustment,
-    SL: baseSL / volatilityAdjustment,
-    TP_ROI,
-    //  SL_ROI: -SL_ROI,
-    SL_ROI: (((baseSL - currentPrice) / currentPrice) * 100).toFixed(2),
+    TP: finalTP,
+    SL: finalSL,
+    TP_ROI: Number(TP_ROI),
+    SL_ROI: Number(SL_ROI),
   }
 }
 
