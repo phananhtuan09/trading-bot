@@ -87,10 +87,26 @@ class Order {
   }
 
   async getUnrealizedProfit() {
-    const positions = await binanceClient.futuresPositionRisk()
-    return positions.reduce((sum, p) => sum + parseFloat(p.unrealizedProfit), 0)
-  }
+    try {
+      const positions = await binanceClient.futuresPositionRisk()
+      if (!Array.isArray(positions) || positions.length === 0) {
+        return 0
+      }
 
+      const totalUnrealizedProfit = positions.reduce((sum, p) => {
+        const profit = parseFloat(p.unRealizedProfit)
+        if (Number.isNaN(profit)) {
+          return sum // Skip invalid values
+        }
+        return sum + profit
+      }, 0)
+
+      return totalUnrealizedProfit
+    } catch (error) {
+      log('error', `getUnrealizedProfit - Error stack: ${error.stack}`)
+      return 0 // Fallback to 0 on error
+    }
+  }
   async placeOrder(signal) {
     const { orderPlacementEnabled, ordersPlacedToday, totalOrders, totalCapital } = stateManager.getState()
     if (!orderPlacementEnabled) return
