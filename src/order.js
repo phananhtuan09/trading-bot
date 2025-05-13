@@ -209,13 +209,25 @@ class Order {
         side,
       })
 
-      let tpPrice = tpPriceRaw
-      let slPrice = slPriceRaw
+      // Kiểm tra giá TP/SL
+      if (side === 'BUY') {
+        if (tpPriceRaw <= entryPrice || slPriceRaw >= entryPrice) {
+          throw new Error(`TP/SL không hợp lệ: TP=${tpPriceRaw}, SL=${slPriceRaw}, Entry=${entryPrice}`)
+        }
+      } else {
+        if (tpPriceRaw >= entryPrice || slPriceRaw <= entryPrice) {
+          throw new Error(`TP/SL không hợp lệ: TP=${tpPriceRaw}, SL=${slPriceRaw}, Entry=${entryPrice}`)
+        }
+      }
+
+      // Lấy tickSize và làm tròn
       const symbolInfo = (await binanceClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
       const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
       const tickSize = parseFloat(priceFilter.tickSize)
-      tpPrice = Math.round(tpPrice / tickSize) * tickSize
-      slPrice = Math.round(slPrice / tickSize) * tickSize
+      let tpPrice = Math.round(tpPriceRaw / tickSize) * tickSize
+      let slPrice = Math.round(slPriceRaw / tickSize) * tickSize
+
+      // Đặt lệnh TP/SL
       await this.placeTPSLOrder(symbol, side, tpPrice, 'TAKE_PROFIT_MARKET')
       await this.placeTPSLOrder(symbol, side, slPrice, 'STOP_MARKET')
       return { tpPrice, slPrice }
@@ -226,30 +238,30 @@ class Order {
       throw error
     }
   }
-
   calculateTpSlPrices({ entryPrice, tpRoiPercent, slRoiPercent, side }) {
-    const tpChange = tpRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
-    const slChange = slRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
+    const tpChange = tpRoiPercent / 100 // Loại bỏ chia cho LEVERAGE
+    const slChange = slRoiPercent / 100 // Loại bỏ chia cho LEVERAGE
 
+    let tpPrice, slPrice
     if (side === 'BUY') {
-      return {
-        tp: entryPrice * (1 + tpChange),
-        sl: entryPrice * (1 - slChange),
-      }
+      tpPrice = entryPrice * (1 + tpChange)
+      slPrice = entryPrice * (1 - slChange)
     } else {
-      return {
-        tp: entryPrice * (1 - tpChange),
-        sl: entryPrice * (1 + slChange),
-      }
+      tpPrice = entryPrice * (1 - tpChange)
+      slPrice = entryPrice * (1 + slChange)
     }
+
+    return { tp: tpPrice, sl: slPrice }
   }
 
   placeTPSLOrder(symbol, side, price, type) {
+    const orderSide = side === 'BUY' ? 'SELL' : 'BUY'
+
     return binanceClient.futuresOrder({
       symbol,
-      side: side === 'BUY' ? 'SELL' : 'BUY',
+      side: orderSide,
       type,
-      stopPrice: price.toFixed(4),
+      stopPrice: price,
       closePosition: true,
     })
   }
