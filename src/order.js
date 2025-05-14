@@ -255,8 +255,8 @@ class Order {
     }
   }
   calculateTpSlPrices({ entryPrice, tpRoiPercent, slRoiPercent, side }) {
-    const tpChange = tpRoiPercent / 100 // Loại bỏ chia cho LEVERAGE
-    const slChange = slRoiPercent / 100 // Loại bỏ chia cho LEVERAGE
+    const tpChange = tpRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
+    const slChange = slRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
 
     let tpPrice, slPrice
     if (side === 'BUY') {
@@ -277,7 +277,7 @@ class Order {
       symbol,
       side: orderSide,
       type,
-      stopPrice: price,
+      stopPrice: price.toFixed(4),
       closePosition: true,
     })
   }

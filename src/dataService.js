@@ -216,10 +216,8 @@ function calculateTPAndSL(decision, currentPrice, indicators) {
       TP_ROI = 5
     }
 
-    if (Math.abs(SL_ROI) < 5) {
-      SL_ROI = -5
-    } else if (Math.abs(SL_ROI) > 20) {
-      SL_ROI = -20
+    if (Math.abs(SL_ROI) > 10) {
+      SL_ROI = -10
     }
     return {
       TP: baseTP,
@@ -239,12 +237,9 @@ function calculateTPAndSL(decision, currentPrice, indicators) {
     TP_ROI = 5
   }
 
-  if (Math.abs(SL_ROI) < 5) {
-    SL_ROI = -5
-  } else if (Math.abs(SL_ROI) > 20) {
-    SL_ROI = -20
+  if (Math.abs(SL_ROI) > 10) {
+    SL_ROI = -10
   }
-
   return {
     TP: finalTP,
     SL: finalSL,
