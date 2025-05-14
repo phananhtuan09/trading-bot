@@ -212,39 +212,39 @@ function calculateTPAndSL(decision, currentPrice, indicators) {
   // Điều chỉnh theo độ biến động
   const volatilityAdjustment = 1 + volatility / 100
   if (volatilityAdjustment <= 0) {
-    if (Math.abs(TP_ROI) < 5) {
-      TP_ROI = 5
-    }
+    // if (Math.abs(TP_ROI) < 5) {
+    //   TP_ROI = 5
+    // }
 
-    if (Math.abs(SL_ROI) > 10) {
-      SL_ROI = -10
-    }
-    return {
-      TP: baseTP,
-      SL: baseSL,
-      TP_ROI: Number(TP_ROI),
-      SL_ROI: Number(SL_ROI),
-    }
+    // if (Math.abs(SL_ROI) > 10) {
+    //   SL_ROI = -10
+    // }
+    // return {
+    //   TP: baseTP,
+    //   SL: baseSL,
+    //   TP_ROI: Number(TP_ROI),
+    //   SL_ROI: Number(SL_ROI),
+    // }
   }
-  const finalTP = baseTP * volatilityAdjustment
-  const finalSL = baseSL / volatilityAdjustment
+  // const finalTP = baseTP * volatilityAdjustment
+  // const finalSL = baseSL / volatilityAdjustment
 
   // Tính lại ROI dựa trên TP/SL đã điều chỉnh
-  TP_ROI = (((finalTP - currentPrice) / currentPrice) * 100).toFixed(2)
-  SL_ROI = (((finalSL - currentPrice) / currentPrice) * 100).toFixed(2)
+  // TP_ROI = (((finalTP - currentPrice) / currentPrice) * 100).toFixed(2)
+  // SL_ROI = (((finalSL - currentPrice) / currentPrice) * 100).toFixed(2)
 
-  if (Math.abs(TP_ROI) < 5) {
-    TP_ROI = 5
-  }
+  // if (Math.abs(TP_ROI) < 5) {
+  //   TP_ROI = 5
+  // }
 
-  if (Math.abs(SL_ROI) > 10) {
-    SL_ROI = -10
-  }
+  // if (Math.abs(SL_ROI) > 10) {
+  //   SL_ROI = -10
+  // }
   return {
-    TP: finalTP,
-    SL: finalSL,
-    TP_ROI: Number(TP_ROI),
-    SL_ROI: Number(SL_ROI),
+    TP: baseTP,
+    SL: baseSL,
+    TP_ROI: TP_ROI,
+    SL_ROI: -10,
   }
 }
 
