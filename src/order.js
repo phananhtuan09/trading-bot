@@ -1,6 +1,6 @@
 const { performScan } = require('../src/scanner')
 const { ORDER_SETTINGS, CONFIG } = require('../src/config')
-const { binanceClient } = require('../src/clients')
+const { binanceTestClient: binanceClient } = require('../src/clients')
 const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
