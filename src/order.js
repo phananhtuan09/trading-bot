@@ -6,12 +6,19 @@ const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
 const { getHistoricalData, calculateATR } = require('../src/dataService')
 const { log } = require('../src/utils')
+const PositionManager = require('./positionManager')
 
 class Order {
   constructor() {
     this.isRunning = false
     this.dailyOrderLimit = ORDER_SETTINGS.MAX_ORDERS_PER_DAY || Infinity
     this.scanOrderLimit = ORDER_SETTINGS.ORDER_LIMIT_PER_SCAN || Infinity
+    this.setupIntervals()
+  }
+
+  setupIntervals() {
+    setInterval(() => this.execute(), CONFIG.SCAN_INTERVAL)
+    setInterval(() => this.monitorAndClosePositions(), 180000) // 3 phút
   }
 
   async checkExistingPosition(symbol) {
@@ -64,25 +71,73 @@ class Order {
     }
   }
 
-  async checkEmergencyExit(symbol, position) {
-    const data = await getHistoricalData(symbol)
-    const atr = calculateATR(data.highs, data.lows, data.closes)
-    const currentATR = atr.at(-1)
+  async calculateCurrentROI(position) {
+    try {
+      const entryPrice = parseFloat(position.entryPrice)
+      const markPrice = parseFloat(position.markPrice)
+      const leverage = ORDER_SETTINGS.LEVERAGE
 
-    if (Math.abs(position.markPrice - position.entryPrice) > 2 * currentATR) {
-      await closePosition(symbol)
-      const exitMessage = `🚨 Thoát lệnh khẩn cấp ${symbol} | Mất mát: ${position.unrealizedProfit}`
-      log('error', exitMessage)
-      await sendTelegramMessage(exitMessage)
+      if (position.side === 'BUY') {
+        return ((markPrice - entryPrice) / entryPrice) * leverage * 100
+      }
+      return ((entryPrice - markPrice) / entryPrice) * leverage * 100
+    } catch (error) {
+      log('error', 'Lỗi tính ROI:', error)
+      return 0
     }
   }
 
-  async monitorPositions() {
-    const positions = await binanceClient.futuresPositionRisk()
-    for (const position of positions) {
-      if (Math.abs(parseFloat(position.positionAmt)) > 0) {
-        await this.checkEmergencyExit(position.symbol, position)
+  async monitorAndClosePositions() {
+    try {
+      await PositionManager.syncWithBinance()
+      const positions = PositionManager.getPositions()
+
+      for (const position of positions) {
+        try {
+          const now = Date.now()
+          const timeElapsed = now - position.entryTime
+          const roi = await this.calculateCurrentROI(position)
+
+          let closeReason = ''
+          if (roi <= -10) closeReason = 'SL'
+          else if (roi >= position.TP_ROI) closeReason = 'TP'
+          else if (timeElapsed >= 86400000) closeReason = '24H'
+
+          if (closeReason) {
+            await this.closePosition(position, closeReason, roi)
+            PositionManager.removePosition(position.symbol)
+          }
+        } catch (error) {
+          log('error', `Lỗi xử lý position ${position.symbol}:`, error)
+        }
       }
+    } catch (error) {
+      log('error', 'Lỗi tổng khi giám sát positions:', error)
+    }
+  }
+
+  async closePosition(position, reason, roi) {
+    try {
+      const closeSide = position.side === 'BUY' ? 'SELL' : 'BUY'
+      await binanceClient.futuresOrder({
+        symbol: position.symbol,
+        side: closeSide,
+        type: 'MARKET',
+        quantity: Math.abs(position.quantity),
+      })
+
+      const message = [
+        `🔐 Đóng lệnh ${position.symbol}`,
+        `Lý do: ${reason}`,
+        `ROI: ${roi.toFixed(2)}%`,
+        `Thời gian giữ: ${Math.floor((Date.now() - position.entryTime) / 3600000)}h`,
+      ].join(' | ')
+
+      await sendTelegramMessage(message)
+      log('log', message)
+    } catch (error) {
+      log('error', `Lỗi đóng lệnh ${position.symbol}:`, error)
+      await sendTelegramMessage(`🔴 Lỗi đóng lệnh ${position.symbol}: ${error.message}`)
     }
   }
 
@@ -125,29 +180,44 @@ class Order {
       // Đặt lệnh chính
       const { quantity, side } = await this.prepareOrder(symbol, price, decision)
       await binanceClient.futuresOrder({ symbol, side, type: 'MARKET', quantity })
-      let tpPriceOrder
-      let slPriceOrder
 
-      // Đặt TP/SL
-      try {
-        const { tpPrice, slPrice } = await this.setTPSL(symbol, side, price, TP_ROI, SL_ROI)
-        tpPriceOrder = tpPrice
-        slPriceOrder = slPrice
-      } catch (tpSlError) {
-        await this.closePositionImmediately(symbol, quantity, side)
-        const error = `Lỗi TP/SL: ${tpSlError.message}`
-        log('error', error)
-        throw new Error(tpSlError)
-      }
+      // let tpPriceOrder
+      // let slPriceOrder
+
+      // // Đặt TP/SL
+      // try {
+      //   const { tpPrice, slPrice } = await this.setTPSL(symbol, side, price, TP_ROI, SL_ROI)
+      //   tpPriceOrder = tpPrice
+      //   slPriceOrder = slPrice
+      // } catch (tpSlError) {
+      //   await this.closePositionImmediately(symbol, quantity, side)
+      //   const error = `Lỗi TP/SL: ${tpSlError.message}`
+      //   log('error', error)
+      //   throw new Error(tpSlError)
+      // }
+
+      // Lấy thông tin position từ Binance
+      const positions = await binanceClient.futuresPositionRisk({ symbol })
+      const positionInfo = positions.find((p) => p.symbol === symbol)
+
+      // Lưu vào PositionManager
+      PositionManager.addPosition({
+        symbol,
+        entryTime: Date.now(),
+        entryPrice: parseFloat(positionInfo.entryPrice),
+        markPrice: parseFloat(positionInfo.markPrice),
+        TP_ROI,
+        side,
+        quantity: parseFloat(positionInfo.positionAmt),
+      })
 
       stateManager.setStateAndSaveToFile({
         ordersPlacedToday: ordersPlacedToday + 1,
         totalOrders: totalOrders + 1,
         totalCapital: totalCapital + ORDER_SETTINGS.QUANTITY,
       })
-      const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
-        4,
-      )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
+
+      const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | KL: ${quantity}`
       log('log', orderMessage)
       await sendTelegramMessage(orderMessage)
     } catch (error) {
