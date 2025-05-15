@@ -4,21 +4,14 @@ const { binanceTestClient: binanceClient } = require('../src/clients')
 const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
-const { getHistoricalData, calculateATR } = require('../src/dataService')
 const { log } = require('../src/utils')
-const PositionManager = require('./positionManager')
+const positionManager = require('./positionManager')
 
 class Order {
   constructor() {
     this.isRunning = false
     this.dailyOrderLimit = ORDER_SETTINGS.MAX_ORDERS_PER_DAY || Infinity
     this.scanOrderLimit = ORDER_SETTINGS.ORDER_LIMIT_PER_SCAN || Infinity
-    this.setupIntervals()
-  }
-
-  setupIntervals() {
-    setInterval(() => this.execute(), CONFIG.SCAN_INTERVAL)
-    setInterval(() => this.monitorAndClosePositions(), 180000) // 3 phút
   }
 
   async checkExistingPosition(symbol) {
@@ -27,6 +20,7 @@ class Order {
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
       log('error', 'Lỗi kiểm tra vị thế:', error)
+      await sendTelegramMessage('Lỗi kiểm tra vị thế:', error?.message)
       return false
     }
   }
@@ -83,15 +77,14 @@ class Order {
       return ((entryPrice - markPrice) / entryPrice) * leverage * 100
     } catch (error) {
       log('error', 'Lỗi tính ROI:', error)
+      await sendTelegramMessage(`'Lỗi tính ROI:': ${error.message}`)
       return 0
     }
   }
 
   async monitorAndClosePositions() {
     try {
-      await PositionManager.syncWithBinance()
-      const positions = PositionManager.getPositions()
-
+      const positions = await positionManager.syncWithBinance()
       for (const position of positions) {
         try {
           const now = Date.now()
@@ -105,14 +98,16 @@ class Order {
 
           if (closeReason) {
             await this.closePosition(position, closeReason, roi)
-            PositionManager.removePosition(position.symbol)
+            positionManager.removePosition(position.symbol)
           }
         } catch (error) {
           log('error', `Lỗi xử lý position ${position.symbol}:`, error)
+          await sendTelegramMessage(`Lỗi xử lý position ${position.symbol}: ${error.message}`)
         }
       }
     } catch (error) {
       log('error', 'Lỗi tổng khi giám sát positions:', error)
+      await sendTelegramMessage(`Lỗi tổng khi giám sát positions: ${error.message}`)
     }
   }
 
@@ -201,7 +196,7 @@ class Order {
       const positionInfo = positions.find((p) => p.symbol === symbol)
 
       // Lưu vào PositionManager
-      PositionManager.addPosition({
+      positionManager.addPosition({
         symbol,
         entryTime: Date.now(),
         entryPrice: parseFloat(positionInfo.entryPrice),
@@ -432,6 +427,10 @@ class Order {
       this.execute()
     }, CONFIG.SCAN_INTERVAL)
     this.execute()
+
+    setInterval(() => {
+      this.monitorAndClosePositions()
+    }, 180000)
   }
 }
 
