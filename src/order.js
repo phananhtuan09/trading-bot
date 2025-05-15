@@ -291,10 +291,10 @@ class Order {
   async execute() {
     if (this.isRunning) return
     this.isRunning = true
-    stateManager.syncStateFromFile()
 
     try {
       stateManager.resetDailyOrders() // Check and reset daily orders
+      stateManager.syncStateFromFile()
 
       const signals = (await performScan()) || []
       if (!signals || signals?.length === 0) {
