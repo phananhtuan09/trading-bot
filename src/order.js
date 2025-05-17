@@ -443,7 +443,18 @@ class Order {
   async start() {
     // Kiểm tra kết nối API bằng cách gọi futuresAccountBalance
     try {
-      await binanceClient.futuresAccountBalance()
+      const balances = await binanceClient.futuresAccountBalance()
+      const usdtBalance = balances.find((b) => b.asset === 'USDT')
+      const walletBalance = parseFloat(usdtBalance.balance)
+
+      // Lưu initialCapital nếu chưa tồn tại
+      const { initialCapital } = stateManager.getState()
+      if (!initialCapital) {
+        stateManager.setStateAndSaveToFile({
+          initialCapital: walletBalance,
+        })
+        log('log', `💾 Đã lưu initialCapital: ${walletBalance.toFixed(2)} USDT`)
+      }
     } catch (error) {
       log('error', '🔴 Lỗi kết nối API Binance', error)
       await sendTelegramMessage(`🔴 Lỗi kết nối API Binance ${error.message}`)
