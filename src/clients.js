@@ -15,7 +15,7 @@ const binanceTestClient = Binance({
   httpFutures: 'https://testnet.binancefuture.com', // URL cho futures testnet
 })
 
-// Khởi tạo Telegram bot (không bật chế độ polling vì chỉ gửi tin nhắn)
+// Khởi tạo Telegram bot
 const telegramClient = !TELEGRAM.IS_ENABLED
   ? null
   : new TelegramBot(TELEGRAM.BOT_TOKEN, {

@@ -71,7 +71,7 @@ class TradingStrategies {
     if (!adx || adx.length === 0) return null
     const current = adx.at(-1)
     if (current.adx === undefined || current.pdi === undefined || current.mdi === undefined) return null
-    if (current.adx > STRATEGY_CONFIG.ADX.strongTrendThreshold) {
+    if (current.adx > STRATEGY_CONFIG.ADX.STRONG_TREND_THRESHOLD) {
       if (current.pdi > current.mdi) return 'BUY'
       if (current.mdi > current.pdi) return 'SELL'
     }

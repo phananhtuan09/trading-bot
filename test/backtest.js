@@ -34,7 +34,7 @@ const BACKTEST_SETTINGS = {
 // --- START: Functions for Backtesting Multi-Timeframe Analysis ---
 
 // Copy calculateATR từ dataService.js để làm cho backtest.js độc lập hơn
-function calculateATRForBacktest(highs, lows, closes, period = STRATEGY_CONFIG.ATR.period) {
+function calculateATRForBacktest(highs, lows, closes, period = STRATEGY_CONFIG.ATR.PERIOD) {
   if (highs.length < period || lows.length < period || closes.length < period) {
     // log('warn', `Không đủ dữ liệu để tính ATR ${period} kỳ. Có ${highs.length} nến.`);
     return [] // Trả về mảng rỗng nếu không đủ dữ liệu
@@ -129,8 +129,8 @@ function getHistoricalDataForBacktest(allCandlesForSpecificInterval, currentCand
 function analyzeTimeframeForBacktest(historicalDataForSpecificInterval, currentCandleTimeOnMainInterval, intervalName) {
   // Cần lấy đủ nến để tính chỉ báo dài nhất, ví dụ EMA period + số nến ATR period
   const requiredCandles = Math.max(
-    STRATEGY_CONFIG.FILTER.MULTI_TIMEFRAME_EMA.LONG + (STRATEGY_CONFIG.ATR.period || 14), // Đảm bảo có STRATEGY_CONFIG.ATR.period
-    STRATEGY_CONFIG.ATR.period + 50, // Thêm một buffer cho ATR
+    STRATEGY_CONFIG.FILTER.MULTI_TIMEFRAME_EMA.LONG + (STRATEGY_CONFIG.ATR.PERIOD || 14), // Đảm bảo có STRATEGY_CONFIG.ATR.period
+    STRATEGY_CONFIG.ATR.PERIOD + 50, // Thêm một buffer cho ATR
   )
 
   const data = getHistoricalDataForBacktest(
@@ -149,7 +149,7 @@ function analyzeTimeframeForBacktest(historicalDataForSpecificInterval, currentC
     values: data.closes,
   })
 
-  const atrValues = calculateATRForBacktest(data.highs, data.lows, data.closes, STRATEGY_CONFIG.ATR.period)
+  const atrValues = calculateATRForBacktest(data.highs, data.lows, data.closes, STRATEGY_CONFIG.ATR.PERIOD)
 
   return {
     ema: emaValues, // Mảng các giá trị EMA
@@ -286,7 +286,7 @@ async function processSymbol(symbol, overallStartTime, overallEndTime) {
 
       if (closes.length < minCandlesForAnalysis) continue // Đảm bảo đủ nến cho slice này
 
-      const atrValues = calculateATRForBacktest(highs, lows, closes, STRATEGY_CONFIG.ATR.period) // Sử dụng hàm backtest
+      const atrValues = calculateATRForBacktest(highs, lows, closes, STRATEGY_CONFIG.ATR.PERIOD) // Sử dụng hàm backtest
       const currentATR = atrValues.length > 0 ? atrValues[atrValues.length - 1] : 0
       const entryPrice = currentCandleOnMainInterval.close // Giá vào lệnh là giá đóng cửa của nến tín hiệu (nến i)
       const volatility = currentATR && entryPrice ? (currentATR / entryPrice) * 100 : 0
@@ -309,30 +309,30 @@ async function processSymbol(symbol, overallStartTime, overallEndTime) {
           high: highs,
           low: lows,
           close: closes,
-          period: STRATEGY_CONFIG.STOCHASTIC.period,
-          signalPeriod: STRATEGY_CONFIG.STOCHASTIC.signalPeriod,
+          period: STRATEGY_CONFIG.STOCHASTIC.PERIOD,
+          signalPeriod: STRATEGY_CONFIG.STOCHASTIC.SIGNAL_PERIOD,
         }),
-        adx: ADX.calculate({ high: highs, low: lows, close: closes, period: STRATEGY_CONFIG.ADX.period }),
+        adx: ADX.calculate({ high: highs, low: lows, close: closes, period: STRATEGY_CONFIG.ADX.PERIOD }),
         ichimoku: IchimokuCloud.calculate({
           high: highs,
           low: lows,
-          conversionPeriod: STRATEGY_CONFIG.ICHIMOKU.conversionPeriod,
-          basePeriod: STRATEGY_CONFIG.ICHIMOKU.basePeriod,
-          spanPeriod: STRATEGY_CONFIG.ICHIMOKU.spanPeriod,
+          conversionPeriod: STRATEGY_CONFIG.ICHIMOKU.CONVERSION_PERIOD,
+          basePeriod: STRATEGY_CONFIG.ICHIMOKU.BASE_PERIOD,
+          spanPeriod: STRATEGY_CONFIG.ICHIMOKU.SPAN_PERIOD,
         }),
         psar: PSAR.calculate({
           high: highs,
           low: lows,
-          step: STRATEGY_CONFIG.PSAR.step,
-          max: STRATEGY_CONFIG.PSAR.max,
+          step: STRATEGY_CONFIG.PSAR.STEP,
+          max: STRATEGY_CONFIG.PSAR.MAX,
         }),
-        momentum: calculateMomentum(closes, STRATEGY_CONFIG.MOMENTUM.period),
+        momentum: calculateMomentum(closes, STRATEGY_CONFIG.MOMENTUM.PERIOD),
         atr: currentATR,
         volatility: volatility,
       }
 
-      const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.short, values: closes })
-      const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.emaPeriods.long, values: closes })
+      const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.EMA_PERIODS.SHORT, values: closes })
+      const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.EMA_PERIODS.LONG, values: closes })
 
       // Phân tích đa khung thời gian sử dụng dữ liệu đã fetch và hàm backtest-specific
       const multiTimeframeAnalysis = {}

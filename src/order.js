@@ -1,6 +1,6 @@
 const { performScan } = require('../src/scanner')
 const { ORDER_SETTINGS, CONFIG } = require('../src/config')
-const { binanceTestClient: binanceClient } = require('../src/clients')
+const { binanceTestClient: binanceClient } = require('../src/clients') // Import binanceClient nếu muốn đặt lệnh trên tk thực
 const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
@@ -14,6 +14,7 @@ class Order {
     this.scanOrderLimit = ORDER_SETTINGS.ORDER_LIMIT_PER_SCAN || Infinity
   }
 
+  // Kiểm tra xem cặp giao dịch có vị thế đang mở hay không
   async checkExistingPosition(symbol) {
     try {
       const positions = await binanceClient.futuresPositionRisk()
@@ -24,7 +25,7 @@ class Order {
       return false
     }
   }
-
+  // Show thông tin số dư và lợi nhuận
   async logBalance() {
     try {
       const balances = await binanceClient.futuresAccountBalance()
@@ -65,6 +66,7 @@ class Order {
     }
   }
 
+  // Tính tỷ lệ lợi nhuận (ROI) hiện tại của một vị thế
   async calculateCurrentROI(position) {
     try {
       const entryPrice = parseFloat(position.entryPrice)
@@ -82,6 +84,7 @@ class Order {
     }
   }
 
+  // Giám sát và đóng các vị thế dựa trên điều kiện TP/SL hoặc thời gian
   async monitorAndClosePositions() {
     try {
       const positions = await positionManager.syncWithBinance()
@@ -136,6 +139,7 @@ class Order {
     }
   }
 
+  // Lấy tổng lợi nhuận chưa thực hiện từ các vị thế
   async getUnrealizedProfit() {
     try {
       const positions = await binanceClient.futuresPositionRisk()
@@ -157,11 +161,18 @@ class Order {
       return 0 // Fallback to 0 on error
     }
   }
+
+  // Đặt lệnh giao dịch dựa trên tín hiệu
   async placeOrder(signal) {
     const { orderPlacementEnabled, ordersPlacedToday, totalOrders, totalCapital } = stateManager.getState()
-    if (!orderPlacementEnabled) return
+    if (!orderPlacementEnabled) {
+      const disabledMessage = '⚠️ Chứ năng đặt lệnh đã bị tắt nên bỏ qua'
+      log('log', disabledMessage)
+      await sendTelegramMessage(disabledMessage)
+      return
+    }
     if (ordersPlacedToday >= this.dailyOrderLimit) {
-      const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày`
+      const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày. Nên không vào lệnh`
       log('log', limitMessage)
       await sendTelegramMessage(limitMessage)
       return
@@ -176,6 +187,7 @@ class Order {
       const { quantity, side } = await this.prepareOrder(symbol, price, decision)
       await binanceClient.futuresOrder({ symbol, side, type: 'MARKET', quantity })
 
+      // Xử lý set TP/SL nhưng chưa chính xác nên tạm đóng
       // let tpPriceOrder
       // let slPriceOrder
 
@@ -239,6 +251,7 @@ class Order {
     }
   }
 
+  // Thiết lập loại margin (ISOLATED) cho cặp giao dịch
   async setMarginType(symbol) {
     try {
       await binanceClient.futuresMarginType({ symbol, marginType: 'ISOLATED' })
@@ -252,6 +265,7 @@ class Order {
     }
   }
 
+  // Tính số lượng giao dịch dựa trên giá và cấu hình
   async prepareOrder(symbol, price, decision) {
     const quantity = await this.calculateQuantity(symbol, price)
     if (quantity <= 0) {
@@ -280,7 +294,7 @@ class Order {
       lotSizeFilter.stepSize
     )
   }
-
+  // Thiết lập giá chốt lời (TP) và cắt lỗ (SL)
   async setTPSL(symbol, side, entryPrice, TP_ROI, SL_ROI) {
     try {
       const { tp: tpPriceRaw, sl: slPriceRaw } = this.calculateTpSlPrices({
@@ -319,6 +333,7 @@ class Order {
       throw error
     }
   }
+  // Tính giá TP và SL dựa trên ROI và hướng lệnh
   calculateTpSlPrices({ entryPrice, tpRoiPercent, slRoiPercent, side }) {
     const tpChange = tpRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
     const slChange = slRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
@@ -335,6 +350,7 @@ class Order {
     return { tp: tpPrice, sl: slPrice }
   }
 
+  // Đặt lệnh TP hoặc SL trên Binance
   placeTPSLOrder(symbol, side, price, type) {
     const orderSide = side === 'BUY' ? 'SELL' : 'BUY'
 
@@ -353,6 +369,7 @@ class Order {
     await sendTelegramMessage(message)
   }
 
+  // Thực thi quá trình quét tín hiệu và đặt lệnh
   async execute() {
     if (this.isRunning) return
     this.isRunning = true
@@ -422,15 +439,30 @@ class Order {
 • Số lệnh đặt tối đa mỗi lần quét: ${!isFinite(this.scanOrderLimit) ? 'Không giới hạn' : this.scanOrderLimit}
     `
   }
-  start() {
+
+  async start() {
+    // Kiểm tra kết nối API bằng cách gọi futuresAccountBalance
+    try {
+      await binanceClient.futuresAccountBalance()
+    } catch (error) {
+      log('error', '🔴 Lỗi kết nối API Binance', error)
+      await sendTelegramMessage(`🔴 Lỗi kết nối API Binance ${error.message}`)
+      return // Dừng bot nếu lỗi
+    }
+
+    // Thông báo bot khởi động
+    const startupMessage = `🚀 Bot đã khởi động chức năng quét và đặt lệnh...`
+    log('log', startupMessage)
+    await sendTelegramMessage(startupMessage)
+
     setInterval(() => {
       this.execute()
     }, CONFIG.SCAN_INTERVAL)
     this.execute()
 
     setInterval(() => {
-      this.monitorAndClosePositions()
-    }, 180000)
+      this.monitorAndClosePositions() // Giám sát và đóng các vị thế
+    }, 180000) // 3 phút
   }
 }
 

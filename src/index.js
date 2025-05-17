@@ -18,7 +18,7 @@ async function checkBinanceConnection() {
 }
 
 async function initializeBot() {
-  log('log', '🚀 Đang khởi động bot...')
+  log('log', '🚀 Đang khởi động bot quét tín hiệu...')
 
   if (!(await checkBinanceConnection())) {
     log('error', '❌ Không thể kết nối Binance')
