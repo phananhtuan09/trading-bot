@@ -311,14 +311,14 @@ async function analyzeMarket(symbol) {
     const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.EMA_PERIODS.LONG, values: data.closes })
 
     // Thêm phân tích đa khung thời gian
-    const multiTimeframeAnalysis = {}
-    const timeframes = ['1h', '4h', '1d']
+    // const multiTimeframeAnalysis = {}
+    // const timeframes = ['1h', '4h', '1d']
 
-    for (const tf of timeframes) {
-      multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
-      const delay = 700 + Math.random() * 300
-      await new Promise((resolve) => setTimeout(resolve, delay)) // Thêm delay tránh timeout
-    }
+    // for (const tf of timeframes) {
+    //   multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
+    //   const delay = 700 + Math.random() * 300
+    //   await new Promise((resolve) => setTimeout(resolve, delay)) // Thêm delay tránh timeout
+    // }
 
     const allStrategies = {
       RSI: TradingStrategies.checkRSI(indicators.rsi),
@@ -333,7 +333,7 @@ async function analyzeMarket(symbol) {
     }
 
     // Lọc tín hiệu
-    const filteredStrategies = filterSignals(allStrategies, data, indicators, multiTimeframeAnalysis)
+    const filteredStrategies = filterSignals(allStrategies, data, indicators, null)
 
     if (filteredStrategies === null) return null
 
@@ -343,7 +343,7 @@ async function analyzeMarket(symbol) {
 
     const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
 
-    if (TP_ROI < 5) return null // Loại bỏ tín hiệu có TP < 5%
+    if (Number(TP_ROI) < 0) return null // Loại bỏ tín hiệu có TP < 5%
 
     return {
       symbol,
@@ -351,8 +351,8 @@ async function analyzeMarket(symbol) {
       decision: processed.decision,
       futuresDetails: processed.futuresDetails,
       price: currentPrice,
-      TP_ROI,
-      SL_ROI,
+      TP_ROI: Number(TP_ROI),
+      SL_ROI: Number(SL_ROI),
     }
   } catch (error) {
     log('error', `Error analyzing ${symbol}:`, error)

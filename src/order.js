@@ -187,44 +187,30 @@ class Order {
       const { quantity, side } = await this.prepareOrder(symbol, price, decision)
       await binanceClient.futuresOrder({ symbol, side, type: 'MARKET', quantity })
 
-      // Xử lý set TP/SL nhưng chưa chính xác nên tạm đóng
-      // let tpPriceOrder
-      // let slPriceOrder
+      let tpPriceOrder
+      let slPriceOrder
 
-      // // Đặt TP/SL
-      // try {
-      //   const { tpPrice, slPrice } = await this.setTPSL(symbol, side, price, TP_ROI, SL_ROI)
-      //   tpPriceOrder = tpPrice
-      //   slPriceOrder = slPrice
-      // } catch (tpSlError) {
-      //   await this.closePositionImmediately(symbol, quantity, side)
-      //   const error = `Lỗi TP/SL: ${tpSlError.message}`
-      //   log('error', error)
-      //   throw new Error(tpSlError)
-      // }
-
-      // Lấy thông tin position từ Binance
-      const positions = await binanceClient.futuresPositionRisk({ symbol })
-      const positionInfo = positions.find((p) => p.symbol === symbol)
-
-      // Lưu vào PositionManager
-      positionManager.addPosition({
-        symbol,
-        entryTime: Date.now(),
-        entryPrice: parseFloat(positionInfo.entryPrice),
-        markPrice: parseFloat(positionInfo.markPrice),
-        TP_ROI,
-        side,
-        quantity: parseFloat(positionInfo.positionAmt),
-      })
+      // Đặt TP/SL
+      try {
+        const { tpPrice, slPrice } = await this.setTPSL(symbol, side, price, TP_ROI, SL_ROI)
+        tpPriceOrder = tpPrice
+        slPriceOrder = slPrice
+      } catch (tpSlError) {
+        await this.closePositionImmediately(symbol, quantity, side)
+        const error = `Lỗi TP/SL: ${tpSlError.message}`
+        log('error', error)
+        throw new Error(tpSlError)
+      }
 
       stateManager.setStateAndSaveToFile({
         ordersPlacedToday: ordersPlacedToday + 1,
         totalOrders: totalOrders + 1,
         totalCapital: totalCapital + ORDER_SETTINGS.QUANTITY,
       })
+      const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | SL: ${slPriceOrder.toFixed(
+        4,
+      )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
 
-      const orderMessage = `📈 Đã mở ${side} ${symbol} | Giá vào: ${price.toFixed(4)} | KL: ${quantity}`
       log('log', orderMessage)
       await sendTelegramMessage(orderMessage)
     } catch (error) {
@@ -268,6 +254,7 @@ class Order {
   // Tính số lượng giao dịch dựa trên giá và cấu hình
   async prepareOrder(symbol, price, decision) {
     const quantity = await this.calculateQuantity(symbol, price)
+    log('debug', `prepareOrder: symbol=${symbol}, price=${price}, decision=${decision}, ` + `quantity=${quantity}`)
     if (quantity <= 0) {
       const quantityError = 'Số lượng không hợp lệ'
       log('error', quantityError)
@@ -289,14 +276,32 @@ class Order {
     const exchangeInfo = await binanceClient.futuresExchangeInfo()
     const symbolInfo = exchangeInfo.symbols.find((s) => s.symbol === symbol)
     const lotSizeFilter = symbolInfo.filters.find((f) => f.filterType === 'LOT_SIZE')
-    return (
-      Math.floor((ORDER_SETTINGS.QUANTITY * ORDER_SETTINGS.LEVERAGE) / price / lotSizeFilter.stepSize) *
-      lotSizeFilter.stepSize
+    const stepSize = parseFloat(lotSizeFilter.stepSize)
+
+    // Tính toán số lượng chính xác với làm tròn xuống
+    const rawQty = (ORDER_SETTINGS.QUANTITY * ORDER_SETTINGS.LEVERAGE) / price
+    const quantity = Math.floor(rawQty / stepSize) * stepSize
+
+    log(
+      'debug',
+      `calculateQuantity: symbol=${symbol}, QUANTITY=${ORDER_SETTINGS.QUANTITY}, LEVERAGE=${ORDER_SETTINGS.LEVERAGE}, ` +
+        `price=${price}, lotSizeFilter=${JSON.stringify(
+          lotSizeFilter,
+        )},  stepSize=${stepSize}, rawQty=${rawQty}, quantity=${quantity}`,
     )
+
+    return Math.max(quantity, parseFloat(lotSizeFilter.minQty)) // Đảm bảo đạt minQty
   }
   // Thiết lập giá chốt lời (TP) và cắt lỗ (SL)
   async setTPSL(symbol, side, entryPrice, TP_ROI, SL_ROI) {
     try {
+      log(
+        'debug',
+        `setTPSL start: symbol=${symbol}, side=${side}, entryPrice=${entryPrice}, ` +
+          `TP_ROI=${TP_ROI}, SL_ROI=${SL_ROI}`,
+      )
+
+      // Calculate raw TP/SL prices
       const { tp: tpPriceRaw, sl: slPriceRaw } = this.calculateTpSlPrices({
         entryPrice,
         tpRoiPercent: TP_ROI,
@@ -304,63 +309,145 @@ class Order {
         side,
       })
 
-      // Kiểm tra giá TP/SL
+      // Log raw prices
+      log('debug', `setTPSL raw prices: tpPriceRaw=${tpPriceRaw}, slPriceRaw=${slPriceRaw}`)
+
+      // Validate raw TP/SL prices
       if (side === 'BUY') {
         if (tpPriceRaw <= entryPrice || slPriceRaw >= entryPrice) {
-          throw new Error(`TP/SL không hợp lệ: TP=${tpPriceRaw}, SL=${slPriceRaw}, Entry=${entryPrice}`)
+          throw new Error(`Invalid TP/SL: TP=${tpPriceRaw}, SL=${slPriceRaw}, Entry=${entryPrice}`)
         }
       } else {
         if (tpPriceRaw >= entryPrice || slPriceRaw <= entryPrice) {
-          throw new Error(`TP/SL không hợp lệ: TP=${tpPriceRaw}, SL=${slPriceRaw}, Entry=${entryPrice}`)
+          throw new Error(`Invalid TP/SL: TP=${tpPriceRaw}, SL=${slPriceRaw}, Entry=${entryPrice}`)
         }
       }
 
-      // Lấy tickSize và làm tròn
+      // Get tickSize from exchange info
       const symbolInfo = (await binanceClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
+      if (!symbolInfo) {
+        throw new Error(`Symbol ${symbol} not found in exchange info`)
+      }
       const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
       const tickSize = parseFloat(priceFilter.tickSize)
-      let tpPrice = Math.round(tpPriceRaw / tickSize) * tickSize
-      let slPrice = Math.round(slPriceRaw / tickSize) * tickSize
 
-      // Đặt lệnh TP/SL
+      log('debug', `setTPSL tickSize: ${tickSize}`)
+
+      // Round prices to tickSize
+      const roundToTickSize = (price, tickSize) => {
+        const precision = -Math.floor(Math.log10(tickSize))
+        return Number(price.toFixed(precision))
+      }
+
+      let tpPrice = roundToTickSize(tpPriceRaw, tickSize)
+      let slPrice = roundToTickSize(slPriceRaw, tickSize)
+
+      log('debug', `setTPSL rounded prices: tpPrice=${tpPrice}, slPrice=${slPrice}`)
+
+      // Lấy thông tin percent price filter
+      const percentFilter = symbolInfo.filters.find((f) => f.filterType === 'PERCENT_PRICE')
+      if (percentFilter) {
+        const multiplierUp = parseFloat(percentFilter.multiplierUp)
+        const multiplierDown = parseFloat(percentFilter.multiplierDown)
+
+        // Điều chỉnh giá theo filter
+        const maxPrice = entryPrice * multiplierUp
+        const minPrice = entryPrice * multiplierDown
+
+        if (side === 'BUY') {
+          tpPrice = Math.min(tpPrice, maxPrice)
+          slPrice = Math.max(slPrice, minPrice)
+        } else {
+          tpPrice = Math.max(tpPrice, minPrice)
+          slPrice = Math.min(slPrice, maxPrice)
+        }
+      }
+
+      // Re-validate rounded prices
+      if (side === 'BUY') {
+        if (tpPrice <= entryPrice || slPrice >= entryPrice) {
+          throw new Error(`Rounded TP/SL invalid: TP=${tpPrice}, SL=${slPrice}, Entry=${entryPrice}`)
+        }
+      } else {
+        if (tpPrice >= entryPrice || slPrice <= entryPrice) {
+          throw new Error(`Rounded TP/SL invalid: TP=${tpPrice}, SL=${slPrice}, Entry=${entryPrice}`)
+        }
+      }
+
+      // Place TP/SL orders
       await this.placeTPSLOrder(symbol, side, tpPrice, 'TAKE_PROFIT_MARKET')
       await this.placeTPSLOrder(symbol, side, slPrice, 'STOP_MARKET')
+
+      log('debug', `setTPSL success: TP order placed at ${tpPrice}, SL order placed at ${slPrice}`)
+
       return { tpPrice, slPrice }
     } catch (error) {
-      const tpSlError = `🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`
-      log('error', tpSlError)
-      await sendTelegramMessage(tpSlError)
+      log('error', `setTPSL error for ${symbol}: ${error.message}`)
+      await sendTelegramMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
       throw error
     }
   }
+
   // Tính giá TP và SL dựa trên ROI và hướng lệnh
   calculateTpSlPrices({ entryPrice, tpRoiPercent, slRoiPercent, side }) {
-    const tpChange = tpRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
-    const slChange = slRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
+    try {
+      const tpChange = tpRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
+      const slChange = slRoiPercent / ORDER_SETTINGS.LEVERAGE / 100
 
-    let tpPrice, slPrice
-    if (side === 'BUY') {
-      tpPrice = entryPrice * (1 + tpChange)
-      slPrice = entryPrice * (1 - slChange)
-    } else {
-      tpPrice = entryPrice * (1 - tpChange)
-      slPrice = entryPrice * (1 + slChange)
+      let tpPrice, slPrice
+      if (side === 'BUY') {
+        tpPrice = entryPrice * (1 + tpChange)
+        slPrice = entryPrice * (1 - slChange)
+      } else {
+        tpPrice = entryPrice * (1 - tpChange)
+        slPrice = entryPrice * (1 + slChange)
+      }
+
+      log(
+        'debug',
+        `calculateTpSlPrices: symbol=${symbol}, side=${side}, entryPrice=${entryPrice}, ` +
+          `tpRoiPercent=${tpRoiPercent}, slRoiPercent=${slRoiPercent}, ` +
+          `tpPrice=${tpPrice}, slPrice=${slPrice}`,
+      )
+
+      return { tp: tpPrice, sl: slPrice }
+    } catch (error) {
+      log('error', `calculateTpSlPrices error: ${error.message}`)
+      throw error
     }
-
-    return { tp: tpPrice, sl: slPrice }
   }
-
   // Đặt lệnh TP hoặc SL trên Binance
-  placeTPSLOrder(symbol, side, price, type) {
-    const orderSide = side === 'BUY' ? 'SELL' : 'BUY'
+  async placeTPSLOrder(symbol, side, price, type) {
+    try {
+      const orderSide = side === 'BUY' ? 'SELL' : 'BUY'
 
-    return binanceClient.futuresOrder({
-      symbol,
-      side: orderSide,
-      type,
-      stopPrice: price.toFixed(4),
-      closePosition: true,
-    })
+      // Get tickSize to format stopPrice
+      const symbolInfo = (await binanceClient.futuresExchangeInfo()).symbols.find((s) => s.symbol === symbol)
+      const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
+      const tickSize = parseFloat(priceFilter.tickSize)
+      const precision = -Math.floor(Math.log10(tickSize))
+      const formattedPrice = Number(price.toFixed(precision))
+
+      log(
+        'debug',
+        `placeTPSLOrder: symbol=${symbol}, orderSide=${orderSide}, type=${type}, ` +
+          `stopPrice=${formattedPrice}, closePosition=true`,
+      )
+
+      const order = await binanceClient.futuresOrder({
+        symbol,
+        side: orderSide,
+        type,
+        stopPrice: formattedPrice,
+        closePosition: true,
+      })
+
+      log('debug', `placeTPSLOrder success: orderId=${order.orderId}`)
+      return order
+    } catch (error) {
+      log('error', `placeTPSLOrder error for ${symbol}: ${error.message}`)
+      throw error
+    }
   }
 
   async handleOrderError(error, symbol) {
@@ -399,9 +486,7 @@ class Order {
       }
 
       // Sắp xếp và áp dụng scanOrderLimit cho các tín hiệu hợp lệ
-      const filteredSignals = validSignals
-        .sort((a, b) => Number(b.TP_ROI) - Number(a.TP_ROI))
-        .slice(0, this.scanOrderLimit)
+      const filteredSignals = validSignals.sort((a, b) => b.TP_ROI - a.TP_ROI).slice(0, this.scanOrderLimit)
 
       // Đặt lệnh cho các tín hiệu đã lọc
       for (const signal of filteredSignals) {
@@ -470,10 +555,6 @@ class Order {
       this.execute()
     }, CONFIG.SCAN_INTERVAL)
     this.execute()
-
-    setInterval(() => {
-      this.monitorAndClosePositions() // Giám sát và đóng các vị thế
-    }, 180000) // 3 phút
   }
 }
 
