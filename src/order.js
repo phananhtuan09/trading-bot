@@ -157,7 +157,9 @@ class Order {
 
       return totalUnrealizedProfit
     } catch (error) {
-      log('error', `getUnrealizedProfit - Error stack: ${error.stack}`)
+      const errorMessage = `Lỗi lấy tổng lợi nhuận chưa thực hiện từ các vị thế: ${error.message}`
+      log('error', errorMessage)
+      await sendTelegramMessage(errorMessage)
       return 0 // Fallback to 0 on error
     }
   }
@@ -199,6 +201,7 @@ class Order {
         await this.closePositionImmediately(symbol, quantity, side)
         const error = `Lỗi TP/SL: ${tpSlError.message}`
         log('error', error)
+        await sendTelegramMessage(error)
         throw new Error(tpSlError)
       }
 
@@ -254,10 +257,8 @@ class Order {
   // Tính số lượng giao dịch dựa trên giá và cấu hình
   async prepareOrder(symbol, price, decision) {
     const quantity = await this.calculateQuantity(symbol, price)
-    log('debug', `prepareOrder: symbol=${symbol}, price=${price}, decision=${decision}, ` + `quantity=${quantity}`)
     if (quantity <= 0) {
       const quantityError = 'Số lượng không hợp lệ'
-      log('error', quantityError)
       throw new Error(quantityError)
     }
 
@@ -282,25 +283,11 @@ class Order {
     const rawQty = (ORDER_SETTINGS.QUANTITY * ORDER_SETTINGS.LEVERAGE) / price
     const quantity = Math.floor(rawQty / stepSize) * stepSize
 
-    log(
-      'debug',
-      `calculateQuantity: symbol=${symbol}, QUANTITY=${ORDER_SETTINGS.QUANTITY}, LEVERAGE=${ORDER_SETTINGS.LEVERAGE}, ` +
-        `price=${price}, lotSizeFilter=${JSON.stringify(
-          lotSizeFilter,
-        )},  stepSize=${stepSize}, rawQty=${rawQty}, quantity=${quantity}`,
-    )
-
     return Math.max(quantity, parseFloat(lotSizeFilter.minQty)) // Đảm bảo đạt minQty
   }
   // Thiết lập giá chốt lời (TP) và cắt lỗ (SL)
   async setTPSL(symbol, side, entryPrice, TP_ROI, SL_ROI) {
     try {
-      log(
-        'debug',
-        `setTPSL start: symbol=${symbol}, side=${side}, entryPrice=${entryPrice}, ` +
-          `TP_ROI=${TP_ROI}, SL_ROI=${SL_ROI}`,
-      )
-
       // Calculate raw TP/SL prices
       const { tp: tpPriceRaw, sl: slPriceRaw } = this.calculateTpSlPrices({
         entryPrice,
@@ -308,9 +295,6 @@ class Order {
         slRoiPercent: Math.abs(SL_ROI),
         side,
       })
-
-      // Log raw prices
-      log('debug', `setTPSL raw prices: tpPriceRaw=${tpPriceRaw}, slPriceRaw=${slPriceRaw}`)
 
       // Validate raw TP/SL prices
       if (side === 'BUY') {
@@ -331,8 +315,6 @@ class Order {
       const priceFilter = symbolInfo.filters.find((f) => f.filterType === 'PRICE_FILTER')
       const tickSize = parseFloat(priceFilter.tickSize)
 
-      log('debug', `setTPSL tickSize: ${tickSize}`)
-
       // Round prices to tickSize
       const roundToTickSize = (price, tickSize) => {
         const precision = -Math.floor(Math.log10(tickSize))
@@ -341,8 +323,6 @@ class Order {
 
       let tpPrice = roundToTickSize(tpPriceRaw, tickSize)
       let slPrice = roundToTickSize(slPriceRaw, tickSize)
-
-      log('debug', `setTPSL rounded prices: tpPrice=${tpPrice}, slPrice=${slPrice}`)
 
       // Lấy thông tin percent price filter
       const percentFilter = symbolInfo.filters.find((f) => f.filterType === 'PERCENT_PRICE')
@@ -378,8 +358,6 @@ class Order {
       await this.placeTPSLOrder(symbol, side, tpPrice, 'TAKE_PROFIT_MARKET')
       await this.placeTPSLOrder(symbol, side, slPrice, 'STOP_MARKET')
 
-      log('debug', `setTPSL success: TP order placed at ${tpPrice}, SL order placed at ${slPrice}`)
-
       return { tpPrice, slPrice }
     } catch (error) {
       log('error', `setTPSL error for ${symbol}: ${error.message}`)
@@ -403,13 +381,6 @@ class Order {
         slPrice = entryPrice * (1 + slChange)
       }
 
-      log(
-        'debug',
-        `calculateTpSlPrices: symbol=${symbol}, side=${side}, entryPrice=${entryPrice}, ` +
-          `tpRoiPercent=${tpRoiPercent}, slRoiPercent=${slRoiPercent}, ` +
-          `tpPrice=${tpPrice}, slPrice=${slPrice}`,
-      )
-
       return { tp: tpPrice, sl: slPrice }
     } catch (error) {
       log('error', `calculateTpSlPrices error: ${error.message}`)
@@ -428,12 +399,6 @@ class Order {
       const precision = -Math.floor(Math.log10(tickSize))
       const formattedPrice = Number(price.toFixed(precision))
 
-      log(
-        'debug',
-        `placeTPSLOrder: symbol=${symbol}, orderSide=${orderSide}, type=${type}, ` +
-          `stopPrice=${formattedPrice}, closePosition=true`,
-      )
-
       const order = await binanceClient.futuresOrder({
         symbol,
         side: orderSide,
@@ -442,7 +407,6 @@ class Order {
         closePosition: true,
       })
 
-      log('debug', `placeTPSLOrder success: orderId=${order.orderId}`)
       return order
     } catch (error) {
       log('error', `placeTPSLOrder error for ${symbol}: ${error.message}`)
