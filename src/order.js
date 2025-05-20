@@ -383,7 +383,6 @@ class Order {
 
       return { tp: tpPrice, sl: slPrice }
     } catch (error) {
-      log('error', `calculateTpSlPrices error: ${error.message}`)
       throw error
     }
   }
@@ -409,7 +408,6 @@ class Order {
 
       return order
     } catch (error) {
-      log('error', `placeTPSLOrder error for ${symbol}: ${error.message}`)
       throw error
     }
   }
