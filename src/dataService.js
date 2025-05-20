@@ -343,7 +343,7 @@ async function analyzeMarket(symbol) {
 
     const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
 
-    if (Number(TP_ROI) < 0) return null // Loại bỏ tín hiệu có TP < 5%
+    if (Number(TP_ROI) < 5) return null // Loại bỏ tín hiệu có TP < 5%
 
     return {
       symbol,
