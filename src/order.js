@@ -283,7 +283,8 @@ class Order {
     const rawQty = (ORDER_SETTINGS.QUANTITY * ORDER_SETTINGS.LEVERAGE) / price
     const quantity = Math.floor(rawQty / stepSize) * stepSize
 
-    return Math.max(quantity, parseFloat(lotSizeFilter.minQty)) // Đảm bảo đạt minQty
+    // return Math.max(quantity, parseFloat(lotSizeFilter.minQty)) // Đảm bảo đạt minQty
+    return quantity // Đảm bảo đạt minQty
   }
   // Thiết lập giá chốt lời (TP) và cắt lỗ (SL)
   async setTPSL(symbol, side, entryPrice, TP_ROI, SL_ROI) {
