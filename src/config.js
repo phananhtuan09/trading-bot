@@ -75,7 +75,7 @@ const STRATEGY_CONFIG = {
       STOCHASTIC: 1, // Trọng số Stochastic
       SMA: 2, // Trọng số SMA
     },
-    MIN_CONFIDENCE_SCORE: 8, // Điểm tin cậy tối thiểu
+    MIN_CONFIDENCE_SCORE: 10, // Điểm tin cậy tối thiểu
     MULTI_TIMEFRAME_EMA: {
       SHORT: 50, // EMA ngắn cho đa khung thời gian
       LONG: 200, // EMA dài cho đa khung thời gian

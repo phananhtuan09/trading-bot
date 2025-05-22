@@ -170,10 +170,12 @@ function filterSignals(strategies, data, indicators, multiTimeframe) {
     return score + (signal ? STRATEGY_CONFIG.FILTER.STRATEGY_WEIGHTS[strategy.toUpperCase()] || 1 : 0)
   }, 0)
 
-  // const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
-  //   (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
-  // ).length
-  // confidenceScore += multiTimeframeConfirm * 2
+  const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
+    (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
+  ).length
+  if (multiTimeframeConfirm >= 2) {
+    confidenceScore += 2 // Chỉ cộng điểm khi ít nhất 2 khung thời gian xác nhận
+  }
 
   if (confidenceScore < STRATEGY_CONFIG.FILTER.MIN_CONFIDENCE_SCORE) {
     return null
@@ -317,14 +319,14 @@ async function analyzeMarket(symbol) {
     const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.EMA_PERIODS.LONG, values: data.closes })
 
     // Thêm phân tích đa khung thời gian
-    // const multiTimeframeAnalysis = {}
-    // const timeframes = ['1h', '4h', '1d']
+    const multiTimeframeAnalysis = {}
+    const timeframes = ['1h', '4h', '1d']
 
-    // for (const tf of timeframes) {
-    //   multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
-    //   const delay = 700 + Math.random() * 300
-    //   await new Promise((resolve) => setTimeout(resolve, delay)) // Thêm delay tránh timeout
-    // }
+    for (const tf of timeframes) {
+      multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
+      const delay = 700 + Math.random() * 300
+      await new Promise((resolve) => setTimeout(resolve, delay)) // Thêm delay tránh timeout
+    }
 
     const allStrategies = {
       RSI: TradingStrategies.checkRSI(indicators.rsi),
@@ -339,7 +341,7 @@ async function analyzeMarket(symbol) {
     }
 
     // Lọc tín hiệu
-    const filteredStrategies = filterSignals(allStrategies, data, indicators, null)
+    const filteredStrategies = filterSignals(allStrategies, data, indicators, multiTimeframeAnalysis)
 
     if (filteredStrategies === null) return null
 
