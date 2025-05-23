@@ -173,7 +173,7 @@ function filterSignals(strategies, data, indicators, multiTimeframe) {
   const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
     (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
   ).length
-  if (multiTimeframeConfirm >= 2) {
+  if (multiTimeframeConfirm >= 3) {
     confidenceScore += 2 // Chỉ cộng điểm khi ít nhất 2 khung thời gian xác nhận
   }
 
