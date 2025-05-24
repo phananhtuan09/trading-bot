@@ -3,7 +3,7 @@ const { startScanning } = require('./scanner')
 const { checkDiscordConnection } = require('./discordService')
 const { checkTelegramConnection } = require('./telegramService')
 const { DISCORD, TELEGRAM } = require('./config')
-const { binanceClient } = require('./clients')
+const { binanceTestClient: binanceClient } = require('../src/clients')
 const { log } = require('./utils')
 
 async function checkBinanceConnection() {

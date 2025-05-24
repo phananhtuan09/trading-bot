@@ -1,4 +1,4 @@
-const { binanceClient } = require('./clients')
+const { binanceTestClient: binanceClient } = require('../src/clients') // Import binanceClient nếu muốn đặt lệnh trên tk thực
 const { STRATEGY_CONFIG } = require('./config')
 const { log } = require('./utils')
 

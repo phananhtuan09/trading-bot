@@ -1,4 +1,4 @@
-const { binanceClient } = require('./clients')
+const { binanceTestClient: binanceClient } = require('../src/clients')
 const TradingStrategies = require('./tradingStrategies')
 const { RSI, BollingerBands, MACD, ADX, EMA, Stochastic, IchimokuCloud, PSAR } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
@@ -320,7 +320,7 @@ async function analyzeMarket(symbol) {
 
     // Thêm phân tích đa khung thời gian
     const multiTimeframeAnalysis = {}
-    const timeframes = ['1h', '4h', '1d']
+    const timeframes = ['1h', '2h', '30m']
 
     for (const tf of timeframes) {
       multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
