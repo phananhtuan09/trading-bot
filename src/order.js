@@ -21,7 +21,7 @@ class Order {
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
       logger.error(`Lỗi kiểm tra vị thế: ${error?.message}`)
-      await sendTelegramMessage('Lỗi kiểm tra vị thế:', error?.message)
+      //  await sendTelegramMessage('Lỗi kiểm tra vị thế:', error?.message)
       return false
     }
   }
@@ -61,7 +61,7 @@ class Order {
       }
     } catch (error) {
       logger.error(`Lỗi khi log balance: ${error?.message}`)
-      await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
+      //   await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
       return { availableBalance: 0, profit: 0, profitPercent: 0 }
     }
   }
@@ -86,7 +86,7 @@ class Order {
     } catch (error) {
       const errorMessage = `Lỗi lấy tổng lợi nhuận chưa thực hiện từ các vị thế: ${error.message}`
       logger.error(errorMessage)
-      await sendTelegramMessage(errorMessage)
+      //  await sendTelegramMessage(errorMessage)
       return 0 // Fallback to 0 on error
     }
   }
@@ -128,7 +128,7 @@ class Order {
         await this.closePositionImmediately(symbol, quantity, side)
         const error = `Lỗi TP/SL: ${tpSlError.message}`
         logger.error(error)
-        await sendTelegramMessage(error)
+        //  await sendTelegramMessage(error)
         throw new Error(tpSlError)
       }
 
@@ -160,11 +160,11 @@ class Order {
       const tpSlError = `⚠️ Đã đóng lệnh ${symbol} do lỗi TP/SL`
       logger.error(tpSlError)
 
-      await sendTelegramMessage(tpSlError)
+      //   await sendTelegramMessage(tpSlError)
     } catch (closeError) {
       const tpSlError = `🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`
       logger.error(tpSlError)
-      await sendTelegramMessage(tpSlError)
+      //    await sendTelegramMessage(tpSlError)
     }
   }
 
@@ -176,7 +176,7 @@ class Order {
       if (!error.message.includes('No need')) {
         const marginError = `🔴 Lỗi set margin type cho ${symbol}: ${error.message}`
         logger.error(marginError)
-        await sendTelegramMessage(marginError)
+        //    await sendTelegramMessage(marginError)
         throw error
       }
     }
@@ -290,7 +290,7 @@ class Order {
       return { tpPrice, slPrice }
     } catch (error) {
       logger.error(`setTPSL error for ${symbol}: ${error.message}`)
-      await sendTelegramMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
+      //   await sendTelegramMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
       throw error
     }
   }
@@ -344,7 +344,7 @@ class Order {
   async handleOrderError(error, symbol) {
     const message = `🔴 Lỗi đặt lệnh ${symbol}: ${error.message}`
     logger.error(message)
-    await sendTelegramMessage(message)
+    // await sendTelegramMessage(message)
   }
 
   async logClosedPositionsDaily() {
@@ -382,13 +382,13 @@ class Order {
           .join('\n')
 
         logger.info(`Closed positions today:\n${logMessage}`)
-        await sendTelegramMessage(`Closed positions today:\n${logMessage}`)
+        //  await sendTelegramMessage(`Closed positions today:\n${logMessage}`)
       } else {
         logger.info('No positions closed today.')
       }
     } catch (error) {
       logger.error(`Error fetching closed trades: ${error.message}`)
-      await sendTelegramMessage(`🔴 Error fetching closed trades: ${error.message}`)
+      // await sendTelegramMessage(`🔴 Error fetching closed trades: ${error.message}`)
     }
   }
 
@@ -478,7 +478,7 @@ class Order {
       }
     } catch (error) {
       logger.inferroro(`Lỗi kết nối API Binance ${error.message}`)
-      await sendTelegramMessage(`🔴 Lỗi kết nối API Binance ${error.message}`)
+      //  await sendTelegramMessage(`🔴 Lỗi kết nối API Binance ${error.message}`)
       return // Dừng bot nếu lỗi
     }
 
