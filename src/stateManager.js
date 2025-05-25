@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const { log } = require('./utils')
+const logger = require('./logger')
 
 class StateManager {
   constructor() {
@@ -22,7 +22,7 @@ class StateManager {
       const newState = { ...this.getState(), ...state }
       fs.writeFileSync(this.stateFilePath, JSON.stringify(newState, null, 2))
     } catch (error) {
-      log('error', `Error saving state to ${this.stateFilePath}:`, error.message)
+      logger.error(`Error saving state to ${this.stateFilePath}: ${error.message}`)
     }
   }
 
@@ -50,7 +50,7 @@ class StateManager {
         return JSON.parse(data)
       }
     } catch (error) {
-      log('error', `Error loading state from ${this.stateFilePath}:`, error.message)
+      logger.error(`Error loading state from ${this.stateFilePath}: ${error.message}`)
       return null
     }
   }
@@ -83,7 +83,7 @@ class StateManager {
         fs.unlinkSync(this.stateFilePath)
       }
     } catch (error) {
-      log('error', 'Error deleting state file:', error.message)
+      logger.error(`Error deleting state file:: ${error.message}`)
     }
   }
 }

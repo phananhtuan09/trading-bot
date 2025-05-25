@@ -4,8 +4,8 @@ const { binanceTestClient: binanceClient } = require('../src/clients') // Import
 const { sendTelegramMessage } = require('../src/telegramService')
 const stateManager = require('../src/stateManager')
 const telegramCommands = require('../src/telegramCommands')
-const { log } = require('../src/utils')
-const positionManager = require('./positionManager')
+const logger = require('../src/logger')
+const schedule = require('node-schedule')
 
 class Order {
   constructor() {
@@ -20,7 +20,7 @@ class Order {
       const positions = await binanceClient.futuresPositionRisk()
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
-      log('error', 'Lỗi kiểm tra vị thế:', error)
+      logger.error(`Lỗi kiểm tra vị thế: ${error?.message}`)
       await sendTelegramMessage('Lỗi kiểm tra vị thế:', error?.message)
       return false
     }
@@ -53,89 +53,16 @@ class Order {
 💰 Số dư khả dụng: ${availableBalance.toFixed(2)} USDT
 📈 Lợi nhuận: ${isNaN(profit) ? 0 : profit.toFixed(2)} USDT (${isNaN(profitPercent) ? 0 : profitPercent}%)
       `
-      log('log', profitMessage)
+      logger.info(profitMessage)
       return {
         availableBalance,
         profit: isNaN(profit) ? 0 : profit.toFixed(2),
         profitPercent: isNaN(profitPercent) ? 0 : profitPercent,
       }
     } catch (error) {
-      log('error', 'Lỗi khi log balance:', error)
+      logger.error(`Lỗi khi log balance: ${error?.message}`)
       await sendTelegramMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
       return { availableBalance: 0, profit: 0, profitPercent: 0 }
-    }
-  }
-
-  // Tính tỷ lệ lợi nhuận (ROI) hiện tại của một vị thế
-  async calculateCurrentROI(position) {
-    try {
-      const entryPrice = parseFloat(position.entryPrice)
-      const markPrice = parseFloat(position.markPrice)
-      const leverage = ORDER_SETTINGS.LEVERAGE
-
-      if (position.side === 'BUY') {
-        return ((markPrice - entryPrice) / entryPrice) * leverage * 100
-      }
-      return ((entryPrice - markPrice) / entryPrice) * leverage * 100
-    } catch (error) {
-      log('error', 'Lỗi tính ROI:', error)
-      await sendTelegramMessage(`'Lỗi tính ROI:': ${error.message}`)
-      return 0
-    }
-  }
-
-  // Giám sát và đóng các vị thế dựa trên điều kiện TP/SL hoặc thời gian
-  async monitorAndClosePositions() {
-    try {
-      const positions = await positionManager.syncWithBinance()
-      for (const position of positions) {
-        try {
-          const now = Date.now()
-          const timeElapsed = now - position.entryTime
-          const roi = await this.calculateCurrentROI(position)
-
-          let closeReason = ''
-          if (roi <= -10) closeReason = 'SL'
-          else if (roi >= position.TP_ROI) closeReason = 'TP'
-          else if (timeElapsed >= 86400000) closeReason = '24H'
-
-          if (closeReason) {
-            await this.closePosition(position, closeReason, roi)
-            positionManager.removePosition(position.symbol)
-          }
-        } catch (error) {
-          log('error', `Lỗi xử lý position ${position.symbol}:`, error)
-          await sendTelegramMessage(`Lỗi xử lý position ${position.symbol}: ${error.message}`)
-        }
-      }
-    } catch (error) {
-      log('error', 'Lỗi tổng khi giám sát positions:', error)
-      await sendTelegramMessage(`Lỗi tổng khi giám sát positions: ${error.message}`)
-    }
-  }
-
-  async closePosition(position, reason, roi) {
-    try {
-      const closeSide = position.side === 'BUY' ? 'SELL' : 'BUY'
-      await binanceClient.futuresOrder({
-        symbol: position.symbol,
-        side: closeSide,
-        type: 'MARKET',
-        quantity: Math.abs(position.quantity),
-      })
-
-      const message = [
-        `🔐 Đóng lệnh ${position.symbol}`,
-        `Lý do: ${reason}`,
-        `ROI: ${roi.toFixed(2)}%`,
-        `Thời gian giữ: ${Math.floor((Date.now() - position.entryTime) / 3600000)}h`,
-      ].join(' | ')
-
-      await sendTelegramMessage(message)
-      log('log', message)
-    } catch (error) {
-      log('error', `Lỗi đóng lệnh ${position.symbol}:`, error)
-      await sendTelegramMessage(`🔴 Lỗi đóng lệnh ${position.symbol}: ${error.message}`)
     }
   }
 
@@ -158,7 +85,7 @@ class Order {
       return totalUnrealizedProfit
     } catch (error) {
       const errorMessage = `Lỗi lấy tổng lợi nhuận chưa thực hiện từ các vị thế: ${error.message}`
-      log('error', errorMessage)
+      logger.error(errorMessage)
       await sendTelegramMessage(errorMessage)
       return 0 // Fallback to 0 on error
     }
@@ -169,13 +96,13 @@ class Order {
     const { orderPlacementEnabled, ordersPlacedToday, totalOrders, totalCapital } = stateManager.getState()
     if (!orderPlacementEnabled) {
       const disabledMessage = '⚠️ Chứ năng đặt lệnh đã bị tắt nên bỏ qua'
-      log('log', disabledMessage)
+      logger.error(disabledMessage)
       await sendTelegramMessage(disabledMessage)
       return
     }
     if (ordersPlacedToday >= this.dailyOrderLimit) {
       const limitMessage = `⚠️ Đạt giới hạn ${this.dailyOrderLimit} lệnh/ngày. Nên không vào lệnh`
-      log('log', limitMessage)
+      logger.error(limitMessage)
       await sendTelegramMessage(limitMessage)
       return
     }
@@ -200,7 +127,7 @@ class Order {
       } catch (tpSlError) {
         await this.closePositionImmediately(symbol, quantity, side)
         const error = `Lỗi TP/SL: ${tpSlError.message}`
-        log('error', error)
+        logger.error(error)
         await sendTelegramMessage(error)
         throw new Error(tpSlError)
       }
@@ -214,7 +141,7 @@ class Order {
         4,
       )} | TP: ${tpPriceOrder.toFixed(4)} | KL: ${quantity}`
 
-      log('log', orderMessage)
+      logger.info('log', orderMessage)
       await sendTelegramMessage(orderMessage)
     } catch (error) {
       await this.handleOrderError(error, symbol)
@@ -231,11 +158,12 @@ class Order {
         quantity: Math.abs(quantity),
       })
       const tpSlError = `⚠️ Đã đóng lệnh ${symbol} do lỗi TP/SL`
-      log('error', tpSlError)
+      logger.error(tpSlError)
+
       await sendTelegramMessage(tpSlError)
     } catch (closeError) {
       const tpSlError = `🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`
-      log('error', tpSlError)
+      logger.error(tpSlError)
       await sendTelegramMessage(tpSlError)
     }
   }
@@ -247,7 +175,7 @@ class Order {
     } catch (error) {
       if (!error.message.includes('No need')) {
         const marginError = `🔴 Lỗi set margin type cho ${symbol}: ${error.message}`
-        log('error', marginError)
+        logger.error(marginError)
         await sendTelegramMessage(marginError)
         throw error
       }
@@ -361,7 +289,7 @@ class Order {
 
       return { tpPrice, slPrice }
     } catch (error) {
-      log('error', `setTPSL error for ${symbol}: ${error.message}`)
+      logger.error(`setTPSL error for ${symbol}: ${error.message}`)
       await sendTelegramMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
       throw error
     }
@@ -415,8 +343,53 @@ class Order {
 
   async handleOrderError(error, symbol) {
     const message = `🔴 Lỗi đặt lệnh ${symbol}: ${error.message}`
-    log('error', message)
+    logger.error(message)
     await sendTelegramMessage(message)
+  }
+
+  async logClosedPositionsDaily() {
+    try {
+      const now = new Date()
+      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
+      const endOfDay = startOfDay + 24 * 60 * 60 * 1000 - 1
+
+      // Gọi API để lấy lịch sử giao dịch trong ngày
+      const trades = await binanceClient.futuresAccountTrades({
+        startTime: startOfDay,
+        endTime: endOfDay,
+      })
+
+      // Lọc các lệnh đóng vị thế (closePosition: true)
+      const closedTrades = trades.filter((trade) => trade.closePosition)
+
+      if (closedTrades.length > 0) {
+        const logMessage = closedTrades
+          .map((trade) => {
+            const realizedPnl = parseFloat(trade.realizedPnl)
+            const entryPrice = parseFloat(trade.price) // Giá khi đóng lệnh (tạm thời, có thể cải thiện sau)
+            const quantity = parseFloat(trade.quantity)
+            const side = trade.side // BUY hoặc SELL
+            const commission = parseFloat(trade.commission)
+
+            // Tính PNL % (dựa trên realizedPnl và số vốn đầu tư)
+            const investedCapital = (quantity * entryPrice) / ORDER_SETTINGS.LEVERAGE
+            const pnlPercent = investedCapital !== 0 ? ((realizedPnl / investedCapital) * 100).toFixed(2) : '0.00'
+
+            return `Symbol: ${trade.symbol}, Entry: ${entryPrice.toFixed(4)}, Close: ${entryPrice.toFixed(
+              4,
+            )}, PNL: ${realizedPnl.toFixed(2)} USDT (${pnlPercent}%)`
+          })
+          .join('\n')
+
+        logger.info(`Closed positions today:\n${logMessage}`)
+        await sendTelegramMessage(`Closed positions today:\n${logMessage}`)
+      } else {
+        logger.info('No positions closed today.')
+      }
+    } catch (error) {
+      logger.error(`Error fetching closed trades: ${error.message}`)
+      await sendTelegramMessage(`🔴 Error fetching closed trades: ${error.message}`)
+    }
   }
 
   // Thực thi quá trình quét tín hiệu và đặt lệnh
@@ -431,7 +404,7 @@ class Order {
       const signals = (await performScan()) || []
       if (!signals || signals?.length === 0) {
         const noSignalMessage = 'Không có tín hiệu nào để giao dịch.'
-        log('log', noSignalMessage)
+        logger.info(noSignalMessage)
         await sendTelegramMessage(noSignalMessage)
         return
       }
@@ -443,7 +416,7 @@ class Order {
           validSignals.push(signal)
         } else {
           const existMessage = `🟡 Bỏ qua ${signal.symbol} - Đang có vị thế mở`
-          log('log', existMessage)
+          logger.info(existMessage)
           await sendTelegramMessage(existMessage)
         }
       }
@@ -453,7 +426,7 @@ class Order {
 
       // Đặt lệnh cho các tín hiệu đã lọc
       for (const signal of filteredSignals) {
-        log('log', signal)
+        logger.info(`Đang thực hiện đặt lệnh ch0: ${signal.symbol}`)
         await this.placeOrder(signal)
       }
 
@@ -461,7 +434,7 @@ class Order {
       if (validSignals.length > this.scanOrderLimit) {
         const skipped = validSignals.slice(this.scanOrderLimit).map((s) => s.symbol)
         const limitMessage = `⚠️ Vượt giới hạn ${this.scanOrderLimit} lệnh/lần, bỏ qua: ${skipped.join(', ')}`
-        log('log', limitMessage)
+        logger.info(limitMessage)
         await sendTelegramMessage(limitMessage)
       }
     } finally {
@@ -501,18 +474,21 @@ class Order {
         stateManager.setStateAndSaveToFile({
           initialCapital: walletBalance,
         })
-        log('log', `💾 Đã lưu initialCapital: ${walletBalance.toFixed(2)} USDT`)
+        logger.info(`Đã lưu initialCapital: ${walletBalance.toFixed(2)} USDT`)
       }
     } catch (error) {
-      log('error', '🔴 Lỗi kết nối API Binance', error)
+      logger.inferroro(`Lỗi kết nối API Binance ${error.message}`)
       await sendTelegramMessage(`🔴 Lỗi kết nối API Binance ${error.message}`)
       return // Dừng bot nếu lỗi
     }
 
     // Thông báo bot khởi động
     const startupMessage = `🚀 Bot đã khởi động chức năng quét và đặt lệnh...`
-    log('log', startupMessage)
+    logger.info(`Bot đã khởi động chức năng quét và đặt lệnh...`)
     await sendTelegramMessage(startupMessage)
+
+    // Lên lịch log các lệnh đã đóng vào cuối ngày (23:59)
+    schedule.scheduleJob('59 23 * * *', () => this.logClosedPositionsDaily())
 
     setInterval(() => {
       this.execute()

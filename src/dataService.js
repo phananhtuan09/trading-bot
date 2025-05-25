@@ -2,7 +2,7 @@ const { binanceTestClient: binanceClient } = require('../src/clients')
 const TradingStrategies = require('./tradingStrategies')
 const { RSI, BollingerBands, MACD, ADX, EMA, Stochastic, IchimokuCloud, PSAR } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
-const { log } = require('./utils')
+const logger = require('./logger')
 
 // Lấy dữ liệu lịch sử giá (nến) từ Binance Futures.
 async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL, limit = 200) {
@@ -61,11 +61,11 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL, li
     const finalCandles = allCandles.length > limit ? allCandles.slice(allCandles.length - limit) : allCandles
 
     if (finalCandles.length === 0 && limit > 0) {
-      log('warn', `[${symbol}-${interval}] Không có nến nào được lấy cho yêu cầu ${limit} nến.`)
+      //  logger.warn(`[${symbol}-${interval}] Không có nến nào được lấy cho yêu cầu ${limit} nến.`)
       return null
     }
     if (finalCandles.length < limit && limit > 0 && requestsNeeded > 0 && allCandles.length > 0) {
-      log('warn', `[${symbol}-${interval}] Chỉ lấy được ${finalCandles.length} trong số ${limit} nến yêu cầu.`)
+      //   logger.warn(`[${symbol}-${interval}] Chỉ lấy được ${finalCandles.length} trong số ${limit} nến yêu cầu.`)
     }
 
     return {
@@ -76,12 +76,7 @@ async function getHistoricalData(symbol, interval = STRATEGY_CONFIG.INTERVAL, li
       volumes: finalCandles.map((c) => parseFloat(c.volume)),
     }
   } catch (error) {
-    log(
-      'error',
-      `Lỗi xử lý dữ liệu futures cho ${symbol} (${interval}): ${error.message}`,
-      error.code ? `(Code: ${error.code})` : '',
-      error.stack ? error.stack : '',
-    )
+    // logger.error(`[${symbol}-${interval}] Lỗi lấy dữ liệu lịch sử: ${error.message} (Code: ${error.code})`)
     return null
   }
 }
@@ -133,6 +128,9 @@ function processSignals(signals) {
   }
 
   if (decision === 'Wait') {
+    logger.info(
+      `No clear decision for ${signals.symbol}. BUY: ${signalGroups.BUY.count}, SELL: ${signalGroups.SELL.count}`,
+    )
     return null
   }
 
@@ -145,6 +143,7 @@ function filterSignals(strategies, data, indicators, multiTimeframe) {
   const currentATR = indicators.atr
   const dailyVolume = data.volumes.slice(-24).reduce((a, b) => a + b, 0)
   if (dailyVolume < STRATEGY_CONFIG.FILTER.MIN_TRADE_VOLUME) {
+    //   logger.info(`Discarded signal for ${data.symbol} due to low daily volume: ${dailyVolume}`)
     return null
   }
 
@@ -162,6 +161,10 @@ function filterSignals(strategies, data, indicators, multiTimeframe) {
       acc[strategy] = signal
     } else if (signal === 'SELL' && isPriceBelowEMA200) {
       acc[strategy] = signal
+    } else if (signal === 'BUY' && isPriceBelowEMA200) {
+      //    logger.info(`Discarded BUY signal for ${data.symbol} due to price below EMA200`)
+    } else if (signal === 'SELL' && isPriceAboveEMA200) {
+      //     logger.info(`Discarded SELL signal for ${data.symbol} due to price above EMA200`)
     }
     return acc
   }, {})
@@ -173,26 +176,30 @@ function filterSignals(strategies, data, indicators, multiTimeframe) {
   const multiTimeframeConfirm = Object.values(multiTimeframe).filter(
     (tf) => tf.ema && data.closes.at(-1) > tf.ema.at(-1),
   ).length
-  if (multiTimeframeConfirm >= 3) {
+  if (multiTimeframeConfirm >= 2) {
     confidenceScore += 2 // Chỉ cộng điểm khi ít nhất 2 khung thời gian xác nhận
   }
 
   if (confidenceScore < STRATEGY_CONFIG.FILTER.MIN_CONFIDENCE_SCORE) {
+    //  logger.info(`Discarded signal for ${data.symbol} due to low confidence score: ${confidenceScore}`)
     return null
   }
 
   if (currentATR > data.closes.at(-1) * 0.05) {
+    //  logger.info(`Discarded signal for ${data.symbol} due to high ATR: ${currentATR}`)
     return null
   }
 
   // Nới lỏng kết hợp RSI và MACD: chỉ yêu cầu MACD không ngược chiều
   if (validSignals.RSI) {
     if (strategies.MACD && strategies.MACD !== validSignals.RSI) {
+      // logger.info(`Discarded signal for ${data.symbol} due to MACD not confirming RSI: ${strategies.MACD}`)
       delete validSignals.RSI
     }
   }
 
   if (validSignals.BollingerBands && volumeMA < STRATEGY_CONFIG.BOLLINGER_BAND.VOLUME_MA_THRESHOLD) {
+    //  logger.info(`Discarded signal for ${data.symbol} due to low volume MA: ${volumeMA}`)
     delete validSignals.BollingerBands
   }
 
@@ -320,7 +327,7 @@ async function analyzeMarket(symbol) {
 
     // Thêm phân tích đa khung thời gian
     const multiTimeframeAnalysis = {}
-    const timeframes = ['1h', '2h', '30m']
+    const timeframes = ['1h', '2h', '4h']
 
     for (const tf of timeframes) {
       multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
@@ -340,10 +347,16 @@ async function analyzeMarket(symbol) {
       Momentum: TradingStrategies.checkMomentum(indicators.momentum),
     }
 
+    // logger.info(`All strategies for ${symbol}: ${JSON.stringify(allStrategies)}`)
     // Lọc tín hiệu
     const filteredStrategies = filterSignals(allStrategies, data, indicators, multiTimeframeAnalysis)
 
-    if (filteredStrategies === null) return null
+    if (filteredStrategies === null) {
+      //  logger.info(`No filtered strategies for ${symbol}`)
+      return null
+    } else {
+      // logger.info(`Filtered strategies for ${symbol}: ${JSON.stringify(filteredStrategies)}`)
+    }
 
     // Xử lý tín hiệu và tạo output
     const processed = processSignals(filteredStrategies)
@@ -351,7 +364,10 @@ async function analyzeMarket(symbol) {
 
     const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
 
-    if (Number(TP_ROI) < 5) return null // Loại bỏ tín hiệu có TP < 5%
+    if (Number(TP_ROI) < 5) {
+      //  logger.info(`Discarded signal for ${symbol} due to TP_ROI < 5%: ${TP_ROI}`)
+      return null // Loại bỏ tín hiệu có TP < 5%
+    }
 
     return {
       symbol,
@@ -363,7 +379,7 @@ async function analyzeMarket(symbol) {
       SL_ROI: Number(SL_ROI),
     }
   } catch (error) {
-    log('error', `Error analyzing ${symbol}:`, error)
+    logger.error(`Error analyzing ${symbol}: ${error.message}`)
     return null
   }
 }

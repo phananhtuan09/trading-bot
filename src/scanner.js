@@ -1,15 +1,13 @@
 const pLimit = require('p-limit')
-const path = require('path')
-const fs = require('fs')
 const { getSymbols } = require('./symbolManager')
 const { analyzeMarket } = require('./dataService')
 const { sendDiscordSignalMessage, sendDiscordMessage } = require('./discordService')
 const { sendTelegramSignalMessage, sendTelegramMessage } = require('./telegramService')
 const { STRATEGY_CONFIG, CONFIG } = require('./config')
-const { ensureFoldersExist, getFileNameTimestamp, log } = require('./utils')
+const logger = require('./logger')
 
 async function performScan() {
-  log('log', `\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
+  logger.info(`\n🔍 Bắt đầu quét lúc ${new Date().toLocaleTimeString()}`)
 
   try {
     const symbols = await getSymbols()
@@ -30,17 +28,10 @@ async function performScan() {
       const signal = result.value
       if (!signal) continue
       signalCount++
-      log('log', 'Tín hiệu:', JSON.stringify(signal, null, 2))
+      logger.info(`Tín hiệu: ${signal.symbol} | ${signal.decision} | TP: ${signal.TP_ROI} | SL: ${signal.SL_ROI}`)
       allSignals.push(signal)
       await sendDiscordSignalMessage(signal)
       await sendTelegramSignalMessage(signal)
-    }
-
-    if (CONFIG.IS_LOG_ENABLED) {
-      ensureFoldersExist(['logs/signals'])
-      const signalFile = path.join('logs/signals', getFileNameTimestamp('signal'))
-      fs.writeFileSync(signalFile, JSON.stringify(allSignals, null, 2))
-      log('log', `📝 Đã ghi tín hiệu vào ${signalFile}`)
     }
 
     const summary = [
@@ -51,16 +42,16 @@ async function performScan() {
       `- Thời gian quét: ${new Date().toLocaleString()}`,
     ].join('\n')
 
-    log('log', summary)
+    logger.info(summary)
     if (errors.length > 0) {
-      log('error', 'Chi tiết lỗi:', errors)
+      logger.error(`Chi tiết lỗi:', ${errors}`)
       return null
     }
     await sendDiscordMessage(summary)
     await sendTelegramMessage(summary)
     return allSignals
   } catch (error) {
-    log('error', 'Lỗi quét tổng:', error)
+    logger.error(`Lỗi quét tổng:', ${error}`)
     return null
   }
 }
@@ -70,7 +61,7 @@ function startScanning() {
   const interval = setInterval(performScan, CONFIG.SCAN_INTERVAL)
   process.on('SIGINT', () => {
     clearInterval(interval)
-    log('log', '🛑 Bot đã dừng')
+    logger.info('🛑 Bot đã dừng')
     process.exit()
   })
 }
