@@ -1,8 +1,7 @@
 const pLimit = require('p-limit')
 const { getSymbols } = require('./symbolManager')
 const { analyzeMarket } = require('./dataService')
-const { sendDiscordSignalMessage, sendDiscordMessage } = require('./discordService')
-const { sendTelegramSignalMessage, sendTelegramMessage } = require('./telegramService')
+const { sendSignalMessage, sendMessage } = require('./sendMessage')
 const { STRATEGY_CONFIG, CONFIG } = require('./config')
 const logger = require('./logger')
 
@@ -30,8 +29,7 @@ async function performScan() {
       signalCount++
       logger.info(`Tín hiệu: ${signal.symbol} | ${signal.decision} | TP: ${signal.TP_ROI} | SL: ${signal.SL_ROI}`)
       allSignals.push(signal)
-      await sendDiscordSignalMessage(signal)
-      // await sendTelegramSignalMessage(signal)
+      await sendSignalMessage(signal)
     }
 
     const summary = [
@@ -47,8 +45,7 @@ async function performScan() {
       logger.error(`Chi tiết lỗi:', ${errors}`)
       return null
     }
-    await sendDiscordMessage(summary)
-    await sendTelegramMessage(summary)
+    await sendMessage(summary)
     return allSignals
   } catch (error) {
     logger.error(`Lỗi quét tổng:', ${error}`)

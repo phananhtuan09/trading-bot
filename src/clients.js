@@ -1,6 +1,8 @@
 const Binance = require('binance-api-node').default
 const TelegramBot = require('node-telegram-bot-api')
-const { BINANCE, TELEGRAM } = require('./config')
+const { BINANCE, TELEGRAM, DISCORD } = require('./config')
+const { Client, GatewayIntentBits } = require('discord.js')
+const logger = require('./logger')
 
 // Client cho môi trường thực
 const binanceClient = Binance({
@@ -28,4 +30,46 @@ const telegramClient = !TELEGRAM.IS_ENABLED
       },
     })
 
-module.exports = { binanceClient, telegramClient, binanceTestClient }
+let discordClient = null
+
+// Khởi tạo Discord client
+const initDiscordClient = () => {
+  if (!DISCORD.IS_ENABLED) {
+    logger.warn('Discord is not enabled. Discord client will not be initialized.')
+    return null
+  }
+
+  if (!DISCORD.BOT_TOKEN) {
+    logger.error('Discord bot token is not provided. Discord client will not be initialized.')
+    throw new Error('Discord bot token is required')
+  }
+
+  if (discordClient) {
+    return discordClient
+  }
+
+  discordClient = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  })
+
+  // Chờ client sẵn sàng
+  return new Promise((resolve, reject) => {
+    discordClient.once('ready', () => {
+      logger.info(`Logged in as ${discordClient.user.tag}`)
+      resolve(discordClient)
+    })
+
+    discordClient.login(DISCORD.BOT_TOKEN).catch((error) => {
+      logger.error(`Failed to login to Discord: ${error.message}`)
+      reject(error)
+    })
+  })
+}
+
+// Gọi khởi tạo Discord client
+let discordClientPromise = null
+if (DISCORD.IS_ENABLED && DISCORD.BOT_TOKEN) {
+  discordClientPromise = initDiscordClient()
+}
+
+module.exports = { binanceClient, telegramClient, binanceTestClient, discordClient }

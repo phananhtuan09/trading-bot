@@ -1,8 +1,11 @@
-const axios = require('axios')
+const { discordClient } = require('./clients')
 const { DISCORD } = require('./config')
 const logger = require('./logger')
 
 const username = 'Crypto Trading Bot'
+const channelId = DISCORD.CHANNEL_ID
+
+console.log(`Discord client initialized with channel ID: ${channelId}`)
 
 // Tạo Embed message cho tín hiệu giao dịch
 function createSignalEmbed(signal) {
@@ -33,54 +36,60 @@ function createSignalEmbed(signal) {
   }
 }
 
-// Gửi tín hiệu dưới dạng Embed message qua Webhook
+// Gửi tín hiệu dưới dạng Embed message qua Discord client
 async function sendDiscordSignalMessage(signal) {
-  if (DISCORD.IS_ENABLED) {
-    try {
-      const embed = createSignalEmbed(signal)
-
-      const payload = {
-        username,
-        embeds: [embed],
-      }
-
-      await axios.post(DISCORD.WEBHOOK_URL, payload)
-    } catch (error) {
-      logger.error(`🚨 Lỗi gửi tín hiệu Discord: ${error.message}`)
-    }
+  if (!DISCORD.IS_ENABLED || !discordClient) {
+    logger.warn('Discord client is not initialized or disabled.')
+    return
   }
-}
-
-// Gửi tin nhắn text thông thường qua Webhook
-async function sendDiscordMessage(message) {
-  if (DISCORD.IS_ENABLED) {
-    try {
-      const payload = {
-        username,
-        content: message,
-      }
-
-      await axios.post(DISCORD.WEBHOOK_URL, payload)
-    } catch (error) {
-      logger.error(`🚨 Lỗi gửi tin nhắn Discord: ${error.message}`)
-    }
-  }
-}
-
-// Webhook không cần "check connection" như bot client nên ta có thể đơn giản hóa
-async function checkDiscordConnection() {
-  if (!DISCORD.IS_ENABLED) return false
 
   try {
-    await axios.post(DISCORD.WEBHOOK_URL, {
-      username,
-      content: '🤖 Webhook Discord đã được kết nối thành công!',
-    })
+    const channel = await discordClient.channels.fetch(channelId)
+    if (!channel) {
+      logger.error('🚨 Discord channel not found')
+      return
+    }
 
-    logger.info('✅ Đã kết nối Discord Webhook thành công!')
+    const embed = createSignalEmbed(signal)
+    await channel.send({ embeds: [embed] })
+    logger.info('✅ Đã gửi tín hiệu Discord thành công!')
+  } catch (error) {
+    logger.error(`🚨 Lỗi gửi tín hiệu Discord: ${error.message}`)
+  }
+}
+
+// Gửi tin nhắn text thông thường qua Discord client
+async function sendDiscordMessage(message) {
+  if (!DISCORD.IS_ENABLED || !discordClient) {
+    return
+  }
+
+  try {
+    const channel = await discordClient.channels.fetch(channelId)
+    if (!channel) {
+      logger.error('🚨 Discord channel not found')
+      return
+    }
+
+    await channel.send(message)
+    logger.info('✅ Đã gửi tin nhắn Discord thành công!')
+  } catch (error) {
+    logger.error(`🚨 Lỗi gửi tin nhắn Discord: ${error.message}`)
+  }
+}
+
+// Kiểm tra kết nối Discord client
+async function checkDiscordConnection() {
+  if (!DISCORD.IS_ENABLED || !discordClient) {
+    return false
+  }
+
+  try {
+    await discordClient.user.setActivity('Crypto Trading Bot', { type: 'PLAYING' })
+    logger.info('✅ Discord client connected successfully!')
     return true
   } catch (error) {
-    logger.error(`🚨 Lỗi kết nối Discord Webhook: ${error.message}`)
+    logger.error(`🚨 Lỗi kết nối Discord client: ${error.message}`)
     return false
   }
 }

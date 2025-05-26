@@ -96,8 +96,9 @@ module.exports = {
     TEST_API_SECRET: process.env.BINANCE_TEST_API_SECRET, // Bí mật API testnet Binance
   },
   DISCORD: {
-    WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL, // URL webhook Discord
+    BOT_TOKEN: process.env.DISCORD_BOT_TOKEN, // Token bot Discord
     IS_ENABLED: process.env.IS_DISCORD_ENABLED === 'true', // Bật/tắt Discord
+    CHANNEL_ID: process.env.DISCORD_CHANNEL_ID, // ID kênh Discord
   },
   TELEGRAM: {
     BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN, // Token bot Telegram
