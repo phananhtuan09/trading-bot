@@ -2,6 +2,10 @@ const stateManager = require('./stateManager')
 const { telegramClient } = require('./clients') // Giả sử đã setup bot Telegram
 
 module.exports = (tester) => {
+  if (!telegramClient) {
+    console.warn('Telegram client is not initialized. Commands will not work.')
+    return
+  }
   telegramClient.onText(/\/stop_order/, (msg) => {
     stateManager.setStateAndSaveToFile({
       orderPlacementEnabled: false,
