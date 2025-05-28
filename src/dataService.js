@@ -327,7 +327,7 @@ async function analyzeMarket(symbol) {
 
     // Thêm phân tích đa khung thời gian
     const multiTimeframeAnalysis = {}
-    const timeframes = ['1h', '2h', '4h']
+    const timeframes = ['1h', '2h', '4h', '6h', '8h']
 
     for (const tf of timeframes) {
       multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)

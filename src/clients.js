@@ -66,10 +66,8 @@ const initDiscordClient = () => {
   })
 }
 
-// Gọi khởi tạo Discord client
-let discordClientPromise = null
 if (DISCORD.IS_ENABLED && DISCORD.BOT_TOKEN) {
-  discordClientPromise = initDiscordClient()
+  initDiscordClient()
 }
 
 module.exports = { binanceClient, telegramClient, binanceTestClient, discordClient }

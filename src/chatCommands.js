@@ -1,10 +1,12 @@
 const stateManager = require('./stateManager')
-const { telegramClient, discordClient } = require('./clients')
-const { TELEGRAM, DISCORD } = require('./config')
 const logger = require('./logger')
+const { sendDiscordMessage } = require('./discordService')
+const { sendTelegramMessage } = require('./telegramService')
+const { telegramClient, discordClient } = require('./clients')
+const { DISCORD, TELEGRAM } = require('./config')
 
 // Hàm xử lý lệnh chung
-const handleCommand = async (command, args, sendResponse, platform = 'unknown') => {
+const handleCommand = async (command, order, sendResponse, platform = 'unknown') => {
   try {
     switch (command.toLowerCase()) {
       case 'stop_order':
@@ -22,7 +24,7 @@ const handleCommand = async (command, args, sendResponse, platform = 'unknown') 
         break
 
       case 'report':
-        const report = await tester.generateReport()
+        const report = await order.generateReport()
         await sendResponse(report)
         break
 
@@ -35,39 +37,31 @@ const handleCommand = async (command, args, sendResponse, platform = 'unknown') 
         await sendResponse('❌ Lệnh không hợp lệ. Gõ /help để xem danh sách lệnh.')
     }
   } catch (error) {
-    logger.error(`🚨 Lỗi xử lý lệnh ${command} trên ${platform}: ${error.message}`)
+    logger.error(`🚨 Lỗi xử lý lệnh ${command} trên ${platform}: ${error}`)
     await sendResponse('❌ Đã xảy ra lỗi khi xử lý lệnh.')
   }
 }
 
 // Khởi tạo lệnh cho Telegram
-const setupTelegramCommands = (tester) => {
+const setupTelegramCommands = (order) => {
   if (!TELEGRAM.IS_ENABLED || !telegramClient) {
     logger.warn('Telegram client is not initialized or disabled. Telegram commands will not work.')
     return
   }
 
-  telegramClient.onText(/\/stop_order/, (msg) =>
-    handleCommand('stop_order', [], (text) => telegramClient.sendMessage(msg.chat.id, text), 'Telegram'),
-  )
+  const commands = ['stop_order', 'start_order', 'report', 'help']
 
-  telegramClient.onText(/\/start_order/, (msg) =>
-    handleCommand('start_order', [], (text) => telegramClient.sendMessage(msg.chat.id, text), 'Telegram'),
-  )
-
-  telegramClient.onText(/\/report/, (msg) =>
-    handleCommand('report', [], (text) => telegramClient.sendMessage(msg.chat.id, text), 'Telegram'),
-  )
-
-  telegramClient.onText(/\/help/, (msg) =>
-    handleCommand('help', [], (text) => telegramClient.sendMessage(msg.chat.id, text), 'Telegram'),
-  )
+  commands.forEach((command) => {
+    telegramClient.onText(new RegExp(`/${command}`), async (msg) => {
+      await handleCommand(command, order, sendTelegramMessage, 'Telegram')
+    })
+  })
 
   logger.info('✅ Telegram commands initialized')
 }
 
 // Khởi tạo lệnh cho Discord
-const setupDiscordCommands = (tester) => {
+const setupDiscordCommands = (order) => {
   if (!DISCORD.IS_ENABLED || !discordClient) {
     logger.warn('Discord client is not initialized or disabled. Discord commands will not work.')
     return
@@ -79,14 +73,13 @@ const setupDiscordCommands = (tester) => {
 
     const args = message.content.slice(1).trim().split(/ +/)
     const command = args.shift().toLowerCase()
-
-    await handleCommand(command, args, (text) => message.channel.send(text), 'Discord')
+    await handleCommand(command, order, sendDiscordMessage, 'Discord')
   })
 
   logger.info('✅ Discord commands initialized')
 }
 
-module.exports = (tester) => {
-  setupTelegramCommands(tester)
-  setupDiscordCommands(tester)
+module.exports = (order) => {
+  setupTelegramCommands(order)
+  setupDiscordCommands(order)
 }

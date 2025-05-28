@@ -5,8 +5,6 @@ const logger = require('./logger')
 const username = 'Crypto Trading Bot'
 const channelId = DISCORD.CHANNEL_ID
 
-console.log(`Discord client initialized with channel ID: ${channelId}`)
-
 // Tạo Embed message cho tín hiệu giao dịch
 function createSignalEmbed(signal) {
   const futuresDetails = {
