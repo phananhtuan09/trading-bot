@@ -22,7 +22,7 @@ class StateManager {
       const newState = { ...this.getState(), ...state }
       fs.writeFileSync(this.stateFilePath, JSON.stringify(newState, null, 2))
     } catch (error) {
-      logger.error(`Error saving state to ${this.stateFilePath}: ${error.message}`)
+      logger.error(`Error saving state to ${this.stateFilePath}: ${error}`)
     }
   }
 
@@ -50,7 +50,7 @@ class StateManager {
         return JSON.parse(data)
       }
     } catch (error) {
-      logger.error(`Error loading state from ${this.stateFilePath}: ${error.message}`)
+      logger.error(`Error loading state from ${this.stateFilePath}: ${error}`)
       return null
     }
   }
@@ -83,7 +83,7 @@ class StateManager {
         fs.unlinkSync(this.stateFilePath)
       }
     } catch (error) {
-      logger.error(`Error deleting state file:: ${error.message}`)
+      logger.error(`Error deleting state file:: ${error}`)
     }
   }
 }

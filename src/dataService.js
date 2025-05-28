@@ -379,7 +379,7 @@ async function analyzeMarket(symbol) {
       SL_ROI: Number(SL_ROI),
     }
   } catch (error) {
-    logger.error(`Error analyzing ${symbol}: ${error.message}`)
+    logger.error(`Error analyzing ${symbol}: ${error}`)
     return null
   }
 }

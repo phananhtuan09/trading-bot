@@ -12,7 +12,7 @@ async function checkBinanceConnection() {
     logger.info(`✅ Binance: ${new Date(time).toLocaleString()}`)
     return true
   } catch (error) {
-    logger.error(`❌ Lỗi Binance: ${error.message}`)
+    logger.error(`❌ Lỗi Binance: ${error}`)
     return false
   }
 }
@@ -40,7 +40,7 @@ async function initializeBot() {
       }
       logger.info('✅ Đã kết nối Discord')
     } catch (error) {
-      logger.error(`❌ Lỗi Discord: ${error.message}`)
+      logger.error(`❌ Lỗi Discord: ${error}`)
       process.exit(1)
     }
   }
@@ -54,7 +54,7 @@ async function initializeBot() {
       }
       logger.info('✅ Đã kết nối Telegram')
     } catch (error) {
-      logger.error(`❌ Lỗi Telegram: ${error.message}`)
+      logger.error(`❌ Lỗi Telegram: ${error}`)
       process.exit(1)
     }
   }
@@ -64,6 +64,6 @@ async function initializeBot() {
 }
 
 initializeBot().catch((error) => {
-  logger.error(`💥 Lỗi khởi động: ${error?.message}`)
+  logger.error(`💥 Lỗi khởi động: ${error}`)
   process.exit(1)
 })

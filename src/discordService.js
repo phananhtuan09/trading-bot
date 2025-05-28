@@ -52,7 +52,7 @@ async function sendDiscordSignalMessage(signal) {
     await channel.send({ embeds: [embed] })
     logger.info('✅ Đã gửi tín hiệu Discord thành công!')
   } catch (error) {
-    logger.error(`🚨 Lỗi gửi tín hiệu Discord: ${error.message}`)
+    logger.error(`🚨 Lỗi gửi tín hiệu Discord: ${error}`)
   }
 }
 
@@ -72,7 +72,7 @@ async function sendDiscordMessage(message) {
     await channel.send(message)
     logger.info('✅ Đã gửi tin nhắn Discord thành công!')
   } catch (error) {
-    logger.error(`🚨 Lỗi gửi tin nhắn Discord: ${error.message}`)
+    logger.error(`🚨 Lỗi gửi tin nhắn Discord: ${error}`)
   }
 }
 
@@ -87,7 +87,7 @@ async function checkDiscordConnection() {
     logger.info('✅ Discord client connected successfully!')
     return true
   } catch (error) {
-    logger.error(`🚨 Lỗi kết nối Discord client: ${error.message}`)
+    logger.error(`🚨 Lỗi kết nối Discord client: ${error}`)
     return false
   }
 }

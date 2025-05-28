@@ -29,7 +29,7 @@ async function fetchAllSymbols() {
     //  logger.info(`✅ Đã cập nhật ${validSymbols.length} symbols cho futures`)
     return validSymbols
   } catch (error) {
-    logger.error(`❌ Lỗi cập nhật symbols cho futures: ${error.message}`)
+    logger.error(`❌ Lỗi cập nhật symbols cho futures: ${error}`)
     return []
   }
 }

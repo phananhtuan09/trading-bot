@@ -34,7 +34,7 @@ async function sendTelegramSignalMessage(signal) {
       const message = createSignalMessage(signal)
       await telegramClient.sendMessage(TELEGRAM.CHAT_ID, message, { parse_mode: 'Markdown' })
     } catch (error) {
-      logger.error(`🚨 Lỗi gửi tín hiệu Telegram: ${error.message}`)
+      logger.error(`🚨 Lỗi gửi tín hiệu Telegram: ${error}`)
     }
   }
 }
@@ -45,7 +45,7 @@ async function sendTelegramMessage(message) {
     try {
       await telegramClient.sendMessage(TELEGRAM.CHAT_ID, message)
     } catch (error) {
-      logger.error(`Lỗi gửi Telegram: ${error.message}`)
+      logger.error(`Lỗi gửi Telegram: ${error}`)
     }
   }
 }
@@ -64,7 +64,7 @@ async function checkTelegramConnection() {
       throw new Error('Thông tin bot không hợp lệ')
     }
   } catch (error) {
-    logger.error(`Lỗi kết nối Telegram: error.message`)
+    logger.error(`Lỗi kết nối Telegram: ${error}`)
 
     return false
   }

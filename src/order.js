@@ -21,7 +21,7 @@ class Order {
       const positions = await binanceClient.futuresPositionRisk()
       return positions.some((p) => p.symbol === symbol && Math.abs(parseFloat(p.positionAmt)) > 0)
     } catch (error) {
-      logger.error(`Lỗi kiểm tra vị thế: ${error?.message}`)
+      logger.error(`Lỗi kiểm tra vị thế: ${error}`)
       await sendMessage('Lỗi kiểm tra vị thế:', error?.message)
       return false
     }
@@ -61,7 +61,7 @@ class Order {
         profitPercent: isNaN(profitPercent) ? 0 : profitPercent,
       }
     } catch (error) {
-      logger.error(`Lỗi khi log balance: ${error?.message}`)
+      logger.error(`Lỗi khi log balance: ${error}`)
       await sendMessage(`🔴 Lỗi khi kiểm tra balance: ${error.message}`)
       return { availableBalance: 0, profit: 0, profitPercent: 0 }
     }
@@ -85,9 +85,8 @@ class Order {
 
       return totalUnrealizedProfit
     } catch (error) {
-      const errorMessage = `Lỗi lấy tổng lợi nhuận chưa thực hiện từ các vị thế: ${error.message}`
-      logger.error(errorMessage)
-      await sendMessage(errorMessage)
+      logger.error(`Lỗi lấy tổng lợi nhuận chưa thực hiện từ các vị thế: ${error}`)
+      await sendMessage(`Lỗi lấy tổng lợi nhuận chưa thực hiện từ các vị thế: ${error.message}`)
       return 0 // Fallback to 0 on error
     }
   }
@@ -128,7 +127,7 @@ class Order {
       } catch (tpSlError) {
         await this.closePositionImmediately(symbol, quantity, side)
         const error = `Lỗi TP/SL: ${tpSlError.message}`
-        logger.error(error)
+        logger.error(`Lỗi TP/SL: ${tpSlError}`)
         await sendMessage(error)
         throw new Error(tpSlError)
       }
@@ -163,9 +162,8 @@ class Order {
 
       await sendMessage(tpSlError)
     } catch (closeError) {
-      const tpSlError = `🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`
-      logger.error(tpSlError)
-      await sendMessage(tpSlError)
+      logger.error(`🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError}`)
+      await sendMessage(`🔴 Lỗi khi đóng lệnh ${symbol}: ${closeError.message}`)
     }
   }
 
@@ -175,9 +173,8 @@ class Order {
       await binanceClient.futuresMarginType({ symbol, marginType: 'ISOLATED' })
     } catch (error) {
       if (!error.message.includes('No need')) {
-        const marginError = `🔴 Lỗi set margin type cho ${symbol}: ${error.message}`
-        logger.error(marginError)
-        await sendMessage(marginError)
+        logger.error(`🔴 Lỗi set margin type cho ${symbol}: ${error}`)
+        await sendMessage(`🔴 Lỗi set margin type cho ${symbol}: ${error.message}`)
         throw error
       }
     }
@@ -290,7 +287,7 @@ class Order {
 
       return { tpPrice, slPrice }
     } catch (error) {
-      logger.error(`setTPSL error for ${symbol}: ${error.message}`)
+      logger.error(`setTPSL error for ${symbol}: ${error}`)
       await sendMessage(`🔴 Lỗi đặt TP/SL cho ${symbol}: ${error.message}`)
       throw error
     }
@@ -343,9 +340,8 @@ class Order {
   }
 
   async handleOrderError(error, symbol) {
-    const message = `🔴 Lỗi đặt lệnh ${symbol}: ${error.message}`
-    logger.error(message)
-    await sendMessage(message)
+    logger.error(`🔴 Lỗi đặt lệnh ${symbol}: ${error}`)
+    await sendMessage(`🔴 Lỗi đặt lệnh ${symbol}: ${error.message}`)
   }
 
   async logClosedPositionsDaily() {
@@ -388,7 +384,7 @@ class Order {
         logger.info('No positions closed today.')
       }
     } catch (error) {
-      logger.error(`Error fetching closed trades: ${error.message}`)
+      logger.error(`Error fetching closed trades: ${error}`)
       await sendMessage(`🔴 Error fetching closed trades: ${error.message}`)
     }
   }

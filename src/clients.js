@@ -60,7 +60,7 @@ const initDiscordClient = () => {
     })
 
     discordClient.login(DISCORD.BOT_TOKEN).catch((error) => {
-      logger.error(`Failed to login to Discord: ${error.message}`)
+      logger.error(`Failed to login to Discord: ${error}`)
       reject(error)
     })
   })
