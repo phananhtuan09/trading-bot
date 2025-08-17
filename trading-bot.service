@@ -1,0 +1,16 @@
+[Unit]
+Description=Trading Bot Service
+After=network.target
+
+[Service]
+Type=forking
+User=root
+WorkingDirectory=/home/anhtuan/source_codes/trading_bot
+ExecStart=/usr/bin/pm2 start ecosystem.config.js
+ExecReload=/usr/bin/pm2 reload trading-bot
+ExecStop=/usr/bin/pm2 stop trading-bot
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

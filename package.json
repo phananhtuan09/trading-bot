@@ -8,7 +8,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "backtest": "node test/backtest.js",
     "backtestSummary": "node test/backtestSummary.js",
-    "order": "node src/order.js"
+    "order": "node src/order.js",
+    "deploy": "./deploy.sh",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop trading-bot",
+    "pm2:restart": "pm2 restart trading-bot",
+    "pm2:logs": "pm2 logs trading-bot",
+    "pm2:monit": "pm2 monit",
+    "pm2:delete": "pm2 delete trading-bot"
   },
   "author": "",
   "license": "ISC",
