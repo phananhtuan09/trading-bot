@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'trading-bot',
-      script: 'src/index.js',
+      script: 'src/order.js',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -18,8 +18,6 @@ module.exports = {
       // Restart khi có lỗi
       max_restarts: 10,
       min_uptime: '10s',
-      // Cron job để restart hàng ngày lúc 00:00
-      cron_restart: '0 0 * * *',
       // Kill timeout
       kill_timeout: 5000,
       // Wait ready
