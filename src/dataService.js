@@ -1,6 +1,6 @@
 const { binanceTestClient: binanceClient } = require('../src/clients')
 const TradingStrategies = require('./tradingStrategies')
-const { RSI, BollingerBands, MACD, ADX, EMA, Stochastic, IchimokuCloud, PSAR } = require('technicalindicators')
+const { RSI, BollingerBands, MACD, ADX, EMA } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 const logger = require('./logger')
 
@@ -289,33 +289,12 @@ async function analyzeMarket(symbol) {
         slowPeriod: STRATEGY_CONFIG.MACD.SLOW_PERIOD,
         signalPeriod: STRATEGY_CONFIG.MACD.SIGNAL_PERIOD,
       }),
-      stochastic: Stochastic.calculate({
-        high: data.highs,
-        low: data.lows,
-        close: data.closes,
-        period: STRATEGY_CONFIG.STOCHASTIC.PERIOD,
-        signalPeriod: STRATEGY_CONFIG.STOCHASTIC.SIGNAL_PERIOD,
-      }),
       adx: ADX.calculate({
         high: data.highs,
         low: data.lows,
         close: data.closes,
         period: STRATEGY_CONFIG.ADX.PERIOD,
       }),
-      ichimoku: IchimokuCloud.calculate({
-        high: data.highs,
-        low: data.lows,
-        conversionPeriod: STRATEGY_CONFIG.ICHIMOKU.CONVERSION_PERIOD,
-        basePeriod: STRATEGY_CONFIG.ICHIMOKU.BASE_PERIOD,
-        spanPeriod: STRATEGY_CONFIG.ICHIMOKU.SPAN_PERIOD,
-      }),
-      psar: PSAR.calculate({
-        high: data.highs,
-        low: data.lows,
-        step: STRATEGY_CONFIG.PSAR.STEP,
-        max: STRATEGY_CONFIG.PSAR.MAX,
-      }),
-      momentum: calculateMomentum(data.closes, STRATEGY_CONFIG.MOMENTUM.PERIOD),
       atr: currentATR,
       volatility: volatility,
     }
@@ -323,44 +302,41 @@ async function analyzeMarket(symbol) {
     const emaShort = EMA.calculate({ period: STRATEGY_CONFIG.EMA_PERIODS.SHORT, values: data.closes })
     const emaLong = EMA.calculate({ period: STRATEGY_CONFIG.EMA_PERIODS.LONG, values: data.closes })
 
-    // Thêm phân tích đa khung thời gian
-    const multiTimeframeAnalysis = {}
-    const timeframes = ['1h', '2h', '4h', '6h', '8h']
+    // Không cần phân tích đa khung thời gian nữa - đơn giản hóa
 
-    for (const tf of timeframes) {
-      multiTimeframeAnalysis[tf] = await analyzeTimeframe(symbol, tf)
-      const delay = 700 + Math.random() * 300
-      await new Promise((resolve) => setTimeout(resolve, delay)) // Thêm delay tránh timeout
-    }
+    // Sử dụng chiến lược mới - phân tích trực tiếp
+    const result = TradingStrategies.analyzeMarket(data, {
+      adx: indicators.adx,
+      ema20: emaShort,
+      ema50: emaLong,
+      bb: indicators.bb,
+      rsi: indicators.rsi,
+      macd: indicators.macd,
+      volumes: data.volumes,
+      atr: indicators.atr
+    })
 
-    const allStrategies = {
-      RSI: TradingStrategies.checkRSI(indicators.rsi),
-      MACD: TradingStrategies.checkMACD(indicators.macd),
-      SMA: TradingStrategies.checkSMA(emaShort, emaLong),
-      Stochastic: TradingStrategies.checkStochastic(indicators.stochastic),
-      Bollinger_Bands: TradingStrategies.checkBollingerBands(indicators.bb, data.closes),
-      ADX: TradingStrategies.checkADX(indicators.adx),
-      Ichimoku: TradingStrategies.checkIchimoku(indicators.ichimoku, data.closes.at(-1), data.highs, data.lows),
-      PSAR: TradingStrategies.checkPSAR(indicators.psar, data.closes.at(-1)),
-      Momentum: TradingStrategies.checkMomentum(indicators.momentum),
-    }
-
-    // logger.info(`All strategies for ${symbol}: ${JSON.stringify(allStrategies)}`)
-    // Lọc tín hiệu
-    const filteredStrategies = filterSignals(allStrategies, data, indicators, multiTimeframeAnalysis)
-
-    if (filteredStrategies === null) {
-      //  logger.info(`No filtered strategies for ${symbol}`)
+    if (!result) {
       return null
-    } else {
-      // logger.info(`Filtered strategies for ${symbol}: ${JSON.stringify(filteredStrategies)}`)
     }
 
-    // Xử lý tín hiệu và tạo output
-    const processed = processSignals(filteredStrategies)
-    if (processed === null) return null
+    // Lọc thêm: Volume
+    const dailyVolume = data.volumes.slice(-24).reduce((a, b) => a + b, 0)
+    if (dailyVolume < STRATEGY_CONFIG.FILTER.MIN_TRADE_VOLUME) {
+      return null
+    }
 
-    const { TP_ROI, SL_ROI } = calculateTPAndSL(processed.decision, currentPrice, indicators)
+    // Lọc thêm: Strength tối thiểu
+    if (result.strength < STRATEGY_CONFIG.FILTER.MIN_CONFIDENCE_SCORE) {
+      return null
+    }
+
+    // Tính TP/SL
+    const { TP_ROI, SL_ROI } = calculateTPAndSL(
+      result.signal === 'BUY' ? 'Long' : 'Short',
+      currentPrice,
+      indicators
+    )
 
     if (Number(TP_ROI) < 5) {
       //  logger.info(`Discarded signal for ${symbol} due to TP_ROI < 5%: ${TP_ROI}`)
@@ -369,12 +345,13 @@ async function analyzeMarket(symbol) {
 
     return {
       symbol,
-      signals: formatSignals(filteredStrategies),
-      decision: processed.decision,
-      futuresDetails: processed.futuresDetails,
+      decision: result.signal === 'BUY' ? 'Long' : 'Short',
       price: currentPrice,
       TP_ROI: Number(TP_ROI),
       SL_ROI: Number(SL_ROI),
+      strength: result.strength,
+      reason: result.reason,
+      marketType: result.marketType
     }
   } catch (error) {
     logger.error(`Error analyzing ${symbol}: ${error}`)

@@ -474,7 +474,7 @@ class Order {
         logger.info(`Đã lưu initialCapital: ${walletBalance.toFixed(2)} USDT`)
       }
     } catch (error) {
-      logger.inferroro(`Lỗi kết nối API Binance ${error.message}`)
+      logger.info(`Lỗi kết nối API Binance ${error.message}`)
       await sendMessage(`🔴 Lỗi kết nối API Binance ${error.message}`)
       return // Dừng bot nếu lỗi
     }

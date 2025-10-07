@@ -7,26 +7,16 @@ const channelId = DISCORD.CHANNEL_ID
 
 // Tạo Embed message cho tín hiệu giao dịch
 function createSignalEmbed(signal) {
-  const futuresDetails = {
-    strategies: '',
-    strength: '',
-  }
-  Object.values(signal.futuresDetails).forEach((group) => {
-    if (group.direction === signal.decision) {
-      const strategies = group.contributors.sort().join(', ')
-      futuresDetails.strategies = strategies
-      futuresDetails.strength = group.strength
-    }
-  })
   return {
     title: `Tín hiệu: ${signal.symbol}`,
     description:
       `**Hành động:** ${signal.decision || 'N/A'}\n` +
       `**Giá hiện tại:** ${signal.price}\n` +
-      `**Độ mạnh:** ${futuresDetails.strength || 'N/A'}\n` +
+      `**Độ mạnh:** ${signal.strength || 'N/A'}/100\n` +
+      `**Loại thị trường:** ${signal.marketType || 'N/A'}\n` +
+      `**Lý do:** ${signal.reason || 'N/A'}\n` +
       `**TP(ROI %):** ${signal.TP_ROI || 'N/A'}\n` +
-      `**SL(ROI %):** ${signal.SL_ROI || 'N/A'}\n` +
-      `**Chiến lược:** ${futuresDetails.strategies || 'N/A'}`,
+      `**SL(ROI %):** ${signal.SL_ROI || 'N/A'}`,
     timestamp: new Date().toISOString(),
     footer: {
       text: username,

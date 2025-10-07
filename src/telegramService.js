@@ -4,23 +4,12 @@ const logger = require('./logger')
 
 // Tạo nội dung tin nhắn cho tín hiệu (sử dụng Markdown)
 function createSignalMessage(signal) {
-  const futuresDetails = {
-    strategies: '',
-    strength: '',
-  }
-  Object.values(signal.futuresDetails).forEach((group) => {
-    if (group.direction === signal.decision) {
-      const strategies = group.contributors.sort().join(', ')
-      futuresDetails.strategies = strategies
-      futuresDetails.strength = group.strength
-    }
-  })
-
   const message = `*Tín hiệu:* ${signal.symbol}
 *Hành động:* ${signal.decision || 'N/A'}
 *Giá hiện tại:* ${signal.price || 'N/A'} 
-*Độ mạnh:* ${futuresDetails.strength || 'N/A'}
-*Chiến lược:* ${futuresDetails.strategies || 'N/A'}
+*Độ mạnh:* ${signal.strength || 'N/A'}/100
+*Loại thị trường:* ${signal.marketType || 'N/A'}
+*Lý do:* ${signal.reason || 'N/A'}
 *TP(ROI %):* ${signal.TP_ROI || 'N/A'}
 *SL(ROI %):* ${signal.SL_ROI || 'N/A'}
 `

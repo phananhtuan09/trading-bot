@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            padding-bottom: 80px; /* Space for fixed buttons */
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 20px;
+        }
+
+        .status-badges {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .status-badge.active {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-badge.inactive {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-badge.warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        /* Stats Overview - Compact */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 11px;
+        }
+
+        .stat-label {
+            color: #666;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-value.positive {
+            color: #10b981;
+        }
+
+        .stat-value.negative {
+            color: #ef4444;
+        }
+
+        /* Fixed Action Buttons at Bottom */
+        .fixed-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .action-buttons {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 12px 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Tab System */
+        .tabs-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 15px;
+            max-height: calc(100vh - 400px);
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables - Compact */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 11px;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .decision-long {
+            background: #10b981;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .decision-short {
+            background: #ef4444;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .btn-table {
+            padding: 4px 10px;
+            font-size: 10px;
+            border-radius: 5px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Modal Tabs */
+        .modal-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            gap: 5px;
+            margin: -20px -20px 20px -20px;
+            padding: 0 20px;
+        }
+
+        .modal-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .modal-tab:hover {
+            background: #e9ecef;
+        }
+
+        .modal-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .modal-tab-content {
+            display: none;
+        }
+
+        .modal-tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group input[type="password"] {
+            font-family: monospace;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0 12px 0;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        /* Report Modal */
+        .report-content {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .report-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .report-item:last-child {
+            border-bottom: none;
+        }
+
+        .report-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .report-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Logs */
+        .log-container {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .log-time {
+            color: #888;
+        }
+
+        .log-info {
+            color: #00ff00;
+        }
+
+        .log-error {
+            color: #ff4444;
+        }
+
+        .log-warning {
+            color: #ffaa00;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tab {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+            }
+
+            .modal-tabs {
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 Trading Bot</h1>
+            <div class="status-badges">
+                <span class="status-badge active" id="botStatus">Bot: Running</span>
+                <span class="status-badge active" id="orderStatus">Order: Active</span>
+            </div>
+        </div>
+
+        <!-- Stats Overview - Compact -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-card-title">💰 Tài khoản</div>
+                <div class="stat-row">
+                    <span class="stat-label">Số dư</span>
+                    <span class="stat-value">17,376 USDT</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Lợi nhuận</span>
+                    <span class="stat-value positive">+234.50 (1.35%)</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-title">📊 Lệnh</div>
+                <div class="stat-row">
+                    <span class="stat-label">Hôm nay</span>
+                    <span class="stat-value">2 / 10</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Tổng</span>
+                    <span class="stat-value">127</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-title">🔌 Kết nối</div>
+                <div class="stat-row">
+                    <span class="stat-label">Binance</span>
+                    <span class="stat-value positive">✅</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Discord/TG</span>
+                    <span class="stat-value positive">✅</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Container -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('positions')">💼 Vị thế</div>
+                <div class="tab" onclick="switchTab('signals')">📡 Tín hiệu</div>
+                <div class="tab" onclick="switchTab('logs')">📋 Logs</div>
+            </div>
+
+            <!-- Tab: Open Positions -->
+            <div id="positions" class="tab-content active">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Side</th>
+                                <th>Entry</th>
+                                <th>TP/SL</th>
+                                <th>PNL</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>BTCUSDT</strong></td>
+                                <td><span class="decision-long">LONG</span></td>
+                                <td>43,100</td>
+                                <td>44,608 / 42,453</td>
+                                <td style="color: #10b981; font-weight: bold;">+25.30</td>
+                                <td><button class="btn btn-danger btn-table">Đóng</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ETHUSDT</strong></td>
+                                <td><span class="decision-short">SHORT</span></td>
+                                <td>2,300</td>
+                                <td>2,203 / 2,346</td>
+                                <td style="color: #10b981; font-weight: bold;">+18.90</td>
+                                <td><button class="btn btn-danger btn-table">Đóng</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Signals -->
+            <div id="signals" class="tab-content">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Symbol</th>
+                                <th>Side</th>
+                                <th>Price</th>
+                                <th>TP/SL</th>
+                                <th>Conf</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14:30</td>
+                                <td><strong>BTCUSDT</strong></td>
+                                <td><span class="decision-long">LONG</span></td>
+                                <td>43,250</td>
+                                <td>+3.5% / -1.5%</td>
+                                <td>85%</td>
+                                <td><button class="btn btn-primary btn-table">Vào</button></td>
+                            </tr>
+                            <tr>
+                                <td>14:28</td>
+                                <td><strong>ETHUSDT</strong></td>
+                                <td><span class="decision-short">SHORT</span></td>
+                                <td>2,280</td>
+                                <td>+4.2% / -2.0%</td>
+                                <td>78%</td>
+                                <td><button class="btn btn-primary btn-table">Vào</button></td>
+                            </tr>
+                            <tr>
+                                <td>14:25</td>
+                                <td><strong>BNBUSDT</strong></td>
+                                <td><span class="decision-long">LONG</span></td>
+                                <td>315.40</td>
+                                <td>+2.8% / -1.2%</td>
+                                <td>72%</td>
+                                <td><button class="btn btn-primary btn-table">Vào</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Logs -->
+            <div id="logs" class="tab-content">
+                <div class="log-container" id="logContainer">
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:15]</span> <span class="log-info">🔍 Bắt đầu quét</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:20]</span> <span class="log-info">✅ Kết nối Binance</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:21]</span> <span class="log-info">✅ Kết nối Discord</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:22]</span> <span class="log-info">✅ Kết nối Telegram</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:25]</span> <span class="log-info">📊 Theo dõi 500 cặp</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:45]</span> <span class="log-info">Tín hiệu: BTCUSDT | Long | TP: 3.5 | SL: -1.5</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:30:50]</span> <span class="log-info">📈 Mở BUY BTCUSDT | Entry: 43100 | SL: 42453 | TP: 44608</span>
+                    </div>
+                    <div class="log-entry log-warning">
+                        <span class="log-time">[14:32:15]</span> <span class="log-warning">🟡 Bỏ qua ETHUSDT - Đang có vị thế</span>
+                    </div>
+                    <div class="log-entry log-info">
+                        <span class="log-time">[14:35:00]</span> <span class="log-info">📊 Quét xong: 500 cặp | 3 tín hiệu | 0 lỗi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Action Buttons -->
+    <div class="fixed-actions">
+        <div class="action-buttons">
+            <button class="btn btn-success" id="startBtn" onclick="startBot()">▶️ Start</button>
+            <button class="btn btn-danger" id="stopBtn" onclick="stopBot()">⏸️ Stop</button>
+            <button class="btn btn-primary" id="startOrderBtn" onclick="startOrders()">📈 Start Order</button>
+            <button class="btn btn-warning" id="stopOrderBtn" onclick="stopOrders()">🛑 Stop Order</button>
+            <button class="btn btn-secondary" onclick="openSettingsModal()">⚙️ Settings</button>
+        </div>
+        <div style="text-align: center; margin-top: 8px;">
+            <button class="btn btn-warning" onclick="openReportModal()" style="width: calc(100% - 20px); max-width: 1180px;">📋 Report</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Cài đặt</h2>
+                <button class="close-modal" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Settings Tabs -->
+                <div class="modal-tabs">
+                    <div class="modal-tab active" onclick="switchSettingsTab('strategy')">📊 Chiến lược</div>
+                    <div class="modal-tab" onclick="switchSettingsTab('keys')">🔑 API Keys</div>
+                    <div class="modal-tab" onclick="switchSettingsTab('app')">🎛️ App Config</div>
+                </div>
+
+                <!-- Tab: Strategy Settings -->
+                <div id="strategy" class="modal-tab-content active">
+                    <div class="section-title">Cài đặt chung</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Interval</label>
+                            <select>
+                                <option>1m</option>
+                                <option>5m</option>
+                                <option>15m</option>
+                                <option selected>1h</option>
+                                <option>4h</option>
+                                <option>1d</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quote Asset</label>
+                            <input type="text" value="USDT" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Max Symbols</label>
+                            <input type="number" value="500">
+                        </div>
+                        <div class="form-group">
+                            <label>Concurrency Limit</label>
+                            <input type="number" value="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Candles Hold</label>
+                            <input type="number" value="96">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Filter Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Trend MA Period</label>
+                            <input type="number" value="200">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Trade Volume (USDT)</label>
+                            <input type="number" value="1000000">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Confidence Score</label>
+                            <input type="number" value="60" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Bollinger Bands Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Period</label>
+                            <input type="number" value="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Standard Deviation</label>
+                            <input type="number" value="2" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section-title">RSI Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Period</label>
+                            <input type="number" value="14">
+                        </div>
+                    </div>
+
+                    <div class="section-title">MACD Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Fast Period</label>
+                            <input type="number" value="12">
+                        </div>
+                        <div class="form-group">
+                            <label>Slow Period</label>
+                            <input type="number" value="26">
+                        </div>
+                        <div class="form-group">
+                            <label>Signal Period</label>
+                            <input type="number" value="9">
+                        </div>
+                    </div>
+
+                    <div class="section-title">EMA Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Short Period</label>
+                            <input type="number" value="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Long Period</label>
+                            <input type="number" value="50">
+                        </div>
+                    </div>
+
+                    <div class="section-title">ADX Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Period</label>
+                            <input type="number" value="14">
+                        </div>
+                    </div>
+
+                    <div class="section-title">ATR Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Period</label>
+                            <input type="number" value="14">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: API Keys -->
+                <div id="keys" class="modal-tab-content">
+                    <div class="section-title">Binance API</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Testing Mode</label>
+                            <select>
+                                <option value="false">Production</option>
+                                <option value="true">Testing</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>API Key</label>
+                            <input type="text" placeholder="Nhập Binance API Key">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>API Secret</label>
+                            <input type="password" placeholder="Nhập Binance API Secret">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Discord Integration</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Enable Discord</label>
+                            <select>
+                                <option value="true">Enabled</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Bot Token</label>
+                            <input type="password" placeholder="Nhập Discord Bot Token">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Channel ID</label>
+                            <input type="text" placeholder="Nhập Discord Channel ID">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Telegram Integration</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Enable Telegram</label>
+                            <select>
+                                <option value="true">Enabled</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Bot Token</label>
+                            <input type="password" placeholder="Nhập Telegram Bot Token">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Chat ID</label>
+                            <input type="text" placeholder="Nhập Telegram Chat ID">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: App Config -->
+                <div id="app" class="modal-tab-content">
+                    <div class="section-title">Order Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Leverage (Đòn bẩy)</label>
+                            <input type="number" value="20" min="1" max="125">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity per Order (USDT)</label>
+                            <input type="number" value="10" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Orders Per Day</label>
+                            <input type="number" value="10" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Order Limit Per Scan</label>
+                            <input type="number" value="3" min="1">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Bot Settings</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Scan Interval (ms)</label>
+                            <input type="number" value="3600000" min="60000">
+                        </div>
+                        <div class="form-group">
+                            <label>Enable Logging</label>
+                            <select>
+                                <option value="true">Enabled</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Risk Management</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Min Confidence Score</label>
+                            <input type="number" value="10" min="0" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Candles Hold</label>
+                            <input type="number" value="96" min="10">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn btn-success" style="flex: 1;" onclick="saveSettings()">💾 Lưu cấu hình</button>
+                    <button class="btn btn-warning" style="flex: 1;" onclick="resetSettings()">🔄 Đặt lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>📊 Báo cáo giao dịch</h2>
+                <button class="close-modal" onclick="closeReportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="report-content">
+                    <div class="report-item">
+                        <span class="report-label">Số lệnh đã đặt trong ngày</span>
+                        <span class="report-value">2 / 10</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Tổng số lệnh đã đặt</span>
+                        <span class="report-value">127</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Tổng lợi nhuận</span>
+                        <span class="report-value" style="color: #10b981;">234.50 USDT (1.35%)</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Tổng vốn đã vào</span>
+                        <span class="report-value">1,270.00 USDT</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Vốn mỗi lệnh</span>
+                        <span class="report-value">10 USDT</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Đòn bẩy</span>
+                        <span class="report-value">20x</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Số lệnh tối đa/ngày</span>
+                        <span class="report-value">10</span>
+                    </div>
+                    <div class="report-item">
+                        <span class="report-label">Số lệnh tối đa/lần quét</span>
+                        <span class="report-value">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Bot state
+        let botRunning = true;
+        let orderActive = true;
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Settings modal tabs
+        function switchSettingsTab(tabName) {
+            document.querySelectorAll('.modal-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.modal-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Modal functions
+        function openSettingsModal() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function openReportModal() {
+            document.getElementById('reportModal').classList.add('active');
+        }
+
+        function closeReportModal() {
+            document.getElementById('reportModal').classList.remove('active');
+        }
+
+        function saveSettings() {
+            alert('✅ Đã lưu cấu hình');
+            closeSettingsModal();
+            addLog('💾 Đã lưu cấu hình mới', 'info');
+        }
+
+        function resetSettings() {
+            if (confirm('Đặt lại cấu hình về mặc định?')) {
+                alert('🔄 Đã đặt lại cấu hình');
+                addLog('🔄 Đã đặt lại cấu hình mặc định', 'warning');
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const settingsModal = document.getElementById('settingsModal');
+            const reportModal = document.getElementById('reportModal');
+            if (event.target == settingsModal) {
+                closeSettingsModal();
+            }
+            if (event.target == reportModal) {
+                closeReportModal();
+            }
+        }
+
+        // Bot control functions
+        function startBot() {
+            botRunning = true;
+            document.getElementById('botStatus').textContent = 'Bot: Running';
+            document.getElementById('botStatus').className = 'status-badge active';
+            addLog('▶️ Bot đã khởi động - Bắt đầu quét tín hiệu', 'info');
+        }
+
+        function stopBot() {
+            botRunning = false;
+            document.getElementById('botStatus').textContent = 'Bot: Stopped';
+            document.getElementById('botStatus').className = 'status-badge inactive';
+            addLog('⏸️ Bot đã dừng - Ngừng quét tín hiệu', 'warning');
+        }
+
+        function startOrders() {
+            if (!botRunning) {
+                alert('⚠️ Vui lòng khởi động Bot trước (nhấn Start)');
+                return;
+            }
+            orderActive = true;
+            document.getElementById('orderStatus').textContent = 'Order: Active';
+            document.getElementById('orderStatus').className = 'status-badge active';
+            addLog('📈 Đã bật đặt lệnh - Bot sẽ quét và đặt lệnh tự động', 'info');
+        }
+
+        function stopOrders() {
+            orderActive = false;
+            document.getElementById('orderStatus').textContent = 'Order: Paused';
+            document.getElementById('orderStatus').className = 'status-badge warning';
+            addLog('🛑 Đã tắt đặt lệnh - Bot vẫn quét nhưng không đặt lệnh', 'warning');
+        }
+
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const time = new Date().toTimeString().slice(0, 8);
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.innerHTML = `<span class="log-time">[${time}]</span> <span class="log-${type}">${message}</span>`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Auto-scroll logs
+        setInterval(() => {
+            const logContainer = document.getElementById('logContainer');
+            if (logContainer && document.getElementById('logs').classList.contains('active')) {
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

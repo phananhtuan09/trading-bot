@@ -27,7 +27,7 @@ async function performScan() {
       const signal = result.value
       if (!signal) continue
       signalCount++
-      logger.info(`Tín hiệu: ${signal.symbol} | ${signal.decision} | TP: ${signal.TP_ROI} | SL: ${signal.SL_ROI}`)
+      logger.info(`Tín hiệu: ${signal.symbol} | ${signal.decision} | ${signal.marketType} | Strength: ${signal.strength} | TP: ${signal.TP_ROI} | SL: ${signal.SL_ROI}`)
       allSignals.push(signal)
       await sendSignalMessage(signal)
     }

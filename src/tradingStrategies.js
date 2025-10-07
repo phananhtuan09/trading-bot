@@ -1,118 +1,176 @@
-const { IchimokuCloud, Stochastic, ADX, PSAR, RSI, BollingerBands } = require('technicalindicators')
+const { ADX, EMA, RSI, BollingerBands, MACD } = require('technicalindicators')
 const { STRATEGY_CONFIG } = require('./config')
 
 class TradingStrategies {
-  // Chiến lược Bollinger Bands
-  static checkBollingerBands(bb, closes) {
-    const price = closes[closes.length - 1]
-    const bandwidth = (bb[bb.length - 1].upper - bb[bb.length - 1].lower) / bb[bb.length - 1].middle
-    if (bandwidth < STRATEGY_CONFIG.BOLLINGER_BAND.MIN_BANDWIDTH_PCT / 100) return null
-    if (
-      price <
-      bb[bb.length - 1].lower + (STRATEGY_CONFIG.BOLLINGER_BAND.BREAK_THRESHOLD_PCT / 100) * bb[bb.length - 1].middle
-    )
-      return 'BUY'
-    if (
-      price >
-      bb[bb.length - 1].upper - (STRATEGY_CONFIG.BOLLINGER_BAND.BREAK_THRESHOLD_PCT / 100) * bb[bb.length - 1].middle
-    )
-      return 'SELL'
-    return null
-  }
-
-  // Chiến lược RSI
-  static checkRSI(rsiValues) {
-    if (!rsiValues || rsiValues.length < 1) return null
-    const currentRSI = rsiValues.at(-1)
-    if (currentRSI < STRATEGY_CONFIG.RSI.OVERSOLD) return 'BUY'
-    if (currentRSI > STRATEGY_CONFIG.RSI.OVERBOUGHT) return 'SELL'
-    return null
-  }
-
-  static checkSMA(emaShort, emaLong) {
-    if (emaShort[emaShort.length - 1] > emaLong[emaLong.length - 1]) return 'BUY'
-    if (emaShort[emaShort.length - 1] < emaLong[emaLong.length - 1]) return 'SELL'
-    return null
-  }
-
-  // Chiến lược MACD
-  static checkMACD(macdOutput) {
-    if (!macdOutput || macdOutput.length < 2) return null
-    const [prev, current] = macdOutput.slice(-2)
-    if (current.MACD > current.signal && prev.MACD <= prev.signal) return 'BUY'
-    if (current.MACD < current.signal && prev.MACD >= prev.signal) return 'SELL'
-    return null
-  }
-
-  static checkStochastic(stochastic) {
-    if (!stochastic || stochastic.length === 0) return null
-    const current = stochastic.at(-1)
-    if (current.k === undefined || current.d === undefined) return null
-    if (
-      current.k < 20 &&
-      current.d < 20 &&
-      current.k > current.d &&
-      stochastic.length > 1 &&
-      stochastic.at(-2).k <= stochastic.at(-2).d
-    )
-      return 'BUY'
-    if (
-      current.k > 80 &&
-      current.d > 80 &&
-      current.k < current.d &&
-      stochastic.length > 1 &&
-      stochastic.at(-2).k >= stochastic.at(-2).d
-    )
-      return 'SELL'
-    return null
-  }
-
-  static checkADX(adx) {
-    if (!adx || adx.length === 0) return null
-    const current = adx.at(-1)
-    if (current.adx === undefined || current.pdi === undefined || current.mdi === undefined) return null
-    if (current.adx > STRATEGY_CONFIG.ADX.STRONG_TREND_THRESHOLD) {
-      if (current.pdi > current.mdi) return 'BUY'
-      if (current.mdi > current.pdi) return 'SELL'
+  /**
+   * Phân tích thị trường với chiến lược phù hợp
+   */
+  static analyzeMarket(data, indicators) {
+    // 1. Phát hiện loại thị trường
+    const marketType = this.detectMarketType(data, indicators)
+    
+    if (marketType === 'MIXED') {
+      return null // Không rõ ràng, bỏ qua
     }
+    
+    // 2. Áp dụng chiến lược phù hợp
+    if (marketType === 'SIDEWAY') {
+      return this.analyzeSidewayMarket(data, indicators)
+    } else if (marketType === 'TRENDING') {
+      return this.analyzeTrendingMarket(data, indicators)
+    }
+    
     return null
   }
-
-  static checkIchimoku(ichimoku, price, highs, lows) {
-    if (!ichimoku || ichimoku.length < 52) return null
-    const current = ichimoku[ichimoku.length - 1]
-    const priceAboveCloud = price > current.senkouSpanA && price > current.senkouSpanB
-    const priceBelowCloud = price < current.senkouSpanA && price < current.senkouSpanB
-    const tenkanAboveKijun = current.tenkanSen > current.kijunSen
-    const chikouBullish = lows[lows.length - 26] < current.chikouSpan
-    const cloudBullish = current.senkouSpanA < current.senkouSpanB
-    if (priceAboveCloud && tenkanAboveKijun && chikouBullish && cloudBullish) return 'BUY'
-    if (priceBelowCloud && !tenkanAboveKijun && !chikouBullish && !cloudBullish) return 'SELL'
-    return null
-  }
-
-  static checkPSAR(psarValues, price) {
-    if (!psarValues || psarValues.length < 1) return null
-    const currentPSAR = psarValues.at(-1)
-    if (currentPSAR === undefined) return null
-    if (price > currentPSAR) return 'BUY'
-    if (price < currentPSAR) return 'SELL'
-    return null
-  }
-
-  static checkMomentum(momentumValues) {
-    if (!momentumValues || momentumValues.length < 2) return null
-    const currentMomentum = momentumValues.at(-1)
-    const prevMomentum = momentumValues.at(-2)
-    if (currentMomentum === null || prevMomentum === null) return null
-    if (STRATEGY_CONFIG.MOMENTUM.CROSSOVER_ZERO) {
-      if (currentMomentum > 0 && prevMomentum <= 0) return 'BUY'
-      if (currentMomentum < 0 && prevMomentum >= 0) return 'SELL'
+  
+  /**
+   * Phát hiện loại thị trường
+   */
+  static detectMarketType(data, indicators) {
+    const { adx, ema20, ema50, atr } = indicators
+    const currentPrice = data.closes[data.closes.length - 1]
+    
+    const currentADX = adx[adx.length - 1]
+    const currentEMA20 = ema20[ema20.length - 1]
+    const currentEMA50 = ema50[ema50.length - 1]
+    const currentATR = atr
+    
+    const emaDistance = Math.abs(currentEMA20 - currentEMA50) / currentPrice * 100
+    const atrPercent = (currentATR / currentPrice) * 100
+    
+    if (currentADX.adx < 25 && emaDistance < 3 && atrPercent < 2) {
+      return 'SIDEWAY'
+    } else if (currentADX.adx > 25 && emaDistance > 3 && atrPercent > 2) {
+      return 'TRENDING'
     } else {
-      if (currentMomentum > 0 && currentMomentum > prevMomentum) return 'BUY'
-      if (currentMomentum < 0 && currentMomentum < prevMomentum) return 'SELL'
+      return 'MIXED'
     }
+  }
+  
+  /**
+   * Chiến lược SIDEWAY: Range Trading
+   */
+  static analyzeSidewayMarket(data, indicators) {
+    const currentPrice = data.closes[data.closes.length - 1]
+    const { bb, rsi, volumes } = indicators
+    
+    const currentBB = bb[bb.length - 1]
+    const currentRSI = rsi[rsi.length - 1]
+    const avgVolume = volumes.slice(-20).reduce((a, b) => a + b, 0) / 20
+    const currentVolume = volumes[volumes.length - 1]
+    
+    // BUY: Bắt đáy range
+    const isNearLowerBand = currentPrice <= currentBB.lower * 1.005
+    const isRSIOversold = currentRSI < 35
+    const isVolumeSpike = currentVolume > avgVolume * 1.5
+    
+    if (isNearLowerBand && isRSIOversold && isVolumeSpike) {
+      return {
+        signal: 'BUY',
+        strength: this.calculateSidewayStrength(currentRSI, isVolumeSpike),
+        reason: `Range Bottom: RSI ${currentRSI.toFixed(1)} + Volume Spike`,
+        marketType: 'SIDEWAY'
+      }
+    }
+    
+    // SELL: Bắt đỉnh range
+    const isNearUpperBand = currentPrice >= currentBB.upper * 0.995
+    const isRSIOverbought = currentRSI > 65
+    const isVolumeSpike2 = currentVolume > avgVolume * 1.5
+    
+    if (isNearUpperBand && isRSIOverbought && isVolumeSpike2) {
+      return {
+        signal: 'SELL',
+        strength: this.calculateSidewayStrength(currentRSI, isVolumeSpike2),
+        reason: `Range Top: RSI ${currentRSI.toFixed(1)} + Volume Spike`,
+        marketType: 'SIDEWAY'
+      }
+    }
+    
     return null
+  }
+  
+  /**
+   * Chiến lược TRENDING: Trend Following
+   */
+  static analyzeTrendingMarket(data, indicators) {
+    const currentPrice = data.closes[data.closes.length - 1]
+    const { ema20, ema50, macd, adx } = indicators
+    
+    const currentEMA20 = ema20[ema20.length - 1]
+    const currentEMA50 = ema50[ema50.length - 1]
+    const currentMACD = macd[macd.length - 1]
+    const currentADX = adx[adx.length - 1]
+    
+    // BUY: Theo xu hướng tăng
+    const isBullishTrend = currentEMA20 > currentEMA50
+    const isPriceAboveEMA20 = currentPrice > currentEMA20
+    const isMACDBullish = currentMACD.MACD > currentMACD.signal
+    const isStrongTrend = currentADX.adx > 25
+    
+    if (isBullishTrend && isPriceAboveEMA20 && isMACDBullish && isStrongTrend) {
+      return {
+        signal: 'BUY',
+        strength: this.calculateTrendingStrength(currentADX.adx, currentMACD.MACD),
+        reason: `Trend Following: EMA Bullish + MACD + ADX ${currentADX.adx.toFixed(1)}`,
+        marketType: 'TRENDING'
+      }
+    }
+    
+    // SELL: Theo xu hướng giảm
+    const isBearishTrend = currentEMA20 < currentEMA50
+    const isPriceBelowEMA20 = currentPrice < currentEMA20
+    const isMACDBearish = currentMACD.MACD < currentMACD.signal
+    const isStrongTrend2 = currentADX.adx > 25
+    
+    if (isBearishTrend && isPriceBelowEMA20 && isMACDBearish && isStrongTrend2) {
+      return {
+        signal: 'SELL',
+        strength: this.calculateTrendingStrength(currentADX.adx, currentMACD.MACD),
+        reason: `Trend Following: EMA Bearish + MACD + ADX ${currentADX.adx.toFixed(1)}`,
+        marketType: 'TRENDING'
+      }
+    }
+    
+    return null
+  }
+  
+  /**
+   * Tính độ mạnh cho SIDEWAY
+   */
+  static calculateSidewayStrength(rsi, volumeSpike) {
+    let strength = 0
+    
+    // RSI càng gần 30/70 = càng mạnh (max 50 điểm)
+    const rsiScore = rsi < 50 ? (30 - rsi) * 2 : (rsi - 70) * 2
+    strength += Math.min(Math.max(rsiScore, 0), 50)
+    
+    // Volume spike (30 điểm)
+    if (volumeSpike) strength += 30
+    
+    // Base strength (20 điểm)
+    strength += 20
+    
+    return Math.min(Math.round(strength), 100)
+  }
+  
+  /**
+   * Tính độ mạnh cho TRENDING
+   */
+  static calculateTrendingStrength(adx, macd) {
+    let strength = 0
+    
+    // ADX càng cao = xu hướng càng mạnh (max 50 điểm)
+    strength += Math.min(adx, 50)
+    
+    // MACD momentum (max 30 điểm)
+    const macdScore = Math.abs(macd) * 100
+    strength += Math.min(macdScore, 30)
+    
+    // Base strength (20 điểm)
+    strength += 20
+    
+    return Math.min(Math.round(strength), 100)
   }
 }
 

@@ -9,19 +9,14 @@ const STRATEGY_CONFIG = {
 
   MAX_CANDLES_HOLD: 96, // Số nến tối đa để giữ lại trong bộ nhớ
 
+  // Chỉ giữ lại các chỉ báo cần thiết cho chiến lược mới
   BOLLINGER_BAND: {
     PERIOD: 20, // Số nến để tính Bollinger Bands
     STD_DEV: 2, // Độ lệch chuẩn cho Bollinger Bands
-    MIN_BANDWIDTH_PCT: 2, // Độ rộng dải tối thiểu (2%)
-    BREAK_THRESHOLD_PCT: 0.5, // Ngưỡng vượt dải (0.5%)
-    VOLUME_MA_PERIOD: 20, // Số nến để tính trung bình volume
-    VOLUME_MA_THRESHOLD: 100000, // Ngưỡng trung bình volume
   },
 
   RSI: {
     PERIOD: 14, // Số nến để tính RSI
-    OVERSOLD: 30, // Ngưỡng RSI quá bán
-    OVERBOUGHT: 70, // Ngưỡng RSI quá mua
   },
 
   MACD: {
@@ -35,51 +30,14 @@ const STRATEGY_CONFIG = {
     LONG: 50, // EMA dài (50 nến)
   },
 
-  STOCHASTIC: {
-    PERIOD: 14, // Số nến để tính Stochastic
-    SIGNAL_PERIOD: 3, // Số nến tín hiệu
-  },
-
   ADX: {
     PERIOD: 14, // Số nến để tính ADX
-    STRONG_TREND_THRESHOLD: 25, // Ngưỡng xu hướng mạnh
-  },
-
-  ICHIMOKU: {
-    CONVERSION_PERIOD: 9, // Số nến cho Tenkan-sen
-    BASE_PERIOD: 26, // Số nến cho Kijun-sen
-    SPAN_PERIOD: 52, // Số nến cho Senkou Span
-  },
-
-  PSAR: {
-    STEP: 0.02, // Bước tăng của PSAR
-    MAX: 0.2, // Giá trị tối đa của PSAR
-  },
-
-  MOMENTUM: {
-    PERIOD: 14, // Số nến để tính Momentum
-    CROSSOVER_ZERO: true, // Kích hoạt kiểm tra giao cắt zero
   },
 
   FILTER: {
     TREND_MA_PERIOD: 200, // Số nến để tính xu hướng MA
-    MIN_TRADE_VOLUME: 700000, // Khối lượng giao dịch tối thiểu (USDT)
-    STRATEGY_WEIGHTS: {
-      MACD: 2, // Trọng số MACD
-      RSI: 2, // Trọng số RSI
-      ICHIMOKU: 2, // Trọng số Ichimoku
-      PSAR: 2, // Trọng số PSAR
-      MOMENTUM: 1, // Trọng số Momentum
-      BOLLINGER_BANDS: 2, // Trọng số Bollinger Bands
-      ADX: 2, // Trọng số ADX
-      STOCHASTIC: 1, // Trọng số Stochastic
-      SMA: 2, // Trọng số SMA
-    },
-    MIN_CONFIDENCE_SCORE: 10, // Điểm tin cậy tối thiểu
-    MULTI_TIMEFRAME_EMA: {
-      SHORT: 50, // EMA ngắn cho đa khung thời gian
-      LONG: 200, // EMA dài cho đa khung thời gian
-    },
+    MIN_TRADE_VOLUME: 1000000, // Khối lượng giao dịch tối thiểu (USDT) - tăng lên
+    MIN_CONFIDENCE_SCORE: 60, // Điểm tin cậy tối thiểu - tăng lên để giảm tín hiệu
   },
 
   ATR: {

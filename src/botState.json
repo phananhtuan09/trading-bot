@@ -1,8 +1,8 @@
 {
-  "initialCapital": 17376.48880865,
+  "initialCapital": null,
   "orderPlacementEnabled": true,
-  "ordersPlacedToday": 2,
-  "totalOrders": 2,
-  "totalCapital": 1.3,
-  "lastCheckDate": "2025-08-17"
+  "ordersPlacedToday": 0,
+  "totalOrders": 0,
+  "totalCapital": 0,
+  "lastCheckDate": "2025-10-06"
 }
